@@ -1,6 +1,6 @@
 **Project Description**
 
-We are developing an Ottawa-based meal sharing application called “Mealer” where local cooks
+We are developing an Ottawa-based meal sharing application called “Mealer” (name a work in progress) where local cooks
 can sell meals to clients from their home. The application supports three types of users:
 
     • Cook: a user that makes meals at home and sells them to Clients.

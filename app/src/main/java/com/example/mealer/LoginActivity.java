@@ -24,9 +24,6 @@ public class LoginActivity extends AppCompatActivity {
         cookLoginButton = findViewById(R.id.LoginCook);
         clientLoginButton = findViewById(R.id.LoginClient);
         signUpButton = findViewById(R.id.signUpButton);
-        //listens for both buttons
-        cookButtonListen();
-        clientButtonListen();
 
     }
 
@@ -56,13 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
-    private void cookButtonListen(){
-        //listens for cook login (admin can also login here)
-        cookLoginButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            //checks for correct username and password
-            public void onClick(View view) {
+    public void cookButtonPress(View view){
+                //checks for correct username and password
                 if (hasLogin("Cook",username.getText().toString(),password.getText().toString())){
                     returnToMain("Cook");
                 } else{
@@ -70,17 +62,11 @@ public class LoginActivity extends AppCompatActivity {
                         returnToMain("Admin");
                     }
                 }
-            }
-        });
+
     }
 
-    private void clientButtonListen(){
-        //listens for client login (admin can also login here)
-        clientLoginButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
+    public void clientButtonPress(View view){
             //checks for correct username and password
-            public void onClick(View view) {
                 if (hasLogin("Client",username.getText().toString(),password.getText().toString())){
                     returnToMain("Client");
                 } else{
@@ -89,8 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
 
-            }
-        });
     }
 
     //this method should return to the main activity where the app will actually happen, not working as of Oct 16 2022
@@ -98,9 +82,16 @@ public class LoginActivity extends AppCompatActivity {
         Intent returnIntent = new Intent();
         returnIntent.putExtra(typeOfLogin,true);
         setResult(RESULT_OK,returnIntent);
-
+        sendIntentToMain();
         //finishing activity and return to main screen
         finish();
     }
+
+    private void sendIntentToMain(){
+        //Application Context and Activity
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
 
 }

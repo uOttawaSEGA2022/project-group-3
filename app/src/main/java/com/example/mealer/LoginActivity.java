@@ -27,32 +27,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private boolean hasLogin(String typeOfLogin,String username, String password){
-    //checks if they are trying to login and verifies
-        switch (typeOfLogin){
-            case ("Cook"):
-                if (username.equals("cook")&&password.equals("cook123")){
-                    return true;
-                }
-                break;
-            case ("Client"):
-                if (username.equals("client")&&password.equals("client123")){
-                    return true;
-                }
-                break;
-            case ("Admin"):
-                if (username.equals("admin")&&password.equals("admin123")) {
-                    return true;
-                }
-                break;
-
-            default:
-                return false;
-
-        }
-        return false;
-    }
-
     public void cookButtonPress(View view){
                 //checks for correct username and password
                 if (hasLogin("Cook",username.getText().toString(),password.getText().toString())){
@@ -91,6 +65,32 @@ public class LoginActivity extends AppCompatActivity {
         //Application Context and Activity
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivityForResult(intent, 0);
+    }
+
+    private boolean hasLogin(String typeOfLogin,String username, String password){
+        //checks if they are trying to login and verifies
+        switch (typeOfLogin){
+            case ("Cook"):
+                if (username.equals("cook")&&password.equals("cook123")){
+                    return true;
+                }
+                break;
+            case ("Client"):
+                if (username.equals("client")&&password.equals("client123")){
+                    return true;
+                }
+                break;
+            case ("Admin"):
+                if (username.equals("admin")&&password.equals("admin123")) {
+                    return true;
+                }
+                break;
+
+            default:
+                return false;
+
+        }
+        return false;
     }
 
 

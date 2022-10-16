@@ -17,19 +17,21 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //sets all textviews and buttons
         setContentView(R.layout.activity_login);
         username = findViewById(R.id.loginEmail);
         password = findViewById(R.id.loginPassword);
         cookLoginButton = findViewById(R.id.LoginCook);
         clientLoginButton = findViewById(R.id.LoginClient);
         signUpButton = findViewById(R.id.signUpButton);
+        //listens for both buttons
         cookButtonListen();
         clientButtonListen();
 
     }
 
     private boolean hasLogin(String typeOfLogin,String username, String password){
-
+    //checks if they are trying to login and verifies
         switch (typeOfLogin){
             case ("Cook"):
                 if (username.equals("cook")&&password.equals("cook123")){
@@ -55,9 +57,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void cookButtonListen(){
+        //listens for cook login (admin can also login here)
         cookLoginButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
+            //checks for correct username and password
             public void onClick(View view) {
                 if (hasLogin("Cook",username.getText().toString(),password.getText().toString())){
                     returnToMain("Cook");
@@ -71,9 +75,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void clientButtonListen(){
+        //listens for client login (admin can also login here)
         clientLoginButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
+            //checks for correct username and password
             public void onClick(View view) {
                 if (hasLogin("Client",username.getText().toString(),password.getText().toString())){
                     returnToMain("Client");
@@ -87,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
+    //this method should return to the main activity where the app will actually happen, not working as of Oct 16 2022
     private void returnToMain (String typeOfLogin){
         Intent returnIntent = new Intent();
         returnIntent.putExtra(typeOfLogin,true);

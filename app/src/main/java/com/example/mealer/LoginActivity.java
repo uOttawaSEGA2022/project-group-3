@@ -79,26 +79,27 @@ public class LoginActivity extends AppCompatActivity {
         //checks if they are trying to login and verifies
         switch (typeOfLogin){
             case ("Cook"):
-                if ((username.equals("cook")&&password.equals("cook123"))||(RegisterPage.getCookUsername(username)&&RegisterPage.getCookPassword(password))){
+                if ((username.equals("cook")&&password.equals("cook123"))||(RegisterPage.getCookUsername(username)&&RegisterPage.getCookPassword(password))) {
                     return true;
                 }
-                break;
             case ("Client"):
                 if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.getClientUsername(username)&&RegisterPage.getClientPassword(password))){
                     return true;
                 }
-                break;
             case ("Admin"):
                 if (username.equals("admin")&&password.equals("admin123")) {
                     return true;
                 }
-                break;
 
             default:
-                return false;
-
+                displayToast();
+                break;
         }
         return false;
+    }
+
+    private void displayToast(){
+        Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
     }
 
 

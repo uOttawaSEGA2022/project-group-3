@@ -21,9 +21,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         username = findViewById(R.id.loginEmail);
         password = findViewById(R.id.loginPassword);
-        cookLoginButton = findViewById(R.id.LoginCook);
-        clientLoginButton = findViewById(R.id.LoginClient);
-        signUpButton = findViewById(R.id.signUpButton);
 
     }
 
@@ -60,6 +57,17 @@ public class LoginActivity extends AppCompatActivity {
         //finishing activity and return to main screen
         finish();
     }
+    public void registerButtonPress(View view){
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK,returnIntent);
+        sendIntentToRegister();
+        //finishing activity send to register screen
+        finish();
+    }
+    private void sendIntentToRegister(){
+        Intent intent = new Intent (getApplicationContext(), RegisterPage.class);
+        startActivityForResult(intent,0);
+    }
 
     private void sendIntentToMain(){
         //Application Context and Activity
@@ -71,12 +79,12 @@ public class LoginActivity extends AppCompatActivity {
         //checks if they are trying to login and verifies
         switch (typeOfLogin){
             case ("Cook"):
-                if (username.equals("cook")&&password.equals("cook123")){
+                if ((username.equals("cook")&&password.equals("cook123"))||(RegisterPage.getCookUsername(username)&&RegisterPage.getCookPassword(password))){
                     return true;
                 }
                 break;
             case ("Client"):
-                if (username.equals("client")&&password.equals("client123")){
+                if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.getClientUsername(username)&&RegisterPage.getClientPassword(password))){
                     return true;
                 }
                 break;

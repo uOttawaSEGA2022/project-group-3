@@ -12,7 +12,6 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
     TextView username;
     TextView password;
-    Button cookLoginButton, clientLoginButton, signUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

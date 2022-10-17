@@ -82,18 +82,28 @@ public class LoginActivity extends AppCompatActivity {
                 if ((username.equals("cook")&&password.equals("cook123"))||(RegisterPage.getCookUsername(username)&&RegisterPage.getCookPassword(password))) {
                     return true;
                 }
+                else{
+                    displayToast();
+                    break;
+                }
             case ("Client"):
                 if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.getClientUsername(username)&&RegisterPage.getClientPassword(password))){
                     return true;
+                }
+                else{
+                    displayToast();
+                    break;
                 }
             case ("Admin"):
                 if (username.equals("admin")&&password.equals("admin123")) {
                     return true;
                 }
-
+                else{
+                    displayToast();
+                    break;
+                }
             default:
-                displayToast();
-                break;
+                return false;
         }
         return false;
     }

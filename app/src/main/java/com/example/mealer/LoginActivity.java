@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
                         returnToMain("Admin");
                     }
+
                 }
 
     }
@@ -75,31 +76,38 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
-    private boolean hasLogin(String typeOfLogin,String username, String password){
+    private boolean hasLogin(String typeOfLogin, String username, String password){
         //checks if they are trying to login and verifies
         switch (typeOfLogin){
             case ("Cook"):
                 if ((username.equals("cook")&&password.equals("cook123"))||(RegisterPage.getCookUsername(username)&&RegisterPage.getCookPassword(password))) {
                     return true;
                 }
+                else{
+                    return false;
+                }
             case ("Client"):
                 if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.getClientUsername(username)&&RegisterPage.getClientPassword(password))){
                     return true;
+                }
+                else{
+                    return false;
                 }
             case ("Admin"):
                 if (username.equals("admin")&&password.equals("admin123")) {
                     return true;
                 }
-
+                else{
+                    displayToast("Wrong password or username");
+                    return false;
+                }
             default:
-                displayToast();
-                break;
+                return false;
         }
-        return false;
     }
 
-    private void displayToast(){
-        Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
+    private void displayToast(String message){
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
 

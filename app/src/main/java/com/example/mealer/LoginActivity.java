@@ -24,27 +24,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void cookButtonPress(View view){
-                //checks for correct username and password
-                if (hasLogin("Cook",username.getText().toString(),password.getText().toString())){
-                    returnToMain("Cook");
-                } else{
-                    if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
-                        returnToMain("Admin");
-                    }
-
+            //checks for correct username and password
+            if (hasLogin("Cook",username.getText().toString(),password.getText().toString())){
+                returnToMain("Cook");
+            } else{
+                if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
+                    returnToMain("Admin");
                 }
+
+            }
 
     }
 
     public void clientButtonPress(View view){
             //checks for correct username and password
-                if (hasLogin("Client",username.getText().toString(),password.getText().toString())){
-                    returnToMain("Client");
-                } else{
-                    if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
-                        returnToMain("Admin");
-                    }
+            if (hasLogin("Client",username.getText().toString(),password.getText().toString())){
+                returnToMain("Client");
+            } else{
+                if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
+                    returnToMain("Admin");
                 }
+            }
 
     }
 
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void displayToast(String message){
+    public void displayToast(String message){
         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 

@@ -12,7 +12,6 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
     TextView username;
     TextView password;
-    Button cookLoginButton, clientLoginButton, signUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,26 +24,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void cookButtonPress(View view){
-                //checks for correct username and password
-                if (hasLogin("Cook",username.getText().toString(),password.getText().toString())){
-                    returnToMain("Cook");
-                } else{
-                    if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
-                        returnToMain("Admin");
-                    }
+            //checks for correct username and password
+            if (hasLogin("Cook",username.getText().toString(),password.getText().toString())){
+                returnToMain("Cook");
+            } else{
+                if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
+                    returnToMain("Admin");
                 }
+
+            }
 
     }
 
     public void clientButtonPress(View view){
             //checks for correct username and password
-                if (hasLogin("Client",username.getText().toString(),password.getText().toString())){
-                    returnToMain("Client");
-                } else{
-                    if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
-                        returnToMain("Admin");
-                    }
+            if (hasLogin("Client",username.getText().toString(),password.getText().toString())){
+                returnToMain("Client");
+            } else{
+                if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
+                    returnToMain("Admin");
                 }
+            }
 
     }
 
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
-    private boolean hasLogin(String typeOfLogin,String username, String password){
+    private boolean hasLogin(String typeOfLogin, String username, String password){
         //checks if they are trying to login and verifies
         switch (typeOfLogin){
             case ("Cook"):
@@ -83,34 +83,30 @@ public class LoginActivity extends AppCompatActivity {
                     return true;
                 }
                 else{
-                    displayToast();
-                    break;
+                    return false;
                 }
             case ("Client"):
                 if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.getClientUsername(username)&&RegisterPage.getClientPassword(password))){
                     return true;
                 }
                 else{
-                    displayToast();
-                    break;
+                    return false;
                 }
             case ("Admin"):
                 if (username.equals("admin")&&password.equals("admin123")) {
                     return true;
                 }
                 else{
-                    displayToast();
-                    break;
+                    displayToast("Wrong password or username");
+                    return false;
                 }
             default:
                 return false;
         }
-        return false;
     }
 
-    private void displayToast(){
-        Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
+    public void displayToast(String message){
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
     }
-
 
 }

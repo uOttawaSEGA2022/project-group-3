@@ -8,34 +8,83 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class RegisterPage extends AppCompatActivity {
-TextView registerEmail,registerPassword;
+TextView registerEmail, registerPassword;
 private static ArrayList<String> clientUsernames = new ArrayList<>();
 private static ArrayList<String> clientPasswords = new ArrayList<>();
 private static ArrayList<String> cookUsernames = new ArrayList<>();
 private static ArrayList<String> cookPasswords = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_page);
         registerEmail = findViewById(R.id.registerEmail);
         registerPassword = findViewById(R.id.registerPassword);
+    }
 
+    public boolean isFieldValid(){
+
+        String usernameInput = registerEmail.getText().toString();
+        String passwordInput = registerPassword.getText().toString();
+
+        //Check if a field is empty
+        if ((usernameInput.equals(""))||(passwordInput.equals(""))){
+            displayToast("No empty fields");
+            return false;
+        }
+
+        //Check if there is whitespace
+        for (char c : usernameInput.toCharArray()) {
+            if (Character.isWhitespace(c)) {
+                displayToast("No whitespace in username");
+                return false;
+            }
+        }
+        for (char c : passwordInput.toCharArray()) {
+            if (Character.isWhitespace(c)) {
+                displayToast("No whitespace in password");
+                return false;
+            }
+        }
+
+        //Check and make sure email is username
+        int atCounter = 0;
+        int dotCounter = 0;
+        for (char c : usernameInput.toCharArray()) {
+            if (c == '.'){
+                dotCounter += 1;
+            }
+            if (c == '@'){
+                atCounter += 1;
+            }
+        }
+
+        if ((dotCounter!=1)||(atCounter!=1)){
+            displayToast("Invalid username. Please input an e-mail.");
+            return false;
+        }
+        return true;
     }
 
     public void registerAsCook(View view){
-        cookUsernames.add(registerEmail.getText().toString());
-        cookPasswords.add(registerPassword.getText().toString());
-        sendToLogin(view);
+        if (isFieldValid() == true){
+            cookUsernames.add(registerEmail.getText().toString());
+            cookPasswords.add(registerPassword.getText().toString());
+            sendToLogin(view);
+        }
     }
 
     public void registerAsClient(View view){
-        clientUsernames.add(registerEmail.getText().toString());
-        clientPasswords.add(registerPassword.getText().toString());
-        sendToLogin(view);
+        if (isFieldValid() == true){
+            clientUsernames.add(registerEmail.getText().toString());
+            clientPasswords.add(registerPassword.getText().toString());
+            sendToLogin(view);
+        }
     }
 
     public void alreadyHasAnAccount(View view){
@@ -71,8 +120,7 @@ private static ArrayList<String> cookPasswords = new ArrayList<>();
         finish();
     }
 
-
-
-
-
+    public void displayToast(String message){
+        Toast.makeText(RegisterPage.this, message, Toast.LENGTH_SHORT).show();
+    }
 }

@@ -1,8 +1,8 @@
 package com.example.mealer;
 
-public class Account {
-    private String username;
-    private String password;
+public abstract class Account {
+    protected String username;
+    protected String password;
 
     public String getUsername() {
         return username;

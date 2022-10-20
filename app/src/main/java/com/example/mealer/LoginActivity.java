@@ -69,20 +69,41 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(intent,0);
     }
 
+    private void sendToWelcomeCook(){
+        Intent intent;
+        intent = new Intent(getApplicationContext(), WelcomeCookPage.class);
+        startActivityForResult(intent, 0);
+    }
+
+    private void sendToWelcomeClient(){
+        Intent intent;
+        intent = new Intent(getApplicationContext(), WelcomeClientPage.class);
+        startActivityForResult(intent, 0);
+    }
+
+    private void sendToWelcomeAdmin(){
+        Intent intent;
+        intent = new Intent(getApplicationContext(), WelcomeAdminPage.class);
+        startActivityForResult(intent, 0);
+    }
+
     private void sendIntentToMain(String typeOfLogin){
         //Application Context and Activity
-        Intent intent;
+        switch (typeOfLogin){
+            case "Cook":
+                sendToWelcomeCook();
+                break;
+            case "Client":
+                sendToWelcomeClient();
+                break;
+            case "Admin":
+                sendToWelcomeAdmin();
+                break;
 
-        if (typeOfLogin == "Cook") {
-            intent = new Intent(getApplicationContext(), WelcomeCookPage.class);
-            startActivityForResult(intent, 0);
-        } else if (typeOfLogin == "Client") {
-            intent = new Intent(getApplicationContext(), WelcomeClientPage.class);
-            startActivityForResult(intent, 0);
-        } else if (typeOfLogin == "Admin") {
-            intent = new Intent(getApplicationContext(), WelcomeAdminPage.class);
-            startActivityForResult(intent, 0);
+            default:
+                displayToast("Error, could not login.");
         }
+
 
     }
 

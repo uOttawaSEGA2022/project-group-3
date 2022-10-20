@@ -1,13 +1,14 @@
 package com.example.mealer;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
-public class WelcomeClient extends Activity {
+public class WelcomeAdminPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome_client);
+        setContentView(R.layout.activity_welcome_admin);
     }
 }

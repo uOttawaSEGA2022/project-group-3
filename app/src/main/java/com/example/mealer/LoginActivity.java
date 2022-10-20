@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent returnIntent = new Intent();
         returnIntent.putExtra(typeOfLogin,true);
         setResult(RESULT_OK,returnIntent);
-        sendIntentToMain();
+        sendIntentToMain(typeOfLogin);
         //finishing activity and return to main screen
         finish();
     }
@@ -69,24 +69,35 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(intent,0);
     }
 
-    private void sendIntentToMain(){
+    private void sendIntentToMain(String typeOfLogin){
         //Application Context and Activity
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityForResult(intent, 0);
+        Intent intent;
+
+        if (typeOfLogin == "Cook") {
+            intent = new Intent(getApplicationContext(), WelcomeCookPage.class);
+            startActivityForResult(intent, 0);
+        } else if (typeOfLogin == "Client") {
+            intent = new Intent(getApplicationContext(), WelcomeClientPage.class);
+            startActivityForResult(intent, 0);
+        } else if (typeOfLogin == "Admin") {
+            intent = new Intent(getApplicationContext(), WelcomeAdminPage.class);
+            startActivityForResult(intent, 0);
+        }
+
     }
 
     private boolean hasLogin(String typeOfLogin, String username, String password){
         //checks if they are trying to login and verifies
         switch (typeOfLogin){
             case ("Cook"):
-                if ((username.equals("cook")&&password.equals("cook123"))||(RegisterPage.getCookUsername(username)&&RegisterPage.getCookPassword(password))) {
+                if ((username.equals("cook")&&password.equals("cook123"))||(RegisterPage.checkCookInfo(username, password))) {
                     return true;
                 }
                 else{
                     return false;
                 }
             case ("Client"):
-                if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.getClientUsername(username)&&RegisterPage.getClientPassword(password))){
+                if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.checkClientInfo(username, password))){
                     return true;
                 }
                 else{

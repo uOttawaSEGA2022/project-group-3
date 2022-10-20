@@ -19,6 +19,9 @@ private static ArrayList<String> clientPasswords = new ArrayList<>();
 private static ArrayList<String> cookUsernames = new ArrayList<>();
 private static ArrayList<String> cookPasswords = new ArrayList<>();
 
+private static ArrayList<Client> clientList = new ArrayList<>();
+private static ArrayList<Cook> cookList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,23 +75,47 @@ private static ArrayList<String> cookPasswords = new ArrayList<>();
     }
 
     public void registerAsCook(View view){
-        if (isFieldValid() == true){
+        if (isFieldValid()) {
             cookUsernames.add(registerEmail.getText().toString());
             cookPasswords.add(registerPassword.getText().toString());
+
+            // Create a new Cook instance with inputted username and password, and add it to list of cooks
+            cookList.add(new Cook(registerEmail.getText().toString(), registerPassword.getText().toString()));
             sendToLogin(view);
         }
     }
 
     public void registerAsClient(View view){
-        if (isFieldValid() == true){
+        if (isFieldValid()) {
             clientUsernames.add(registerEmail.getText().toString());
             clientPasswords.add(registerPassword.getText().toString());
+
+            // Create a new Client instance with inputted username and password, and add it to list of clients
+            clientList.add(new Client(registerEmail.getText().toString(), registerPassword.getText().toString()));
             sendToLogin(view);
         }
     }
 
     public void alreadyHasAnAccount(View view){
         sendToLogin(view);
+    }
+
+    protected static boolean checkClientInfo(String thisUser, String thisUserPassword){
+        for (int i = 0; i < clientList.size(); i++) {
+            if (thisUser.equals(clientList.get(i).username) && thisUserPassword.equals(clientList.get(i).password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected static boolean checkCookInfo(String thisUser, String thisUserPassword){
+        for (int i = 0; i < cookList.size(); i++) {
+            if (thisUser.equals(cookList.get(i).username) && thisUserPassword.equals(cookList.get(i).password)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected static boolean getClientUsername(String thisUser){

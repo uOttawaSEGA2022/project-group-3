@@ -1,10 +1,10 @@
 package com.example.mealer;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class WelcomeCook extends Activity {
+public class WelcomeCookPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

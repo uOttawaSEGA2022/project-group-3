@@ -93,8 +93,9 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
             clientPasswords.add(registerPassword.getText().toString());
 
             // Create a new Client instance with inputted username and password, and add it to list of clients
-            clientList.add(new Client(registerEmail.getText().toString(), registerPassword.getText().toString()));
-            sendToLogin(view);
+            Client client = new Client(registerEmail.getText().toString(), registerPassword.getText().toString());
+            clientList.add(client);
+            sendToExtraRegistration(view,client);
         }
     }
 
@@ -156,7 +157,7 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
     }
 
     private void sendIntentToExtraRegistrationClient(Account account){
-        Intent intent = new Intent (getApplicationContext(), CookRegisterActivity.class);
+        Intent intent = new Intent (getApplicationContext(), ClientRegisterActivity.class);
         intent.putExtra("clientObj", account);
         startActivityForResult(intent,0);
     }

@@ -11,10 +11,6 @@ import java.util.ArrayList;
 
 public class CookRegisterActivity extends AppCompatActivity {
     EditText cookFirstName, cookLastName, cookDescription, cookAddress;
-    ArrayList<String> cookFirstNames = new ArrayList<>();
-    ArrayList<String> cookLastNames = new ArrayList<>();
-    ArrayList<String> cookDescriptions = new ArrayList<>();
-    ArrayList<String> cookAddresses = new ArrayList<>();
     Cook currentAccount;
 
     @Override

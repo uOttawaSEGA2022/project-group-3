@@ -41,7 +41,6 @@ Log:
     - User validation for General Login Page (.java)
     - Tested code
 
-
     Vivethen:
     - Designed Cook Welcome XML
     - Designed Client Welcome XML

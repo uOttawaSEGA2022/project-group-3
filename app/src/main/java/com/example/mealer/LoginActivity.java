@@ -1,5 +1,6 @@
 package com.example.mealer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -19,6 +20,10 @@ public class LoginActivity extends AppCompatActivity {
     TextView username;
     TextView password;
 
+    DatabaseReference database;
+
+    protected boolean checkForAccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +31,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         username = findViewById(R.id.loginEmail);
         password = findViewById(R.id.loginPassword);
+
+        //Initialize db with accounts section
+        database = FirebaseDatabase.getInstance().getReference("accounts");
 
     }
 
@@ -121,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                     return true;
                 }
                 else{
-                    return false;
+                    return checkForAccount;
                 }
             case ("Client"):
                 if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.checkClientInfo(username, password))){

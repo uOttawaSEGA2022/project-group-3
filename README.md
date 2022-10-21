@@ -9,7 +9,17 @@ can sell meals to clients from their home. The application supports three types 
     • Administrator: a user that receives complaints about a Cook from a Client and may
     suspend the Cook if necessary
 
-Log:
+**UML Diagrams**
+
+Final:
+
+<img width="794" alt="Screen_Shot_2022-10-21_at_9 31 42_AM" src="https://user-images.githubusercontent.com/90664891/197280686-eb638c25-8098-4e64-a71c-6a1d0ca5c95b.png">
+
+Initial:
+
+<img width="581" alt="Screen_Shot_2022-10-12_at_10 11 04_AM" src="https://user-images.githubusercontent.com/90664891/197280708-3330bf01-617a-46fc-9680-c7e264b04fff.png">
+
+**Log**
 
     Noah:
     - UML Class Diagram

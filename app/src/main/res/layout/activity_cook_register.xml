@@ -63,9 +63,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
-            app:cornerRadius="25dp"
             android:backgroundTint="#8ED429"
-            android:text="Upload Image of Void Cheque" />
+            android:onClick="uploadChequeImage"
+            android:text="Upload Image of Void Cheque"
+            app:cornerRadius="25dp" />
 
     </LinearLayout>
 

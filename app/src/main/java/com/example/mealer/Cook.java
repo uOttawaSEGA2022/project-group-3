@@ -1,15 +1,14 @@
 package com.example.mealer;
 
+import android.graphics.Bitmap;
 import android.media.Image;
-
-import java.io.Serializable;
 
 public class Cook extends Account {
     private String firstName;
     private String lastName;
     private String address;
     private String description;
-    private Image voidCheque;
+    private Bitmap voidCheque;
 
     Cook() {
         this.username = "";
@@ -57,11 +56,11 @@ public class Cook extends Account {
         this.description = description;
     }
 
-    public Image getVoidCheque() {
+    public Bitmap getVoidCheque() {
         return voidCheque;
     }
 
-    public void setVoidCheque(Image voidCheque) {
+    public void setVoidCheque(Bitmap voidCheque) {
         this.voidCheque = voidCheque;
     }
 }

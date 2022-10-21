@@ -11,6 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class RegisterPage extends AppCompatActivity {
@@ -29,6 +35,13 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
         setContentView(R.layout.activity_register_page);
         registerEmail = findViewById(R.id.registerEmail);
         registerPassword = findViewById(R.id.registerPassword);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     public boolean isFieldValid(){
@@ -83,6 +96,7 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
             // Create a new Cook instance with inputted username and password, and add it to list of cooks
             Cook cook = new Cook(registerEmail.getText().toString(), registerPassword.getText().toString());
             cookList.add(cook);
+
             sendToExtraRegistration(view, cook);
         }
     }
@@ -95,6 +109,7 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
             // Create a new Client instance with inputted username and password, and add it to list of clients
             Client client = new Client(registerEmail.getText().toString(), registerPassword.getText().toString());
             clientList.add(client);
+
             sendToExtraRegistration(view,client);
         }
     }

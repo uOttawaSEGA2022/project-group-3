@@ -8,6 +8,7 @@ public class Cook extends Account {
     private String lastName;
     private String address;
     private String description;
+    private String id;
     private Bitmap voidCheque;
 
     Cook() {
@@ -17,6 +18,7 @@ public class Cook extends Account {
         this.lastName = "";
         this.address = "";
         this.description = "";
+        this.id = "";
     }
 
     Cook(String username, String password) {
@@ -63,4 +65,5 @@ public class Cook extends Account {
     public void setVoidCheque(Bitmap voidCheque) {
         this.voidCheque = voidCheque;
     }
+
 }

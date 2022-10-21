@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "347034111847",
+    "firebase_url": "https://mealer-project-d432e-default-rtdb.firebaseio.com",
+    "project_id": "mealer-project-d432e",
+    "storage_bucket": "mealer-project-d432e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347034111847:android:86f4a84634fa2cdcc3e9c2",
+        "android_client_info": {
+          "package_name": "com.example.mealer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347034111847-6etlhbos2o3g86erf0ejs7bkhaotkd1e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMI1l5rM0sDBY-OXrQ6UyRH--8glCw8fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347034111847-6etlhbos2o3g86erf0ejs7bkhaotkd1e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

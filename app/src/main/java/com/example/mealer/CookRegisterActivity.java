@@ -9,8 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,8 +24,9 @@ public class CookRegisterActivity extends AppCompatActivity {
     private static final int GET_FROM_GALLERY = 3;
     EditText cookFirstName, cookLastName, cookDescription, cookAddress;
     Cook currentAccount;
+    Button buttonRegister;
 
-    Uri selectedImage = null;
+    DatabaseReference database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,12 @@ public class CookRegisterActivity extends AppCompatActivity {
         cookLastName=findViewById(R.id.lastNameField);
         cookDescription=findViewById(R.id.descriptionField);
         cookAddress = findViewById(R.id.addressField);
+        buttonRegister = findViewById(R.id.registerButton);
         currentAccount = (Cook) getIntent().getSerializableExtra("cookObj");
+
+        //Initialize db with accounts section
+        database = FirebaseDatabase.getInstance().getReference("accounts");
+
     }
 
     @Override
@@ -146,6 +156,8 @@ public class CookRegisterActivity extends AppCompatActivity {
             currentAccount.setDescription(cookDescription.getText().toString());
             currentAccount.setAddress(cookAddress.getText().toString());
 
+            addProduct();
+
             sendToLogin(view);
         }
     }
@@ -165,5 +177,15 @@ public class CookRegisterActivity extends AppCompatActivity {
         sendIntentToLogin();
         //finishing activity send to register screen
         finish();
+    }
+
+    private void addProduct() {
+
+        String id = database.push().getKey();
+
+        currentAccount.setId(id);
+
+        //Add cook to database
+        database.child(id).setValue(currentAccount);
     }
 }

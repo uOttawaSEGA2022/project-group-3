@@ -61,8 +61,7 @@ public class CookRegisterActivity extends AppCompatActivity {
         }
 
 
-
-
+        
         //LAST NAME CHECKS
         if (lastNameInput.length() > 30) {
             displayToast("Last name too long.");

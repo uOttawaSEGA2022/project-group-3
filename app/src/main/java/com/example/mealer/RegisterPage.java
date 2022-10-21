@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -80,8 +81,9 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
             cookPasswords.add(registerPassword.getText().toString());
 
             // Create a new Cook instance with inputted username and password, and add it to list of cooks
-            cookList.add(new Cook(registerEmail.getText().toString(), registerPassword.getText().toString()));
-            sendToLogin(view);
+            Cook cook = new Cook(registerEmail.getText().toString(), registerPassword.getText().toString());
+            cookList.add(cook);
+            sendToExtraRegistration(view, cook);
         }
     }
 
@@ -143,6 +145,30 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
         Intent returnIntent = new Intent();
         setResult(RESULT_OK,returnIntent);
         sendIntentToLogin();
+        //finishing activity send to register screen
+        finish();
+    }
+
+    private void sendIntentToExtraRegistrationCook(Account account){
+        Intent intent = new Intent (getApplicationContext(), CookRegisterActivity.class);
+        intent.putExtra("cookObj", account);
+        startActivityForResult(intent,0);
+    }
+
+    private void sendIntentToExtraRegistrationClient(Account account){
+        Intent intent = new Intent (getApplicationContext(), CookRegisterActivity.class);
+        intent.putExtra("clientObj", account);
+        startActivityForResult(intent,0);
+    }
+
+    private void sendToExtraRegistration(View view, Account account){
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK,returnIntent);
+        if (account instanceof Cook) {
+            sendIntentToExtraRegistrationCook(account);
+        } else {
+            sendIntentToExtraRegistrationClient(account);
+        }
         //finishing activity send to register screen
         finish();
     }

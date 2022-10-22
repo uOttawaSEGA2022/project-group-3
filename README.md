@@ -19,6 +19,12 @@ Initial:
 
 <img width="581" alt="Screen_Shot_2022-10-12_at_10 11 04_AM" src="https://user-images.githubusercontent.com/90664891/197280708-3330bf01-617a-46fc-9680-c7e264b04fff.png">
 
+**Administrator Credentials**
+
+*Username: admin*
+
+*Password: admin123*
+
 **Log**
 
     Noah:

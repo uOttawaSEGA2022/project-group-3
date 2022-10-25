@@ -5,6 +5,7 @@ import java.io.Serializable;
 public abstract class Account implements Serializable {
     protected String username;
     protected String password;
+    protected String role;
     protected String id;
 
     public String getUsername() {
@@ -29,5 +30,11 @@ public abstract class Account implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getRole() { return role; }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

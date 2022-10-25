@@ -5,12 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ClientRegisterActivity extends AppCompatActivity {
     EditText clientFirstName, clientLastName, clientAddress, clientCreditCardNumber;
     Client currentAccount;
+    Button buttonRegister;
+
+    DatabaseReference database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +27,11 @@ public class ClientRegisterActivity extends AppCompatActivity {
         clientLastName=findViewById(R.id.lastNameField);
         clientCreditCardNumber=findViewById(R.id.creditCardNumberField);
         clientAddress=findViewById(R.id.addressField);
+        buttonRegister = findViewById(R.id.registerButton);
         currentAccount = (Client) getIntent().getSerializableExtra("clientObj");
+
+        //Initialize db with accounts section
+        database = FirebaseDatabase.getInstance().getReference("accounts");
     }
 
     public boolean isFieldValid(){
@@ -110,6 +121,10 @@ public class ClientRegisterActivity extends AppCompatActivity {
             currentAccount.setLastName(clientLastName.getText().toString());
             currentAccount.setAddress(clientAddress.getText().toString());
             currentAccount.setCreditCardNumber(clientCreditCardNumber.getText().toString());
+            currentAccount.setRole("Client");
+
+            addAccountToDB();
+
             sendToLogin(view);
         }
     }
@@ -125,5 +140,15 @@ public class ClientRegisterActivity extends AppCompatActivity {
         sendIntentToLogin();
         //finishing activity send to register screen
         finish();
+    }
+
+    private void addAccountToDB() {
+
+        String id = database.push().getKey();
+
+        currentAccount.setId(id);
+
+        //Add cook to database
+        database.child(id).setValue(currentAccount);
     }
 }

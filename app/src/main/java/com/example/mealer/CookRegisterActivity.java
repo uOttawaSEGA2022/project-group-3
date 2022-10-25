@@ -155,8 +155,9 @@ public class CookRegisterActivity extends AppCompatActivity {
             currentAccount.setLastName(cookLastName.getText().toString());
             currentAccount.setDescription(cookDescription.getText().toString());
             currentAccount.setAddress(cookAddress.getText().toString());
+            currentAccount.setRole("Cook");
 
-            addProduct();
+            addAccountToDB();
 
             sendToLogin(view);
         }
@@ -179,7 +180,7 @@ public class CookRegisterActivity extends AppCompatActivity {
         finish();
     }
 
-    private void addProduct() {
+    private void addAccountToDB() {
 
         String id = database.push().getKey();
 

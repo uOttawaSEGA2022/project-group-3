@@ -10,11 +10,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     TextView username;
@@ -22,7 +29,11 @@ public class LoginActivity extends AppCompatActivity {
 
     DatabaseReference database;
 
-    protected boolean checkForAccount;
+    private FirebaseAuth mAuth;
+
+    List<Account> accountList;
+
+    boolean userExists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,51 @@ public class LoginActivity extends AppCompatActivity {
         //Initialize db with accounts section
         database = FirebaseDatabase.getInstance().getReference("accounts");
 
+        // Initialize Firebase Authentication
+        mAuth = FirebaseAuth.getInstance();
+
+        accountList = new ArrayList<>();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //attaching value event listener
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                //clearing the previous artist list
+                accountList.clear();
+
+                //iterating through all the nodes
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    //getting product
+                    if (postSnapshot.getValue(Account.class).getRole() == "Cook") {
+                        Cook account = (Cook) postSnapshot.getValue();
+
+                        //adding account to the list
+                        accountList.add(account);
+                    } else if (postSnapshot.getValue(Account.class).getRole() == "Client") {
+                        Client account = (Client) postSnapshot.getValue();
+
+                        //adding account to the list
+                        accountList.add(account);
+                    } else if (postSnapshot.getValue(Account.class).getRole() == "Admin") {
+                        Admin account = (Admin) postSnapshot.getValue();
+
+                        //adding account to the list
+                        accountList.add(account);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
     }
 
     public void cookButtonPress(View view){
@@ -129,26 +185,43 @@ public class LoginActivity extends AppCompatActivity {
                     return true;
                 }
                 else{
-                    return checkForAccount;
+                    return signInAuth("Cook");
                 }
             case ("Client"):
                 if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.checkClientInfo(username, password))){
                     return true;
                 }
                 else{
-                    return false;
+                    signInAuth("Client");
                 }
             case ("Admin"):
                 if (username.equals("admin")&&password.equals("admin123")) {
                     return true;
                 }
                 else{
-                    displayToast("Wrong password or username");
-                    return false;
+                    return signInAuth("Admin");
                 }
             default:
                 return false;
         }
+    }
+
+    private boolean signInAuth(String loginType) {
+
+        mAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    userExists = true;
+                    sendIntentToMain(loginType);
+                } else {
+                    userExists = false;
+                    displayToast("Incorrect password or username");
+                }
+            }
+        });
+
+        return userExists;
     }
 
     public void displayToast(String message){

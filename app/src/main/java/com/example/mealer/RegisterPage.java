@@ -1,5 +1,6 @@
 package com.example.mealer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +34,8 @@ private static ArrayList<String> cookPasswords = new ArrayList<>();
 private static ArrayList<Client> clientList = new ArrayList<>();
 private static ArrayList<Cook> cookList = new ArrayList<>();
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +43,8 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
         registerEmail = findViewById(R.id.registerEmail);
         registerPassword = findViewById(R.id.registerPassword);
 
+        // Initialize Firebase Authentication
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -97,6 +106,8 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
             Cook cook = new Cook(registerEmail.getText().toString(), registerPassword.getText().toString());
             cookList.add(cook);
 
+            mAuth.createUserWithEmailAndPassword(registerEmail.getText().toString(), registerPassword.getText().toString());
+
             sendToExtraRegistration(view, cook);
         }
     }
@@ -110,7 +121,18 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
             Client client = new Client(registerEmail.getText().toString(), registerPassword.getText().toString());
             clientList.add(client);
 
-            sendToExtraRegistration(view,client);
+            mAuth.createUserWithEmailAndPassword(registerEmail.getText().toString(), registerPassword.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                    if (task.isSuccessful()) {
+                                        sendToExtraRegistration(view,client);
+                                    }
+                                }
+                            });
+
+
         }
     }
 

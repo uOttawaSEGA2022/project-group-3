@@ -2,7 +2,7 @@ package com.example.mealer;
 
 import java.io.Serializable;
 
-public abstract class Account implements Serializable {
+public class Account implements Serializable {
     protected String username;
     protected String password;
     protected String role;

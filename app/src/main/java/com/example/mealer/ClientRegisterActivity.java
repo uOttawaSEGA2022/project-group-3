@@ -90,7 +90,7 @@ public class ClientRegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        
+
         //CREDIT CARD CHECKS
         if (creditCardInput.length() != 16) {
             displayToast("Credit card number must be 16 digits.");

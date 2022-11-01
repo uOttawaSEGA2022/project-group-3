@@ -32,7 +32,7 @@ public class WelcomeClientPage extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference("accounts");
         userID = user.getUid();
 
-        final TextView welcomeTextView = (TextView) findViewById(R.id.welcomeMessage);
+        TextView welcomeTextView = (TextView) findViewById(R.id.welcomeMessage);
 
         database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -43,6 +43,8 @@ public class WelcomeClientPage extends AppCompatActivity {
                     String name = userProfile.getFirstName();
 
                     welcomeTextView.setText("Welcome Client: " + name);
+                } else {
+                    welcomeTextView.setText("Welcome Client (null)");
                 }
             }
 

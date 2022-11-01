@@ -20,6 +20,8 @@ public class ClientRegisterActivity extends AppCompatActivity {
 
     DatabaseReference database;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,9 @@ public class ClientRegisterActivity extends AppCompatActivity {
 
         //Initialize db with accounts section
         database = FirebaseDatabase.getInstance().getReference("accounts");
+
+        // Initialize Firebase Authentication
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -117,7 +122,7 @@ public class ClientRegisterActivity extends AppCompatActivity {
         Toast.makeText(ClientRegisterActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void registerAsCook(View view){
+    public void registerAsClient(View view){
         if (isFieldValid()) {
             currentAccount.setFirstName(clientFirstName.getText().toString());
             currentAccount.setLastName(clientLastName.getText().toString());
@@ -145,12 +150,9 @@ public class ClientRegisterActivity extends AppCompatActivity {
     }
 
     private void addAccountToDB() {
-
-        String id = database.push().getKey();
-
-        currentAccount.setId(id);
+        currentAccount.setId(mAuth.getCurrentUser().getUid());
 
         //Add cook to database
-        database.child(id).setValue(currentAccount);
+        database.child(currentAccount.getId()).setValue(currentAccount);
     }
 }

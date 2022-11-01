@@ -106,9 +106,16 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
             Cook cook = new Cook(registerEmail.getText().toString(), registerPassword.getText().toString());
             cookList.add(cook);
 
-            mAuth.createUserWithEmailAndPassword(registerEmail.getText().toString(), registerPassword.getText().toString());
+            mAuth.createUserWithEmailAndPassword(registerEmail.getText().toString(), registerPassword.getText().toString())
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-            sendToExtraRegistration(view, cook);
+                            if (task.isSuccessful()) {
+                                sendToExtraRegistration(view,cook);
+                            }
+                        }
+                    });
         }
     }
 
@@ -138,40 +145,6 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
 
     public void alreadyHasAnAccount(View view){
         sendToLogin(view);
-    }
-
-    protected static boolean checkClientInfo(String thisUser, String thisUserPassword){
-        for (int i = 0; i < clientList.size(); i++) {
-            if (thisUser.equals(clientList.get(i).username) && thisUserPassword.equals(clientList.get(i).password)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected static boolean checkCookInfo(String thisUser, String thisUserPassword){
-        for (int i = 0; i < cookList.size(); i++) {
-            if (thisUser.equals(cookList.get(i).username) && thisUserPassword.equals(cookList.get(i).password)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected static boolean getClientUsername(String thisUser){
-        return clientUsernames.contains(thisUser);
-    }
-
-    protected static boolean getClientPassword(String thisUserPassword){
-        return clientPasswords.contains(thisUserPassword);
-    }
-
-    protected static boolean getCookUsername (String thisUser){
-        return cookUsernames.contains(thisUser);
-    }
-
-    protected static boolean getCookPassword (String thisCookPassword){
-        return cookPasswords.contains(thisCookPassword);
     }
 
     private void sendIntentToLogin(){

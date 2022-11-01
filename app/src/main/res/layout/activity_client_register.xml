@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="550dp"
         android:backgroundTint="#467305"
-        android:onClick="registerAsCook"
+        android:onClick="registerAsClient"
         android:text="Complete Registration"
         app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -95,26 +95,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void cookButtonPress(View view){
             //checks for correct username and password
-            if (hasLogin("Cook",username.getText().toString(),password.getText().toString())){
-                returnToMain("Cook");
-            } else{
-                if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
-                    returnToMain("Admin");
-                }
-
-            }
+            hasLogin("Cook",username.getText().toString(),password.getText().toString());
 
     }
 
     public void clientButtonPress(View view){
             //checks for correct username and password
-            if (hasLogin("Client",username.getText().toString(),password.getText().toString())){
-                returnToMain("Client");
-            } else{
-                if (hasLogin("Admin",username.getText().toString(),password.getText().toString())){
-                    returnToMain("Admin");
-                }
-            }
+            hasLogin("Client",username.getText().toString(),password.getText().toString());
 
     }
 
@@ -177,51 +164,20 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private boolean hasLogin(String typeOfLogin, String username, String password){
-        //checks if they are trying to login and verifies
-        switch (typeOfLogin){
-            case ("Cook"):
-                if ((username.equals("cook")&&password.equals("cook123"))||(RegisterPage.checkCookInfo(username, password))) {
-                    return true;
-                }
-                else{
-                    return signInAuth("Cook");
-                }
-            case ("Client"):
-                if ((username.equals("client")&&password.equals("client123"))||(RegisterPage.checkClientInfo(username, password))){
-                    return true;
-                }
-                else{
-                    signInAuth("Client");
-                }
-            case ("Admin"):
-                if (username.equals("admin")&&password.equals("admin123")) {
-                    return true;
-                }
-                else{
-                    return signInAuth("Admin");
-                }
-            default:
-                return false;
-        }
-    }
+    private void hasLogin(String typeOfLogin, String username, String password){
 
-    private boolean signInAuth(String loginType) {
-
-        mAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        // CHANGE TO CHECK FIREBASE FIRST (call signInAuth OR try mAuth directly with check on typeOfLogin), THEN CHECK "cook/client"
+        mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    userExists = true;
-                    sendIntentToMain(loginType);
+                    sendIntentToMain(typeOfLogin);
                 } else {
-                    userExists = false;
                     displayToast("Incorrect password or username");
                 }
             }
         });
 
-        return userExists;
     }
 
     public void displayToast(String message){

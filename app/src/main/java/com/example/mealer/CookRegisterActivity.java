@@ -29,6 +29,8 @@ public class CookRegisterActivity extends AppCompatActivity {
 
     DatabaseReference database;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,9 @@ public class CookRegisterActivity extends AppCompatActivity {
 
         //Initialize db with accounts section
         database = FirebaseDatabase.getInstance().getReference("accounts");
+
+        // Initialize Firebase Authentication
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -181,12 +186,9 @@ public class CookRegisterActivity extends AppCompatActivity {
     }
 
     private void addAccountToDB() {
-
-        String id = database.push().getKey();
-
-        currentAccount.setId(id);
+        currentAccount.setId(mAuth.getCurrentUser().getUid());
 
         //Add cook to database
-        database.child(id).setValue(currentAccount);
+        database.child(currentAccount.getId()).setValue(currentAccount);
     }
 }

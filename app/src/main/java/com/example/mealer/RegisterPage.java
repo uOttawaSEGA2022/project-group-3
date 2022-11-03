@@ -113,6 +113,8 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
 
                             if (task.isSuccessful()) {
                                 sendToExtraRegistration(view,cook);
+                            }else{
+                                displayToast("Invalid email or password format");
                             }
                         }
                     });
@@ -135,6 +137,9 @@ private static ArrayList<Cook> cookList = new ArrayList<>();
 
                                     if (task.isSuccessful()) {
                                         sendToExtraRegistration(view,client);
+                                    }
+                                    else{
+                                        displayToast("Invalid email or password format");
                                     }
                                 }
                             });

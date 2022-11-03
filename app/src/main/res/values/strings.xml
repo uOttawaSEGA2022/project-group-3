@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Mealer</string>
+    <string-array name="user_type">
+        <item>Client</item>
+        <item>Cook</item>
+        <item>Admin</item>
+    </string-array>
 </resources>

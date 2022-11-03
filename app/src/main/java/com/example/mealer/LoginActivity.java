@@ -166,11 +166,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void hasLogin(String typeOfLogin, String username, String password){
 
-        // CHANGE TO CHECK FIREBASE FIRST (call signInAuth OR try mAuth directly with check on typeOfLogin), THEN CHECK "cook/client"
         mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    /* Add a call to a method that accesses database with UID and checks role
+                       then calls sendIntentToMain with that role*/
                     sendIntentToMain(typeOfLogin);
                 } else {
                     displayToast("Incorrect password or username");

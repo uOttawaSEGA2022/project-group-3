@@ -7,6 +7,11 @@ public class Account implements Serializable {
     protected String password;
     protected String role;
     protected String id;
+    protected Bannable banStatus;
+
+    public void setBanStatus(Bannable a){this.banStatus=a;}
+
+    public boolean getBanStatus(){return banStatus.getIsBanned();}
 
     public String getUsername() {
         return username;

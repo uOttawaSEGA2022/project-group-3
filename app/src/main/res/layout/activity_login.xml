@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:onClick="loginButtonPress"
-        android:text="Login as Cook"
+        android:text="Login"
         app:backgroundTint="#8ED429"
         app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -90,21 +90,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.805" />
 
-    <Button
-        android:id="@+id/LoginClient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:onClick="loginButtonPress"
-        android:text="Login as Client"
-        app:backgroundTint="#8ED429"
-        app:cornerRadius="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.875" />
 
     <ImageView
         android:id="@+id/mealerLogo"

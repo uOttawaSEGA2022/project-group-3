@@ -21,6 +21,12 @@ public class WelcomeAdminPage extends AppCompatActivity {
         sendIntentToLogin();
     }
 
+    public void sendIntentToComplaintInbox(View view){
+        Intent intent = new Intent(getApplicationContext(), AdminInboxActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+
     private void sendIntentToLogin(){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivityForResult(intent, 0);

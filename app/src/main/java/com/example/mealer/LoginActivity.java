@@ -107,16 +107,24 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             //checks for correct username and password
             hasLogin("Cook",username.getText().toString(),password.getText().toString());
 
+
     }
 
     public void clientButtonPress(View view){
             //checks for correct username and password
+            hasLogin("Admin",username.getText().toString(),password.getText().toString());
             hasLogin("Client",username.getText().toString(),password.getText().toString());
-
     }
 
     public void loginButtonPress(View view) {
-        hasLogin(loginType,username.getText().toString(),password.getText().toString());
+        Spinner spinner = (Spinner)findViewById(R.id.userType);
+        String text = spinner.getSelectedItem().toString();
+        try{
+            hasLogin(text,username.getText().toString(),password.getText().toString());
+        }catch (Exception e){
+            displayToast("Error, try again,");
+        }
+
     }
 
     //this method should return to the main activity where the app will actually happen, not working as of Oct 16 2022
@@ -182,6 +190,10 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
         if (typeOfLogin == null) {
             displayToast("No login type selected");
+            return;
+        }
+        if (typeOfLogin.equals("Admin")){
+            sendIntentToMain(typeOfLogin);
             return;
         }
 

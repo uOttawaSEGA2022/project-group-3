@@ -32,12 +32,11 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     Spinner spinner;
 
     DatabaseReference database;
-
     private FirebaseAuth mAuth;
 
     List<Account> accountList;
 
-    boolean userExists;
+    String loginType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +115,10 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
+    public void loginButtonPress(View view) {
+        hasLogin(loginType,username.getText().toString(),password.getText().toString());
+    }
+
     //this method should return to the main activity where the app will actually happen, not working as of Oct 16 2022
     private void returnToMain (String typeOfLogin){
         Intent returnIntent = new Intent();
@@ -177,6 +180,11 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
     private void hasLogin(String typeOfLogin, String username, String password){
 
+        if (typeOfLogin == null) {
+            displayToast("No login type selected");
+            return;
+        }
+
         mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -198,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String text = adapterView.getItemAtPosition(i).toString();
+        loginType = adapterView.getItemAtPosition(i).toString();
         //Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 

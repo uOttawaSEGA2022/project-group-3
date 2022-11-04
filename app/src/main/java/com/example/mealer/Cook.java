@@ -3,12 +3,15 @@ package com.example.mealer;
 import android.graphics.Bitmap;
 import android.media.Image;
 
+import java.util.Calendar;
+
 public class Cook extends Account {
     private String firstName;
     private String lastName;
     private String address;
     private String description;
     private String id;
+    private boolean permBanned;
     private Bitmap voidCheque;
 
     Cook() {
@@ -19,11 +22,13 @@ public class Cook extends Account {
         this.address = "";
         this.description = "";
         this.id = "";
+        this.permBanned = false;
     }
 
     Cook(String username, String password) {
         this.username = username;
         this.password = password;
+        this.permBanned = false;
     }
 
     public String getFirstName() {
@@ -66,4 +71,11 @@ public class Cook extends Account {
         this.voidCheque = voidCheque;
     }
 
+    public boolean isPermBanned() {
+        return permBanned;
+    }
+
+    public void setPermBanned(boolean permBanned) {
+        this.permBanned = permBanned;
+    }
 }

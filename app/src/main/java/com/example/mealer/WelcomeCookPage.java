@@ -68,32 +68,27 @@ public class WelcomeCookPage extends AppCompatActivity {
                     String[] unbanDate = tempBan.split("-");
 
                     if (Integer.parseInt(unbanDate[0]) <= Calendar.getInstance().get(Calendar.YEAR)){
-
                         if (Integer.parseInt(unbanDate[1]) <= Calendar.getInstance().get(Calendar.MONTH)+1){
-
                             if (Integer.parseInt(unbanDate[2]) <= Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
-
                                 database.child(userID).child("temporaryBan").setValue("null");
                             }
                             else{
-                                textView = (TextView) findViewById(R.id.temporaryBanMessage);
-                                textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y/M/D): "+tempBan);
+//                                textView = findViewById(R.id.temporaryBanMessage);
+//                                textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
                                 setContentView(R.layout.activity_temporary_ban);
                             }
                         }
                         else{
-                            textView = (TextView) findViewById(R.id.temporaryBanMessage);
-                            textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y/M/D): "+tempBan);
+//                            textView = findViewById(R.id.temporaryBanMessage);
+//                            textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
                             setContentView(R.layout.activity_temporary_ban);
                         }
                     } else {
-                        textView = (TextView) findViewById(R.id.temporaryBanMessage);
-                        textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y/M/D): "+tempBan);
+//                        textView = findViewById(R.id.temporaryBanMessage);
+//                        textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
                         setContentView(R.layout.activity_temporary_ban);
                     }
-
                 }
-
             }
 
             @Override

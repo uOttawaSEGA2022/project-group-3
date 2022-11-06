@@ -10,7 +10,7 @@
         android:id="@+id/temporaryBanMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Placeholder"
+        android:text="Placeholder (should be replaced with message saying TEMPORARY BAN and the date when they'll be unbanned"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

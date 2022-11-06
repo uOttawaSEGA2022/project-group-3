@@ -2,8 +2,10 @@ package com.example.mealer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ public class AdminInboxActivity extends AppCompatActivity {
     DatabaseReference database;
     private static int whichComplaint = 0;
     TextView textView;
+    private static Context inbox;
 
 
     @Override
@@ -34,7 +37,7 @@ public class AdminInboxActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance().getReference("complaints");
 
-        textView = new TextView(this);
+        inbox= this;
 
 
 
@@ -71,9 +74,12 @@ public class AdminInboxActivity extends AppCompatActivity {
 
                 }
 
-                for (int i = 1; i <= description.size(); i++) {
-
+                for (int i = 1; i <= description.size()-1; i++) {
+                    textView = new TextView(inbox);
                     textView.setText("Title: "+title.get(i)+'\n'+"Description"+description.get(i));
+                    if(textView.getParent() != null) {
+                        ((ViewGroup)textView.getParent()).removeView(textView); // <- fix
+                    }
                     linearLayout.addView(textView);
                 }
 

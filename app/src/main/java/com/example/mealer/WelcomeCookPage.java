@@ -3,14 +3,18 @@ package com.example.mealer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 import java.time.Year;
-import java.time.Month;
-import java.time.MonthDay;
+import java.util.Date;
+import java.util.Calendar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,11 +29,16 @@ public class WelcomeCookPage extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference database;
     private String userID;
+    private static Context viewPage;
+    TextView textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_cook);
+
+        viewPage = this;
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference("accounts");
@@ -55,11 +64,34 @@ public class WelcomeCookPage extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String tempBan = snapshot.child("temporaryBan").getValue().toString();
                 if (!tempBan.equals("null")){
+
                     String[] unbanDate = tempBan.split("-");
-//                    if (Integer.parseInt(unbanDate[0]) < Year.now().getValue()){
-//
-//                    }
-                    setContentView(R.layout.activity_temporary_ban);
+
+                    if (Integer.parseInt(unbanDate[0]) <= Calendar.getInstance().get(Calendar.YEAR)){
+
+                        if (Integer.parseInt(unbanDate[1]) <= Calendar.getInstance().get(Calendar.MONTH)+1){
+
+                            if (Integer.parseInt(unbanDate[2]) <= Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
+
+                                database.child(userID).child("temporaryBan").setValue("null");
+                            }
+                            else{
+                                textView = (TextView) findViewById(R.id.temporaryBanMessage);
+                                textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y/M/D): "+tempBan);
+                                setContentView(R.layout.activity_temporary_ban);
+                            }
+                        }
+                        else{
+                            textView = (TextView) findViewById(R.id.temporaryBanMessage);
+                            textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y/M/D): "+tempBan);
+                            setContentView(R.layout.activity_temporary_ban);
+                        }
+                    } else {
+                        textView = (TextView) findViewById(R.id.temporaryBanMessage);
+                        textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y/M/D): "+tempBan);
+                        setContentView(R.layout.activity_temporary_ban);
+                    }
+
                 }
 
             }

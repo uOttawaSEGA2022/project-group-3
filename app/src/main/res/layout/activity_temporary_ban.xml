@@ -7,19 +7,16 @@
     tools:context=".TemporaryBan">
 
     <TextView
+        android:id="@+id/temporaryBanMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Placeholder"
+        android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.111"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.223"
-        android:text="YOU ARE TEMPORARILY BANNED!"
-        android:textSize="50dp"
-        android:gravity="center"
-        android:paddingVertical="200dp"
-        >
-    </TextView>
+        app:layout_constraintVertical_bias="0.037" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

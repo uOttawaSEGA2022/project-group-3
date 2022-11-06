@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.time.Year;
+import java.time.Month;
+import java.time.MonthDay;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +34,41 @@ public class WelcomeCookPage extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference("accounts");
         userID = user.getUid();
+
+        database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String permBan = snapshot.child("permanentBan").getValue().toString();
+                if (permBan.equals("true")){
+                    setContentView(R.layout.activity_permanent_ban);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                displayToast("Something went wrong.");
+            }
+        });
+
+        database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String tempBan = snapshot.child("temporaryBan").getValue().toString();
+                if (!tempBan.equals("null")){
+                    String[] unbanDate = tempBan.split("-");
+//                    if (Integer.parseInt(unbanDate[0]) < Year.now().getValue()){
+//
+//                    }
+                    setContentView(R.layout.activity_temporary_ban);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                displayToast("Something went wrong.");
+            }
+        });
 
         TextView welcomeTextView = (TextView) findViewById(R.id.welcomeMessage);
 

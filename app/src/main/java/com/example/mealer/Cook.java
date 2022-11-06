@@ -11,7 +11,8 @@ public class Cook extends Account {
     private String address;
     private String description;
     private String id;
-    private Bannable banned;
+    private String permanentBan;
+    private String temporaryBan;
     private Bitmap voidCheque;
 
     Cook() {
@@ -22,13 +23,15 @@ public class Cook extends Account {
         this.address = "";
         this.description = "";
         this.id = "";
-        this.banned=null;
+        this.permanentBan = "false";
+        this.temporaryBan = "null";
     }
 
     Cook(String username, String password) {
         this.username = username;
         this.password = password;
-        this.banned=null;
+        this.permanentBan = "false";
+        this.temporaryBan = "null";
     }
 
     public String getFirstName() {
@@ -71,9 +74,11 @@ public class Cook extends Account {
         this.voidCheque = voidCheque;
     }
 
+    public String getPermanentBan() {return this.permanentBan;}
 
+    public void setPermanentBan(String a) {this.permanentBan = a;}
 
+    public String getTemporaryBan() {return this.temporaryBan;}
 
-
-    public void setBanned(Bannable a){ this.banned=a;}
+    public void setTemporaryBan(String a) {this.temporaryBan = a;}
 }

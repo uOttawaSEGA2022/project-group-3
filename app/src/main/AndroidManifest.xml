@@ -13,6 +13,20 @@
         android:theme="@style/Theme.Mealer"
         tools:targetApi="31">
         <activity
+            android:name=".TemporaryBan"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".PermanentBan"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AdminInboxActivity"
             android:exported="false">
             <meta-data

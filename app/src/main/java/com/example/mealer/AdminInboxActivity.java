@@ -76,10 +76,8 @@ public class AdminInboxActivity extends AppCompatActivity {
 
                 for (int i = 1; i <= description.size()-1; i++) {
                     textView = new TextView(inbox);
-                    textView.setText("Title: "+title.get(i)+'\n'+"Description"+description.get(i));
-                    if(textView.getParent() != null) {
-                        ((ViewGroup)textView.getParent()).removeView(textView); // <- fix
-                    }
+                    textView.setText("Title: "+title.get(i)+'\n'+"Description: "+description.get(i));
+
                     linearLayout.addView(textView);
                 }
 

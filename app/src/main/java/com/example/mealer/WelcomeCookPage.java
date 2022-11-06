@@ -30,7 +30,6 @@ public class WelcomeCookPage extends AppCompatActivity {
     DatabaseReference database;
     private String userID;
     private static Context viewPage;
-    TextView textView;
 
 
     @Override
@@ -63,33 +62,39 @@ public class WelcomeCookPage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String tempBan = snapshot.child("temporaryBan").getValue().toString();
+
                 if (!tempBan.equals("null")){
 
                     String[] unbanDate = tempBan.split("-");
+
 
                     if (Integer.parseInt(unbanDate[0]) <= Calendar.getInstance().get(Calendar.YEAR)){
                         if (Integer.parseInt(unbanDate[1]) <= Calendar.getInstance().get(Calendar.MONTH)+1){
                             if (Integer.parseInt(unbanDate[2]) <= Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
                                 database.child(userID).child("temporaryBan").setValue("null");
-                            }
-                            else{
-//                                textView = findViewById(R.id.temporaryBanMessage);
-//                                textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
+                                setContentView(R.layout.activity_welcome_cook);
+                            } else{
                                 setContentView(R.layout.activity_temporary_ban);
+                                TextView textView = findViewById(R.id.temporaryBanMessage);
+                                textView.setText("YOU ARE TEMPORARILY BANNED! \n\nYOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
+
                             }
-                        }
-                        else{
-//                            textView = findViewById(R.id.temporaryBanMessage);
-//                            textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
+                        } else {
                             setContentView(R.layout.activity_temporary_ban);
+                            TextView textView = findViewById(R.id.temporaryBanMessage);
+                            textView.setText("YOU ARE TEMPORARILY BANNED! \n\nYOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
+
                         }
                     } else {
-//                        textView = findViewById(R.id.temporaryBanMessage);
-//                        textView.setText("YOU ARE TEMPORARILY BANNED! YOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
                         setContentView(R.layout.activity_temporary_ban);
+                        TextView textView = findViewById(R.id.temporaryBanMessage);
+                        textView.setText("YOU ARE TEMPORARILY BANNED! \n\nYOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
+
                     }
                 }
             }
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

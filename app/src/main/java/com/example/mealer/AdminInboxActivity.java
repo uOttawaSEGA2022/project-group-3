@@ -91,7 +91,6 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onClick(View v) {
 
-
                         }
                     });
                     linearLayout.addView(tempBanButton);

@@ -96,7 +96,6 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                     linearLayout.addView(tempBanButton);
 
                     Button permBanButton = new Button(inbox);
-                    linearLayout.addView(permBanButton);
                     permBanButton.setText("Permanent Ban");
                     permBanButton.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -104,6 +103,18 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
 
                         }
                     });
+                    linearLayout.addView(permBanButton);
+
+                    Button dismissButton = new Button(inbox);
+                    dismissButton.setText("Dismiss");
+                    dismissButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    });
+                    linearLayout.addView(dismissButton);
+
                     textView = new TextView(inbox);
                     textView.setText("");
                     linearLayout.addView(textView);

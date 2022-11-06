@@ -71,9 +71,7 @@ public class Cook extends Account {
         this.voidCheque = voidCheque;
     }
 
-    public boolean getBanned() {
-        return banned.getIsBanned();
-    }
+
 
 
 

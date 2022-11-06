@@ -11,7 +11,6 @@ public class Account implements Serializable {
 
     public void setBanStatus(Bannable a){this.banStatus=a;}
 
-    public boolean getBanStatus(){return banStatus.getIsBanned();}
 
     public String getUsername() {
         return username;

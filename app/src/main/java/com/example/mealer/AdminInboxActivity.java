@@ -21,7 +21,15 @@ public class AdminInboxActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance().getReference("complaints");
 
+        addTestComplaint();
+
     }
+
+    public void addTestComplaint(){
+        database.child("complaint1").setValue("wahhh cook bad");
+    }
+
+
 
 
 }

@@ -11,7 +11,7 @@ public class Cook extends Account {
     private String address;
     private String description;
     private String id;
-    private boolean permBanned;
+    private Bannable banned;
     private Bitmap voidCheque;
 
     Cook() {
@@ -22,13 +22,13 @@ public class Cook extends Account {
         this.address = "";
         this.description = "";
         this.id = "";
-        this.permBanned = false;
+        this.banned=null;
     }
 
     Cook(String username, String password) {
         this.username = username;
         this.password = password;
-        this.permBanned = false;
+        this.banned=null;
     }
 
     public String getFirstName() {
@@ -71,11 +71,11 @@ public class Cook extends Account {
         this.voidCheque = voidCheque;
     }
 
-    public boolean isPermBanned() {
-        return permBanned;
+    public boolean getBanned() {
+        return banned.getIsBanned();
     }
 
-    public void setPermBanned(boolean permBanned) {
-        this.permBanned = permBanned;
-    }
+
+
+    public void setBanned(Bannable a){ this.banned=a;}
 }

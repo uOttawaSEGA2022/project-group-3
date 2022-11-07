@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +31,12 @@ import java.util.Iterator;
 
 public class AdminInboxActivity extends AppCompatActivity implements View.OnClickListener{
 
+    FirebaseUser user;
     DatabaseReference database;
+    DatabaseReference cookDatabase;
     DatabaseReference accountsDB;
     private static int whichComplaint = 0;
+    private String userID;
     TextView textView;
     private static Context inbox;
 
@@ -42,6 +46,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_admin_inbox);
 
         database = FirebaseDatabase.getInstance().getReference("complaints");
+        cookDatabase = FirebaseDatabase.getInstance().getReference("accounts");
 
         inbox = this;
 
@@ -84,13 +89,23 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                     linearLayout.addView(day);
 
                     String currentUsername = username.get(i);
+                    String yearInput, monthInput, dayInput;
+                    user = FirebaseAuth.getInstance().getCurrentUser();
+                    userID = user.getUid();
 
                     Button tempBanButton = new Button(inbox);
                     tempBanButton.setText("Temporary Ban");
                     tempBanButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            EditText y = (EditText) findViewById(R.id.year);
+                            String yearInput = y.getText().toString();
+                            EditText m = (EditText) findViewById(R.id.month);
+                            String monthInput = m.getText().toString();
+                            EditText d = (EditText) findViewById(R.id.day);
+                            String dayInput = d.getText().toString();
+                            cookDatabase.child(userID).child("temporaryBan").setValue(yearInput.toString()+"-"+monthInput.toString()+"-"+dayInput.toString());
+                            database.child(userID).removeValue();
                         }
                     });
                     linearLayout.addView(tempBanButton);
@@ -100,7 +115,8 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                     permBanButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            cookDatabase.child(userID).child("permanentBan").setValue("true");
+                            database.child(userID).removeValue();
                         }
                     });
                     linearLayout.addView(permBanButton);
@@ -110,7 +126,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                     dismissButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            database.child(userID).removeValue();
                         }
                     });
                     linearLayout.addView(dismissButton);

@@ -9,15 +9,13 @@ can sell meals to clients from their home. The application supports three types 
     • Administrator: a user that receives complaints about a Cook from a Client and may
     suspend the Cook if necessary
 
+# Deliverable 2 Work
+
 **UML Diagrams**
 
-Final:
+Deliverable 2 Final:
 
-<img width="794" alt="Screen_Shot_2022-10-21_at_9 31 42_AM" src="https://user-images.githubusercontent.com/90664891/197280686-eb638c25-8098-4e64-a71c-6a1d0ca5c95b.png">
-
-Initial:
-
-<img width="581" alt="Screen_Shot_2022-10-12_at_10 11 04_AM" src="https://user-images.githubusercontent.com/90664891/197280708-3330bf01-617a-46fc-9680-c7e264b04fff.png">
+<img width="869" alt="Deliverable 2 UML" src="https://user-images.githubusercontent.com/90425027/200225246-5ea76446-8cbe-4312-ae7c-fa1891873f51.png">
 
 **Administrator Credentials**
 
@@ -25,7 +23,56 @@ Initial:
 
 *Password: admin123*
 
-**Log**
+**Deliverable 2 Log:**
+
+    Noah:
+    - UML Class Diagram
+    - Added User-Database relation in firebase (using User ID)
+    - Modified login to check for user
+    - Added admin ability to action complaints
+    - Cleaned up code
+    - Tested code
+
+    Pradyu:
+    - Created Object-Oriented banning system
+    - Created complaint displaying functionality in Admin inbox
+    - Improved login functionality
+    - Cleaned up code
+    - Tested code
+
+    Maria:
+    - Admin inbox XML
+    - Added dropdown system on login page
+    - Tested code
+
+    Samuel:
+    - Created activities to be shown for a banned cook
+    - Implemented checks to see if cooks are banned
+    - Cleaned code
+    - Tested code
+
+    Vivethen:
+    - Started work on complaint handling
+    - Implemented test cases
+    - Tested code
+
+# Deliverable 1 Work
+
+Deliverable 1 Final:
+
+<img width="794" alt="Deliverable 1 UML" src="https://user-images.githubusercontent.com/90664891/197280686-eb638c25-8098-4e64-a71c-6a1d0ca5c95b.png">
+
+Initial:
+
+<img width="581" alt="Initial Deliverable 1 UML" src="https://user-images.githubusercontent.com/90664891/197280708-3330bf01-617a-46fc-9680-c7e264b04fff.png">
+
+**Administrator Credentials**
+
+*Username: admin*
+
+*Password: admin123*
+
+**Deliverable 1 Log:**
 
     Noah:
     - UML Class Diagram
@@ -33,6 +80,7 @@ Initial:
     - Register Cook Page .java
     - Modified structure to follow OOP (Account Classes)
     - Linked Welcome XML pages
+    - Added to README
     - Tested code
 
     Pradyu:
@@ -62,3 +110,4 @@ Initial:
     - Designed Client Welcome XML
     - Designed Admin Welcome XML
     - Tested code
+    

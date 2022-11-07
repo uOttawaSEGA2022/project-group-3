@@ -14,4 +14,14 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
+    // jUnit tests for mealer project start here
+
+    //@Test
+    //public void loginWorksCorrectly() {
+    //    int number = 2;
+    //    int loopCount = 4;
+    //    int expected = 10;
+    //}
+
 }

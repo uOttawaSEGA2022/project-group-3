@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class PermanentBan extends AppCompatActivity {
+public class TemporaryBanActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_permanent_ban);
+        setContentView(R.layout.activity_temporary_ban);
     }
 }

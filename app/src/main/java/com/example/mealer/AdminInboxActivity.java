@@ -31,12 +31,9 @@ import java.util.Iterator;
 
 public class AdminInboxActivity extends AppCompatActivity implements View.OnClickListener{
 
-    FirebaseUser user;
-    DatabaseReference database;
-    DatabaseReference cookDatabase;
-    DatabaseReference accountsDB;
+    DatabaseReference complaintDatabase;
+    DatabaseReference accountDatabase;
     private static int whichComplaint = 0;
-    private String userID;
     TextView textView;
     private static Context inbox;
 
@@ -45,8 +42,8 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_inbox);
 
-        database = FirebaseDatabase.getInstance().getReference("complaints");
-        cookDatabase = FirebaseDatabase.getInstance().getReference("accounts");
+        complaintDatabase = FirebaseDatabase.getInstance().getReference("complaints");
+        accountDatabase = FirebaseDatabase.getInstance().getReference("accounts");
 
         inbox = this;
 
@@ -58,26 +55,29 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
 
         LinearLayout linearLayout = findViewById(R.id.adminInbox);
         //attaching value event listener
-        database.addValueEventListener(new ValueEventListener() {
+        complaintDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                //clearing the previous artist list
+                //clearing the previous lists
 
                 ArrayList<String> title = new ArrayList<>();
                 ArrayList<String> description = new ArrayList<>();
                 ArrayList<String> username = new ArrayList<>();
+                ArrayList<String> cookIDs = new ArrayList<>();
+                ArrayList<String> complaintIDs = new ArrayList<>();
 
                 for (DataSnapshot postSnapshot: snapshot.getChildren()){
                     description.add(postSnapshot.child("Description").getValue().toString());
                     title.add(postSnapshot.child("Title").getValue().toString());
                     username.add(postSnapshot.child("username").getValue().toString());
+                    cookIDs.add(postSnapshot.child("cookID").getValue().toString());
+                    complaintIDs.add(postSnapshot.getKey());
                 }
 
                 for (int i = 0; i <= description.size()-1; i++) {
                     textView = new TextView(inbox);
-                    textView.setText("Title: "+title.get(i)+'\n'+"Description: "+description.get(i));
+                    textView.setText("Title: "+title.get(i)+'\n'+"Description: "+description.get(i) +'\n'+"Name: "+username.get(i));
                     linearLayout.addView(textView);
-
                     EditText year = new EditText(inbox);
                     year.setText("Year");
                     linearLayout.addView(year);
@@ -88,24 +88,20 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                     day.setText("Day");
                     linearLayout.addView(day);
 
-                    String currentUsername = username.get(i);
+                    String currentCookID = cookIDs.get(i);
+                    String currentComplaint = complaintIDs.get(i);
                     String yearInput, monthInput, dayInput;
-                    user = FirebaseAuth.getInstance().getCurrentUser();
-                    userID = user.getUid();
 
                     Button tempBanButton = new Button(inbox);
                     tempBanButton.setText("Temporary Ban");
                     tempBanButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            EditText y = (EditText) findViewById(R.id.year);
-                            String yearInput = y.getText().toString();
-                            EditText m = (EditText) findViewById(R.id.month);
-                            String monthInput = m.getText().toString();
-                            EditText d = (EditText) findViewById(R.id.day);
-                            String dayInput = d.getText().toString();
-                            cookDatabase.child(userID).child("temporaryBan").setValue(yearInput.toString()+"-"+monthInput.toString()+"-"+dayInput.toString());
-                            database.child(userID).removeValue();
+                            String yearInput = year.getText().toString();
+                            String monthInput = month.getText().toString();
+                            String dayInput = day.getText().toString();
+                            accountDatabase.child(currentCookID).child("temporaryBan").setValue(yearInput.toString()+"-"+monthInput.toString()+"-"+dayInput.toString());
+                            complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
                     linearLayout.addView(tempBanButton);
@@ -115,8 +111,8 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                     permBanButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            cookDatabase.child(userID).child("permanentBan").setValue("true");
-                            database.child(userID).removeValue();
+                            accountDatabase.child(currentCookID).child("permanentBan").setValue("true");
+                            complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
                     linearLayout.addView(permBanButton);
@@ -126,7 +122,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                     dismissButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            database.child(userID).removeValue();
+                            complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
                     linearLayout.addView(dismissButton);
@@ -148,13 +144,13 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void addComplaint(Cook a){
-        database.child("complaint"+" "+whichComplaint).setValue(a);
+        complaintDatabase.child("complaint"+" "+whichComplaint).setValue(a);
         whichComplaint++;
     }
 
     public void addToDescpritionAndTitleToComplaint (int i, String title, String description){
-        database.child("complaint"+" "+i).child("Title").setValue(title);
-        database.child("complaint"+" "+i).child("Description").setValue(description);
+        complaintDatabase.child("complaint"+" "+i).child("Title").setValue(title);
+        complaintDatabase.child("complaint"+" "+i).child("Description").setValue(description);
     }
 
     @Override

@@ -41,12 +41,13 @@ Deliverable 2 Final:
     - Tested code
 
     Maria:
-    - Admin inbox XML
+    - Created Admin inbox XML
     - Added dropdown system on login page
     - Tested code
 
     Samuel:
     - Created activities to be shown for a banned cook
+    - Developed inbox for complaints
     - Implemented checks to see if cooks are banned
     - Cleaned code
     - Tested code

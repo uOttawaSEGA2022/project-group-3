@@ -13,7 +13,7 @@ can sell meals to clients from their home. The application supports three types 
 
 **UML Diagrams**
 
-Deliverable 2 Final:
+Deliverable 2 Final (Note that Bannable and its implementations are unused in this deliverable -- used boolean structure instead):
 
 <img width="869" alt="Deliverable 2 UML" src="https://user-images.githubusercontent.com/90425027/200225246-5ea76446-8cbe-4312-ae7c-fa1891873f51.png">
 

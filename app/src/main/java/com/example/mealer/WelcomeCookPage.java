@@ -30,6 +30,7 @@ public class WelcomeCookPage extends AppCompatActivity {
     DatabaseReference database;
     private String userID;
     private static Context viewPage;
+    TextView welcomeText;
 
 
     @Override
@@ -38,7 +39,7 @@ public class WelcomeCookPage extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_cook);
 
         viewPage = this;
-
+        welcomeText=findViewById(R.id.welcomeMessage);
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference("accounts");
         userID = user.getUid();

@@ -43,7 +43,7 @@ public class AddMenuItem extends AppCompatActivity {
     public void addMenuItem(View view){
         if (!cannotSubmit()){
             submitMenuItemToDatabase();
-            displayToast("Item added");
+            displayToast("Meal added!");
             sendToCookMenu(view);
             return;
         }

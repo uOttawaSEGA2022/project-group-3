@@ -126,6 +126,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             specificMeals.child(currentTitle).removeValue();
                             thisCooksMenus.child(currentTitle).removeValue();
+                            displayToast("Meal deleted!");
                             Intent intent = getIntent();
                             finish();
                             startActivity(intent);

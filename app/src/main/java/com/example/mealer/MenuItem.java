@@ -12,6 +12,11 @@ public class MenuItem {
         this.ingredients=i;
         this.cookID=c;
     }
+    public MenuItem(String t, String d, String i){
+        this.title=t;
+        this.description=d;
+        this.ingredients=i;
+    }
 
     public void setTitle(String t){ this.title=t; }
 

@@ -19,6 +19,7 @@
         android:layout_alignParentRight="true"
         android:backgroundTint="#467305"
         android:text="Add meal"
+        android:onClick="sendToAddMeal"
         >
 
     </Button>

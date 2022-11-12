@@ -139,4 +139,10 @@ public class WelcomeCookPage extends AppCompatActivity {
     public void displayToast(String message){
         Toast.makeText(WelcomeCookPage.this, message, Toast.LENGTH_SHORT).show();
     }
+
+    public void sendToPersonalMenu(View view){
+        Intent intent = new Intent(getApplicationContext(), CookPersonalMenuActivity.class);
+        startActivityForResult(intent,0);
+    }
+
 }

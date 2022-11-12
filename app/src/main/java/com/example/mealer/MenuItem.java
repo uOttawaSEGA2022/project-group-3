@@ -5,17 +5,20 @@ public class MenuItem {
     private String description;
     private String ingredients;
     private String cookID;
+    private boolean isOffered;
 
-    public MenuItem(String t, String d, String i,String c){
+    public MenuItem(String t, String d, String i,String c, boolean b){
         this.title=t;
         this.description=d;
         this.ingredients=i;
         this.cookID=c;
+        this.isOffered=b;
     }
-    public MenuItem(String t, String d, String i){
+    public MenuItem(String t, String d, String i,boolean b){
         this.title=t;
         this.description=d;
         this.ingredients=i;
+        this.isOffered=b;
     }
 
     public void setTitle(String t){ this.title=t; }
@@ -26,6 +29,8 @@ public class MenuItem {
 
     public void setCookID(String c){ this.cookID=c; }
 
+    public void setisOffered (boolean b){ this.isOffered =b; }
+
     public String getTitle(){ return title; }
 
     public String getDescription() { return description; }
@@ -33,6 +38,8 @@ public class MenuItem {
     public String getIngredients() { return ingredients; }
 
     public String getCookID(){ return cookID; }
+
+    public boolean getisOffered(){ return isOffered; }
 
 
 }

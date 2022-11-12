@@ -68,9 +68,9 @@ public class AddMenuItem extends AppCompatActivity {
     }
 
     private void submitMenuItemToDatabase(){
-        thisItem = new MenuItem(title.getText().toString(),description.getText().toString(),ingredients.getText().toString(),cookID);
+        thisItem = new MenuItem(title.getText().toString(),description.getText().toString(),ingredients.getText().toString(),cookID,false);
         masterMenu.child(title.getText().toString()).setValue(thisItem);
-        thisItem = new MenuItem(title.getText().toString(),description.getText().toString(),ingredients.getText().toString());
+        thisItem = new MenuItem(title.getText().toString(),description.getText().toString(),ingredients.getText().toString(),false);
         thisCooksMenus.child(title.getText().toString()).setValue(thisItem);
 
     }

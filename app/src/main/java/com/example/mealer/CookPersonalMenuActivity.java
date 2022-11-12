@@ -10,8 +10,13 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,9 +31,12 @@ import java.util.ArrayList;
 public class CookPersonalMenuActivity extends AppCompatActivity {
     FirebaseUser thisCook;
     DatabaseReference thisCooksMenus;
+    DatabaseReference specificMeals;
     private static Context personalMenu;
     private String cookID;
-    TextView generateText;
+    TextView generatedText;
+    RelativeLayout.LayoutParams params;
+    Button deleteMeal;
     Button setOffered;
 
     @Override
@@ -38,6 +46,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
         thisCook = FirebaseAuth.getInstance().getCurrentUser();
         cookID = thisCook.getUid();
         thisCooksMenus = FirebaseDatabase.getInstance().getReference("accounts").child(cookID).child("Cook Menu");
+        specificMeals = FirebaseDatabase.getInstance().getReference("master-menu");
         personalMenu = this;
     }
 
@@ -46,7 +55,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
 
         super.onStart();
 
-        RelativeLayout relativeLayout = findViewById(R.id.cookPersonalMenu);
+        LinearLayout linearLayout = findViewById(R.id.linearLayout);
 
         thisCooksMenus.addValueEventListener(new ValueEventListener() {
             @Override
@@ -58,6 +67,9 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                 int i = 0;
 
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+
+                    LinearLayout linearLayoutNew = new LinearLayout(personalMenu);
+
                     String thisDescription = postSnapshot.child("description").getValue().toString();
                     String thisTitle = postSnapshot.child("title").getValue().toString();
                     String thisIngredients = postSnapshot.child("ingredients").getValue().toString();
@@ -67,30 +79,67 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     ingredients.add(thisIngredients);
                     areOffered.add(postSnapshot.child("isOffered").getValue().toString());
 
-                    generateText = new TextView(personalMenu);
-                    generateText.setText("Title: " + title.get(i) + '\n' + "Description: " + description.get(i) + '\n' + "Ingredients: " + ingredients.get(i));
-                    relativeLayout.addView(generateText);
+                    generatedText = new TextView(personalMenu);
+                    RelativeLayout relativeLayoutForText = new RelativeLayout(personalMenu);
+                    params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT); //Width just has to be bigger than screen width size
+                    params.topMargin = 25;
+                    params.bottomMargin = 25;
+                    generatedText.setText("Title: " + title.get(i) +'\n'+"Description: " + description.get(i) +'\n'+"Ingredients: " + ingredients.get(i) +'\n');
+
+                    relativeLayoutForText.addView(generatedText, params);
+
                     setOffered = new Button(personalMenu);
                     String areOfferedValue = areOffered.get(i);
                     String oppositeAreOffered;
                     if (areOfferedValue.equals("true")){
                         setOffered.setBackgroundColor(Color.RED);
-                        setOffered.setText("Cancel offer");
+                        setOffered.setText("Un-Offer");
                         oppositeAreOffered = "false";
                     }else{
                         setOffered.setBackgroundColor(Color.GREEN);
-                        setOffered.setText("Set offer");
+                        setOffered.setText("Set Offer");
                         oppositeAreOffered = "true";
                     }
-                    relativeLayout.addView(setOffered);
+
+                    RelativeLayout relativeLayout = new RelativeLayout(personalMenu);
+                    params = new RelativeLayout.LayoutParams(250, 200);
+                    params.leftMargin = 100;
+                    params.rightMargin = 75;
+                    params.topMargin = 75;
+                    params.bottomMargin = 50;
+                    relativeLayout.addView(setOffered, params);
+
+                    deleteMeal = new Button(personalMenu);
+                    deleteMeal.setText("DELETE");
+                    deleteMeal.setBackgroundColor(Color.RED);
+                    RelativeLayout relativeLayoutNew = new RelativeLayout(personalMenu);
+                    params = new RelativeLayout.LayoutParams(250, 200);
+                    params.rightMargin = 100;
+                    params.topMargin = 75;
+                    relativeLayoutNew.addView(deleteMeal, params);
+
+                    linearLayoutNew.addView(relativeLayout);
+                    linearLayoutNew.addView(relativeLayoutNew);
+                    String currentTitle = title.get(i);
+                    deleteMeal.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            specificMeals.child(currentTitle).removeValue();
+                            thisCooksMenus.child(currentTitle).removeValue();
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
+                        }
+                    });
+
                     setOffered.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             boolean offered;
                             if (oppositeAreOffered.equals("true")){
-                                offered=true;
+                                offered = true;
                             }else{
-                                offered=false;
+                                offered = false;
                             }
                             thisCooksMenus.child(postSnapshot.child("title").getValue().toString()).setValue(new MenuItem(thisTitle,thisDescription,thisIngredients,offered));
                             Intent intent = getIntent();
@@ -98,6 +147,9 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
+
+                    linearLayout.addView(linearLayoutNew);
+                    linearLayoutNew.addView(relativeLayoutForText);
                     i++;
                 }
 
@@ -114,6 +166,10 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void displayToast(String message){
+        Toast.makeText(personalMenu, message, Toast.LENGTH_SHORT).show();
     }
 
     public void sendToAddMeal(View view) {

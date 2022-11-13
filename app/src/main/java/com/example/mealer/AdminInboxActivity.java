@@ -6,6 +6,7 @@ import androidx.appcompat.widget.ButtonBarLayout;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,7 +26,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 
 
@@ -36,6 +41,9 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
     private static int whichComplaint = 0;
     TextView textView;
     private static Context inbox;
+    LinearLayout innerLayout;
+    LinearLayout linearLayoutForButtons;
+    LinearLayout linearLayoutForDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
         super.onStart();
 
         LinearLayout linearLayout = findViewById(R.id.adminInbox);
+
         //attaching value event listener
         complaintDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -75,36 +84,76 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 for (int i = 0; i <= description.size()-1; i++) {
+
+                    innerLayout = new LinearLayout(inbox);
+
                     textView = new TextView(inbox);
                     textView.setText("Title: "+title.get(i)+'\n'+"Description: "+description.get(i) +'\n'+"Name: "+username.get(i));
-                    linearLayout.addView(textView);
+                    innerLayout.addView(textView);
                     EditText year = new EditText(inbox);
-                    year.setText("Year");
-                    linearLayout.addView(year);
+
+                    linearLayoutForDate = new LinearLayout(inbox);
+                    linearLayoutForDate.setOrientation(LinearLayout.HORIZONTAL);
+                    linearLayoutForDate.setGravity(Gravity.CENTER_VERTICAL);
+
+                    year.setHint("Year");
+                    linearLayoutForDate.addView(year);
                     EditText month = new EditText(inbox);
-                    month.setText("Month");
-                    linearLayout.addView(month);
+                    month.setHint("Month");
+                    linearLayoutForDate.addView(month);
                     EditText day = new EditText(inbox);
-                    day.setText("Day");
-                    linearLayout.addView(day);
+                    day.setHint("Day");
+                    linearLayoutForDate.addView(day);
 
                     String currentCookID = cookIDs.get(i);
                     String currentComplaint = complaintIDs.get(i);
                     String yearInput, monthInput, dayInput;
+
+                    linearLayoutForButtons = new LinearLayout(inbox);
+                    linearLayoutForButtons.setOrientation(LinearLayout.HORIZONTAL);
+                    linearLayoutForButtons.setGravity(Gravity.CENTER_VERTICAL);
 
                     Button tempBanButton = new Button(inbox);
                     tempBanButton.setText("Temporary Ban");
                     tempBanButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
+                            //Create current date
+                            String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                            int currentYear = Integer.parseInt(date.substring(0,4));
+                            int currentMonth = Integer.parseInt(date.substring(5,7));
+                            int currentDay = Integer.parseInt(date.substring(8,10));
+
                             String yearInput = year.getText().toString();
                             String monthInput = month.getText().toString();
                             String dayInput = day.getText().toString();
-                            accountDatabase.child(currentCookID).child("temporaryBan").setValue(yearInput.toString()+"-"+monthInput.toString()+"-"+dayInput.toString());
-                            complaintDatabase.child(currentComplaint).removeValue();
+
+
+                            try {
+                                Date inputDate = sdf.parse(yearInput + "-" + monthInput + "-" + dayInput);
+                                Date currentDate = sdf.parse(currentYear + "-" + currentMonth + "-" + currentDay);
+                                int result = inputDate.compareTo(currentDate);
+
+                                //Check if suspension date is after the current date, then sets suspension date in database
+                                if (result == 0) {
+                                    displayToast("Invalid date: cannot be same date");
+                                } else if (result > 0) {
+                                    accountDatabase.child(currentCookID).child("temporaryBan").setValue(yearInput+"-"+monthInput+"-"+dayInput);
+                                    complaintDatabase.child(currentComplaint).removeValue();
+                                } else {
+                                    displayToast("Invalid date: cannot be past date");
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+
                         }
                     });
-                    linearLayout.addView(tempBanButton);
+                    linearLayoutForButtons.addView(tempBanButton);
 
                     Button permBanButton = new Button(inbox);
                     permBanButton.setText("Permanent Ban");
@@ -115,7 +164,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                             complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
-                    linearLayout.addView(permBanButton);
+                    linearLayoutForButtons.addView(permBanButton);
 
                     Button dismissButton = new Button(inbox);
                     dismissButton.setText("Dismiss");
@@ -125,11 +174,14 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                             complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
-                    linearLayout.addView(dismissButton);
 
-                    textView = new TextView(inbox);
-                    textView.setText("");
-                    linearLayout.addView(textView);
+                    linearLayoutForButtons.addView(dismissButton);
+
+                    innerLayout.addView(linearLayoutForDate);
+                    innerLayout.addView(linearLayoutForButtons);
+                    innerLayout.setOrientation(LinearLayout.VERTICAL);
+                    linearLayout.addView(innerLayout);
+
 
                 }
 

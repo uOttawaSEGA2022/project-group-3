@@ -6,6 +6,7 @@ import androidx.appcompat.widget.ButtonBarLayout;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,6 +37,9 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
     private static int whichComplaint = 0;
     TextView textView;
     private static Context inbox;
+    LinearLayout innerLayout;
+    LinearLayout linearLayoutForButtons;
+    LinearLayout linearLayoutForDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
         super.onStart();
 
         LinearLayout linearLayout = findViewById(R.id.adminInbox);
-        LinearLayout linearLayoutHorizontal = findViewById(R.id.adminButtons);
+
         //attaching value event listener
         complaintDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,22 +80,34 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 for (int i = 0; i <= description.size()-1; i++) {
+
+                    innerLayout = new LinearLayout(inbox);
+
                     textView = new TextView(inbox);
                     textView.setText("Title: "+title.get(i)+'\n'+"Description: "+description.get(i) +'\n'+"Name: "+username.get(i));
-                    linearLayout.addView(textView);
+                    innerLayout.addView(textView);
                     EditText year = new EditText(inbox);
-                    year.setText("Year");
-                    linearLayout.addView(year);
+
+                    linearLayoutForDate = new LinearLayout(inbox);
+                    linearLayoutForDate.setOrientation(LinearLayout.HORIZONTAL);
+                    linearLayoutForDate.setGravity(Gravity.CENTER_VERTICAL);
+
+                    year.setHint("Year");
+                    linearLayoutForDate.addView(year);
                     EditText month = new EditText(inbox);
-                    month.setText("Month");
-                    linearLayout.addView(month);
+                    month.setHint("Month");
+                    linearLayoutForDate.addView(month);
                     EditText day = new EditText(inbox);
-                    day.setText("Day");
-                    linearLayout.addView(day);
+                    day.setHint("Day");
+                    linearLayoutForDate.addView(day);
 
                     String currentCookID = cookIDs.get(i);
                     String currentComplaint = complaintIDs.get(i);
                     String yearInput, monthInput, dayInput;
+
+                    linearLayoutForButtons = new LinearLayout(inbox);
+                    linearLayoutForButtons.setOrientation(LinearLayout.HORIZONTAL);
+                    linearLayoutForButtons.setGravity(Gravity.CENTER_VERTICAL);
 
                     Button tempBanButton = new Button(inbox);
                     tempBanButton.setText("Temporary Ban");
@@ -105,7 +121,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                             complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
-                    linearLayoutHorizontal.addView(tempBanButton);
+                    linearLayoutForButtons.addView(tempBanButton);
 
                     Button permBanButton = new Button(inbox);
                     permBanButton.setText("Permanent Ban");
@@ -116,7 +132,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                             complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
-                    linearLayoutHorizontal.addView(permBanButton);
+                    linearLayoutForButtons.addView(permBanButton);
 
                     Button dismissButton = new Button(inbox);
                     dismissButton.setText("Dismiss");
@@ -126,11 +142,14 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                             complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
-                    linearLayoutHorizontal.addView(dismissButton);
 
-                    textView = new TextView(inbox);
-                    textView.setText("");
-                    linearLayout.addView(textView);
+                    linearLayoutForButtons.addView(dismissButton);
+
+                    innerLayout.addView(linearLayoutForDate);
+                    innerLayout.addView(linearLayoutForButtons);
+                    innerLayout.setOrientation(LinearLayout.VERTICAL);
+                    linearLayout.addView(innerLayout);
+
 
                 }
 

@@ -54,6 +54,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
         super.onStart();
 
         LinearLayout linearLayout = findViewById(R.id.adminInbox);
+        LinearLayout linearLayoutHorizontal = findViewById(R.id.adminButtons);
         //attaching value event listener
         complaintDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,7 +105,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                             complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
-                    linearLayout.addView(tempBanButton);
+                    linearLayoutHorizontal.addView(tempBanButton);
 
                     Button permBanButton = new Button(inbox);
                     permBanButton.setText("Permanent Ban");
@@ -115,7 +116,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                             complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
-                    linearLayout.addView(permBanButton);
+                    linearLayoutHorizontal.addView(permBanButton);
 
                     Button dismissButton = new Button(inbox);
                     dismissButton.setText("Dismiss");
@@ -125,7 +126,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                             complaintDatabase.child(currentComplaint).removeValue();
                         }
                     });
-                    linearLayout.addView(dismissButton);
+                    linearLayoutHorizontal.addView(dismissButton);
 
                     textView = new TextView(inbox);
                     textView.setText("");

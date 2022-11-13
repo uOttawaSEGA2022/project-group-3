@@ -26,7 +26,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 
 
@@ -114,11 +118,39 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                     tempBanButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
+                            //Create current date
+                            String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                            int currentYear = Integer.parseInt(date.substring(0,4));
+                            int currentMonth = Integer.parseInt(date.substring(5,7));
+                            int currentDay = Integer.parseInt(date.substring(8,10));
+
                             String yearInput = year.getText().toString();
                             String monthInput = month.getText().toString();
                             String dayInput = day.getText().toString();
-                            accountDatabase.child(currentCookID).child("temporaryBan").setValue(yearInput.toString()+"-"+monthInput.toString()+"-"+dayInput.toString());
-                            complaintDatabase.child(currentComplaint).removeValue();
+
+
+                            try {
+                                Date inputDate = sdf.parse(yearInput + "-" + monthInput + "-" + dayInput);
+                                Date currentDate = sdf.parse(currentYear + "-" + currentMonth + "-" + currentDay);
+                                int result = inputDate.compareTo(currentDate);
+
+                                //Check if suspension date is after the current date, then sets suspension date in database
+                                if (result == 0) {
+                                    displayToast("Invalid date: cannot be same date");
+                                } else if (result > 0) {
+                                    accountDatabase.child(currentCookID).child("temporaryBan").setValue(yearInput+"-"+monthInput+"-"+dayInput);
+                                    complaintDatabase.child(currentComplaint).removeValue();
+                                } else {
+                                    displayToast("Invalid date: cannot be past date");
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+
                         }
                     });
                     linearLayoutForButtons.addView(tempBanButton);

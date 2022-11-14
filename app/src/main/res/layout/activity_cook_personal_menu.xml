@@ -37,19 +37,18 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="725dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="25dp"
         android:backgroundTint="#467305"
         android:onClick="sendToAddMeal"
         android:text="Add meal"
-        android:layout_marginBottom="25dp"
-        android:layout_marginTop="725dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginLeft="100dp"
         app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
     </Button>
 </RelativeLayout>

@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+
+    // Instance variables
+
     TextView username;
     TextView password;
     Spinner spinner;
@@ -38,6 +41,9 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
     String loginType;
 
+    /*
+     * OnCreate method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +68,9 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         accountList = new ArrayList<>();
     }
 
+    /*
+     * OnStart method
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -103,19 +112,9 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         });
     }
 
-    public void cookButtonPress(View view){
-            //checks for correct username and password
-            hasLogin("Cook",username.getText().toString(),password.getText().toString());
-
-
-    }
-
-    public void clientButtonPress(View view){
-            //checks for correct username and password
-            hasLogin("Admin",username.getText().toString(),password.getText().toString());
-            hasLogin("Client",username.getText().toString(),password.getText().toString());
-    }
-
+    /*
+     * method for verifying login information
+     */
     public void loginButtonPress(View view) {
         Spinner spinner = (Spinner)findViewById(R.id.userType);
         String text = spinner.getSelectedItem().toString();
@@ -127,15 +126,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
-    //this method should return to the main activity where the app will actually happen, not working as of Oct 16 2022
-    private void returnToMain (String typeOfLogin){
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(typeOfLogin,true);
-        setResult(RESULT_OK,returnIntent);
-        sendIntentToMain(typeOfLogin);
-        //finishing activity and return to main screen
-        finish();
-    }
+    // method for registering a new account
     public void registerButtonPress(View view){
         Intent returnIntent = new Intent();
         setResult(RESULT_OK,returnIntent);
@@ -143,29 +134,38 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         //finishing activity send to register screen
         finish();
     }
+
+    // method for going to register activity
     private void sendIntentToRegister(){
         Intent intent = new Intent (getApplicationContext(), RegisterPage.class);
         startActivityForResult(intent,0);
     }
 
+    // method for going to welcome cook activity
     private void sendToWelcomeCook(){
         Intent intent;
         intent = new Intent(getApplicationContext(), WelcomeCookPage.class);
         startActivityForResult(intent, 0);
     }
 
+    // method for going to welcome client activity
     private void sendToWelcomeClient(){
         Intent intent;
         intent = new Intent(getApplicationContext(), WelcomeClientPage.class);
         startActivityForResult(intent, 0);
     }
 
+    // method for going to welcome admin activity
     private void sendToWelcomeAdmin(){
         Intent intent;
         intent = new Intent(getApplicationContext(), WelcomeAdminPage.class);
         startActivityForResult(intent, 0);
     }
 
+    /*
+     * send to proper activity based on type of login
+     * @param typeOfLogin indicates the type of login
+     */
     private void sendIntentToMain(String typeOfLogin){
         //Application Context and Activity
         switch (typeOfLogin){
@@ -186,6 +186,12 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
+    /*
+     * verifies login based on accounts in database
+     * @param typeOfLogin indicates the type of login
+     * @param username indicates user's name
+     * @param typeOfLogin indicates user's password
+     */
     private void hasLogin(String typeOfLogin, String username, String password){
 
         if (typeOfLogin == null) {
@@ -212,14 +218,15 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
+    // method for displaying toast
     public void displayToast(String message){
         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
+    // set login type to what is selected in the dropdown
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         loginType = adapterView.getItemAtPosition(i).toString();
-        //Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 
     @Override

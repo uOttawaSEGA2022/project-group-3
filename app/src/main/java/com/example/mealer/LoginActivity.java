@@ -193,8 +193,14 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             return;
         }
         if (typeOfLogin.equals("Admin")){
-            sendIntentToMain(typeOfLogin);
-            return;
+            if (username.equals("admin") && password.equals("admin123")){
+                sendIntentToMain(typeOfLogin);
+                return;
+            }else{
+                displayToast("Incorrect admin credentials");
+                return;
+            }
+
         }
 
         mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

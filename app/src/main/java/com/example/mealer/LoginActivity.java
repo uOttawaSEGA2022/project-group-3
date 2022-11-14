@@ -85,17 +85,17 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                 //iterating through all the nodes
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     //getting product
-                    if (postSnapshot.getValue(Account.class).getRole() == "Cook") {
+                    if (postSnapshot.getValue(Account.class).getRole().equals("Cook")) {
                         Cook account = (Cook) postSnapshot.getValue();
 
                         //adding account to the list
                         accountList.add(account);
-                    } else if (postSnapshot.getValue(Account.class).getRole() == "Client") {
+                    } else if (postSnapshot.getValue(Account.class).getRole().equals("Client")) {
                         Client account = (Client) postSnapshot.getValue();
 
                         //adding account to the list
                         accountList.add(account);
-                    } else if (postSnapshot.getValue(Account.class).getRole() == "Admin") {
+                    } else if (postSnapshot.getValue(Account.class).getRole().equals("Admin")) {
                         Admin account = (Admin) postSnapshot.getValue();
 
                         //adding account to the list
@@ -194,6 +194,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
      */
     private void hasLogin(String typeOfLogin, String username, String password){
 
+        // fail fast checks to see if login is null or if login is admin
         if (typeOfLogin == null) {
             displayToast("No login type selected");
             return;
@@ -209,6 +210,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
         }
 
+        // attempt to sign in user with Firebase Authentication
         mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

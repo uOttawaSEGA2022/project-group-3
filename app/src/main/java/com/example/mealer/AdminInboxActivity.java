@@ -137,15 +137,22 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
                                 Date currentDate = sdf.parse(currentYear + "-" + currentMonth + "-" + currentDay);
                                 int result = inputDate.compareTo(currentDate);
 
-                                //Check if suspension date is after the current date, then sets suspension date in database
-                                if (result == 0) {
-                                    displayToast("Invalid date: cannot be same date");
-                                } else if (result > 0) {
-                                    accountDatabase.child(currentCookID).child("temporaryBan").setValue(yearInput+"-"+monthInput+"-"+dayInput);
-                                    complaintDatabase.child(currentComplaint).removeValue();
-                                } else {
-                                    displayToast("Invalid date: cannot be past date");
+                                if(yearInput.length() != 4 || monthInput.length() > 2 || dayInput.length() > 2){
+                                    displayToast("Invalid date format");
                                 }
+                                else{
+                                    //Check if suspension date is after the current date, then sets suspension date in database
+                                    if (result == 0) {
+                                        displayToast("Invalid date: cannot be present date");
+                                    } else if (result > 0) {
+                                        accountDatabase.child(currentCookID).child("temporaryBan").setValue(yearInput+"-"+monthInput+"-"+dayInput);
+                                        complaintDatabase.child(currentComplaint).removeValue();
+                                    } else {
+                                        displayToast("Invalid date: cannot be past date");
+                                    }
+                                }
+
+
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }

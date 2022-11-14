@@ -29,7 +29,7 @@
         android:layout_marginTop="550dp"
         android:backgroundTint="#467305"
         android:onClick="logOutOfApp"
-        android:text="Log Out"
+        android:text="@string/log_out"
         app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

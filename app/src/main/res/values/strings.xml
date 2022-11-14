@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Mealer</string>
-    <string name="welcome_username">Welcome %1$s!</string>
-    <string name="temp_ban_message">YOU ARE TEMPORARILY BANNED! \n\nYOU WILL BE UNBANNED ON (Y-M-D): %1$s</string>
+    <string name="placeholder">Placeholder</string>
     <string-array name="user_type">
         <item>Client</item>
         <item>Cook</item>
         <item>Admin</item>
     </string-array>
+    <string name="welcome_username">Welcome %1$s!</string>
+    <string name="welcome_cook_default">Welcome Cook!</string>
+    <string name="welcome_client_default">Welcome Client!</string>
+    <string name="temp_ban_message">YOU ARE TEMPORARILY BANNED! \n\nYOU WILL BE UNBANNED ON (Y-M-D): %1$s</string>
+    <string name="log_out">Log Out</string>
 </resources>

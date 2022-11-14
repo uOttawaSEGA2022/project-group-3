@@ -52,7 +52,7 @@ public class WelcomeClientPage extends AppCompatActivity {
 
                     welcomeTextView.setText(getString(R.string.welcome_username, name));
                 } else {
-                    welcomeTextView.setText("Welcome Client!");
+                    welcomeTextView.setText(getString(R.string.welcome_client_default));
                 }
             }
 

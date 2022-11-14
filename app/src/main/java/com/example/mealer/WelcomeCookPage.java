@@ -114,7 +114,7 @@ public class WelcomeCookPage extends AppCompatActivity {
 
                     welcomeTextView.setText(getString(R.string.welcome_username, name));
                 } else {
-                    welcomeTextView.setText("Welcome Cook!");
+                    welcomeTextView.setText(getString(R.string.welcome_cook_default));
                 }
             }
 

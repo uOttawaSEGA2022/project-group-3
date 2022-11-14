@@ -84,18 +84,20 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
                 //iterating through all the nodes
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    //getting product
-                    if (postSnapshot.getValue(Account.class).getRole().equals("Cook")) {
+
+                    // NOTE: == instead of .equals() due to HashMap casting exception
+
+                    if (postSnapshot.getValue(Account.class).getRole() == "Cook") {
                         Cook account = (Cook) postSnapshot.getValue();
 
                         //adding account to the list
                         accountList.add(account);
-                    } else if (postSnapshot.getValue(Account.class).getRole().equals("Client")) {
+                    } else if (postSnapshot.getValue(Account.class).getRole() == "Client") {
                         Client account = (Client) postSnapshot.getValue();
 
                         //adding account to the list
                         accountList.add(account);
-                    } else if (postSnapshot.getValue(Account.class).getRole().equals("Admin")) {
+                    } else if (postSnapshot.getValue(Account.class).getRole() == "Admin") {
                         Admin account = (Admin) postSnapshot.getValue();
 
                         //adding account to the list

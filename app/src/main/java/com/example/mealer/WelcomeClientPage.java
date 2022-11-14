@@ -50,9 +50,9 @@ public class WelcomeClientPage extends AppCompatActivity {
                 if (userProfile != null) {
                     String name = userProfile.getFirstName();
 
-                    welcomeTextView.setText("Welcome Client: " + name);
+                    welcomeTextView.setText(getString(R.string.welcome_username, name));
                 } else {
-                    welcomeTextView.setText("Welcome Client (null)");
+                    welcomeTextView.setText("Welcome Client!");
                 }
             }
 

@@ -23,7 +23,7 @@ public class WelcomeClientPage extends AppCompatActivity {
 
     FirebaseUser user;
     DatabaseReference database;
-    private String userID;
+    String userID;
 
     /*
      * OnCreate method

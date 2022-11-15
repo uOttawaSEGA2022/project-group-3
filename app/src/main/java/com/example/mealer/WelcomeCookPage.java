@@ -24,7 +24,7 @@ public class WelcomeCookPage extends AppCompatActivity {
     // Instance variables
     FirebaseUser user;
     DatabaseReference database;
-    private String userID;
+    String userID;
     TextView welcomeText;
 
     /*

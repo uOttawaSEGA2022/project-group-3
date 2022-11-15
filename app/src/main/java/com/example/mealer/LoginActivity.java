@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //sets all textviews and buttons
+        //sets all TextViews and buttons
         setContentView(R.layout.activity_login);
         username = findViewById(R.id.loginEmail);
         password = findViewById(R.id.loginPassword);

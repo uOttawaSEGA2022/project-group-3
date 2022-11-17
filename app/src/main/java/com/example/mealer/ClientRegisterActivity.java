@@ -114,10 +114,6 @@ public class ClientRegisterActivity extends AppCompatActivity {
         return (char1 >= 'a' && char1 <= 'z') || (char1 >= 'A' && char1 <= 'Z') || (char1 == ' ');
     }
 
-    public static boolean isNumeric(char char1) {
-        return (char1 >= '1' && char1 <= 'z') || (char1 >= 'A' && char1 <= 'Z') || (char1 == ' ');
-    }
-
     public void displayToast(String message){
         Toast.makeText(ClientRegisterActivity.this, message, Toast.LENGTH_SHORT).show();
     }

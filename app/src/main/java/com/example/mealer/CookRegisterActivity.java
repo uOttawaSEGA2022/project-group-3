@@ -19,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class CookRegisterActivity extends AppCompatActivity {
     private static final int GET_FROM_GALLERY = 3;
@@ -57,7 +56,7 @@ public class CookRegisterActivity extends AppCompatActivity {
         //Detects request codes
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
-            Bitmap bitmap = null;
+            Bitmap bitmap;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 currentAccount.setVoidCheque(bitmap);

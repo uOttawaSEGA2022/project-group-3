@@ -3,17 +3,12 @@ package com.example.mealer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import java.time.Year;
-import java.util.Date;
 import java.util.Calendar;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,27 +21,33 @@ import com.google.firebase.database.ValueEventListener;
 
 public class WelcomeCookPage extends AppCompatActivity {
 
+    // Instance variables
     FirebaseUser user;
     DatabaseReference database;
-    private String userID;
-    private static Context viewPage;
+    String userID;
     TextView welcomeText;
 
-
+    /*
+     * OnCreate method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_cook);
 
-        viewPage = this;
+        // get welcome text view
         welcomeText=findViewById(R.id.welcomeMessage);
+
+        // variables for storing firebase info
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference("accounts");
         userID = user.getUid();
 
+        // adding a listener to the database object with current user id to get values
         database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // check if cook is permanently banned
                 String permBan = snapshot.child("permanentBan").getValue().toString();
                 if (permBan.equals("true")){
                     setContentView(R.layout.activity_permanent_ban);
@@ -62,6 +63,7 @@ public class WelcomeCookPage extends AppCompatActivity {
         database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // check for temporary ban
                 String tempBan = snapshot.child("temporaryBan").getValue().toString();
 
                 if (!tempBan.equals("null")){
@@ -77,20 +79,17 @@ public class WelcomeCookPage extends AppCompatActivity {
                             } else{
                                 setContentView(R.layout.activity_temporary_ban);
                                 TextView textView = findViewById(R.id.temporaryBanMessage);
-                                textView.setText("YOU ARE TEMPORARILY BANNED! \n\nYOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
-
+                                textView.setText(getString(R.string.temp_ban_message, tempBan));
                             }
                         } else {
                             setContentView(R.layout.activity_temporary_ban);
                             TextView textView = findViewById(R.id.temporaryBanMessage);
-                            textView.setText("YOU ARE TEMPORARILY BANNED! \n\nYOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
-
+                            textView.setText(getString(R.string.temp_ban_message, tempBan));
                         }
                     } else {
                         setContentView(R.layout.activity_temporary_ban);
                         TextView textView = findViewById(R.id.temporaryBanMessage);
-                        textView.setText("YOU ARE TEMPORARILY BANNED! \n\nYOU WILL BE UNBANNED ON (Y-M-D): "+tempBan);
-
+                        textView.setText(getString(R.string.temp_ban_message, tempBan));
                     }
                 }
             }
@@ -113,9 +112,9 @@ public class WelcomeCookPage extends AppCompatActivity {
                 if (userProfile != null) {
                     String name = userProfile.getFirstName();
 
-                    welcomeTextView.setText("Welcome Client: " + name);
+                    welcomeTextView.setText(getString(R.string.welcome_username, name));
                 } else {
-                    welcomeTextView.setText("Welcome Client (null)");
+                    welcomeTextView.setText(getString(R.string.welcome_cook_default));
                 }
             }
 
@@ -126,20 +125,24 @@ public class WelcomeCookPage extends AppCompatActivity {
         });
     }
 
+    // method for logging
     public void logOutOfApp(View view){
         FirebaseAuth.getInstance().signOut();
         sendIntentToLogin();
     }
 
+    // send user to login
     private void sendIntentToLogin(){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivityForResult(intent, 0);
     }
 
+    // method for displaying toast
     public void displayToast(String message){
         Toast.makeText(WelcomeCookPage.this, message, Toast.LENGTH_SHORT).show();
     }
 
+    // method for sending to current cook's personal menu
     public void sendToPersonalMenu(View view){
         Intent intent = new Intent(getApplicationContext(), CookPersonalMenuActivity.class);
         startActivityForResult(intent,0);

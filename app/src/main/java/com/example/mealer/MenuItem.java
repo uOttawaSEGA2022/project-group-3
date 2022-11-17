@@ -29,7 +29,7 @@ public class MenuItem {
 
     public void setCookID(String c){ this.cookID=c; }
 
-    public void setisOffered (boolean b){ this.isOffered =b; }
+    public void setIsOffered (boolean b){ this.isOffered =b; }
 
     public String getTitle(){ return title; }
 
@@ -39,7 +39,7 @@ public class MenuItem {
 
     public String getCookID(){ return cookID; }
 
-    public boolean getisOffered(){ return isOffered; }
+    public boolean getIsOffered(){ return isOffered; }
 
 
 }

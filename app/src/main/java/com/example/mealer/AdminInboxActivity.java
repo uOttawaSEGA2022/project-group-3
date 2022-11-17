@@ -1,25 +1,17 @@
 package com.example.mealer;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.ButtonBarLayout;
-
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 
 
 public class AdminInboxActivity extends AppCompatActivity implements View.OnClickListener{
@@ -207,7 +198,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
         whichComplaint++;
     }
 
-    public void addToDescpritionAndTitleToComplaint (int i, String title, String description){
+    public void addToDescriptionAndTitleToComplaint (int i, String title, String description){
         complaintDatabase.child("complaint"+" "+i).child("Title").setValue(title);
         complaintDatabase.child("complaint"+" "+i).child("Description").setValue(description);
     }

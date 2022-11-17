@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +34,8 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     TextView password;
     Spinner spinner;
 
+    FirebaseUser user;
+    String userID;
     DatabaseReference database;
     private FirebaseAuth mAuth;
 
@@ -123,6 +126,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             hasLogin(text,username.getText().toString(),password.getText().toString());
         }catch (Exception e){
             displayToast("Error, try again,");
+            System.out.println(e);
         }
 
     }
@@ -216,11 +220,32 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    /* Add a call to a method that accesses database with UID and checks role
-                       then calls sendIntentToMain with that role*/
-                    sendIntentToMain(typeOfLogin);
+                    // set vars for UID and current user
+                    user = FirebaseAuth.getInstance().getCurrentUser();
+                    userID = user.getUid();
+
+                    database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // get UID account from db and check its role (FINISH IMPLEMENTATION)
+                            if (snapshot.child("role").getValue(String.class).equals(typeOfLogin)) {
+                                sendIntentToMain(typeOfLogin);
+                            } else {
+                                displayToast("No " + typeOfLogin +" account exists for " + username);
+                                return;
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                    //sendIntentToMain(typeOfLogin);
                 } else {
                     displayToast("Incorrect password or username");
+                    return;
                 }
             }
         });

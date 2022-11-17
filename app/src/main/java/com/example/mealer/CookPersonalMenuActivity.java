@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class CookPersonalMenuActivity extends AppCompatActivity {
+
+    // Instance variables
     FirebaseUser thisCook;
     DatabaseReference thisCooksMenus;
     DatabaseReference specificMeals;
@@ -39,10 +41,15 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
     Button deleteMeal;
     Button setOffered;
 
+    /*
+     * OnCreate method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cook_personal_menu);
+
+        // setting variables
         thisCook = FirebaseAuth.getInstance().getCurrentUser();
         cookID = thisCook.getUid();
         thisCooksMenus = FirebaseDatabase.getInstance().getReference("accounts").child(cookID).child("Cook Menu");
@@ -57,15 +64,18 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
 
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
 
+        // get values from firebase
         thisCooksMenus.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                // create arraylists to create food items from
                 ArrayList<String> title = new ArrayList<>();
                 ArrayList<String> description = new ArrayList<>();
                 ArrayList<String> ingredients = new ArrayList<>();
                 ArrayList<String> areOffered = new ArrayList<>();
                 int i = 0;
 
+                // create a food item for each snapshot in db reference
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                     LinearLayout linearLayoutNew = new LinearLayout(personalMenu);
@@ -121,6 +131,8 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     linearLayoutNew.addView(relativeLayout);
                     linearLayoutNew.addView(relativeLayoutNew);
                     String currentTitle = title.get(i);
+
+                    // listener for deleting meal
                     deleteMeal.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -133,6 +145,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                         }
                     });
 
+                    // listener for setting offered/unoffering
                     setOffered.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -154,26 +167,22 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     linearLayoutNew.addView(relativeLayoutForText);
                     i++;
                 }
-
-
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-
-
         });
-
 
     }
 
+    // display toast
     public void displayToast(String message){
         Toast.makeText(personalMenu, message, Toast.LENGTH_SHORT).show();
     }
 
+    // send user to activity for adding a meal
     public void sendToAddMeal(View view) {
         Intent intent = new Intent(getApplicationContext(), AddMenuItem.class);
         startActivityForResult(intent, 0);

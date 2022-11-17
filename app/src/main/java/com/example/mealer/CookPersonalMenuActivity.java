@@ -7,15 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,6 +75,9 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                     LinearLayout linearLayoutNew = new LinearLayout(personalMenu);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(20, 20, 20, 20);
 
                     String thisDescription = postSnapshot.child("description").getValue().toString();
                     String thisTitle = postSnapshot.child("title").getValue().toString();
@@ -89,24 +88,33 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     ingredients.add(thisIngredients);
                     areOffered.add(postSnapshot.child("isOffered").getValue().toString());
 
+                    // Food Title Text
                     generatedText = new TextView(personalMenu);
                     RelativeLayout relativeLayoutForText = new RelativeLayout(personalMenu);
-                    params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT); //Width just has to be bigger than screen width size
+                    params = new RelativeLayout.LayoutParams(300, 200); //Width just has to be bigger than screen width size
                     params.topMargin = 25;
+                    params.leftMargin = 30;
                     params.bottomMargin = 25;
-                    generatedText.setText("Title: " + title.get(i) +'\n'+"Description: " + description.get(i) +'\n'+"Ingredients: " + ingredients.get(i) +'\n');
+
+                    generatedText.setTextSize(20);
+                    generatedText.setText(title.get(i));
+                    //generatedText.setText("Title: " + title.get(i) +'\n'+"Description: " + description.get(i) +'\n'+"Ingredients: " + ingredients.get(i) +'\n');
 
                     relativeLayoutForText.addView(generatedText, params);
+                    linearLayoutNew.addView(relativeLayoutForText);
 
                     setOffered = new Button(personalMenu);
+                    setOffered.setTextColor(Color.parseColor("#ffffff"));
+                    setOffered.setBackgroundResource(R.drawable.green_rounded_button_20dp);
+
                     String areOfferedValue = areOffered.get(i);
                     String oppositeAreOffered;
                     if (areOfferedValue.equals("true")){
-                        setOffered.setBackgroundColor(Color.RED);
+                        setOffered.setBackgroundResource(R.drawable.red_rounded_button_20dp);
                         setOffered.setText("Un-Offer");
                         oppositeAreOffered = "false";
                     }else{
-                        setOffered.setBackgroundColor(Color.GREEN);
+                        setOffered.setBackgroundResource(R.drawable.green_rounded_button_20dp);
                         setOffered.setText("Set Offer");
                         oppositeAreOffered = "true";
                     }
@@ -120,8 +128,9 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     relativeLayout.addView(setOffered, params);
 
                     deleteMeal = new Button(personalMenu);
+                    deleteMeal.setTextColor(Color.parseColor("#ffffff"));
                     deleteMeal.setText("DELETE");
-                    deleteMeal.setBackgroundColor(Color.RED);
+                    deleteMeal.setBackgroundResource(R.drawable.red_rounded_button_20dp);
                     RelativeLayout relativeLayoutNew = new RelativeLayout(personalMenu);
                     params = new RelativeLayout.LayoutParams(250, 200);
                     params.rightMargin = 100;
@@ -130,6 +139,8 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
 
                     linearLayoutNew.addView(relativeLayout);
                     linearLayoutNew.addView(relativeLayoutNew);
+                    linearLayoutNew.setBackgroundResource(R.drawable.grey_rounded_backround_20dp);
+
                     String currentTitle = title.get(i);
 
                     // listener for deleting meal
@@ -163,8 +174,8 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                         }
                     });
 
-                    linearLayout.addView(linearLayoutNew);
-                    linearLayoutNew.addView(relativeLayoutForText);
+                    linearLayout.addView(linearLayoutNew, layoutParams);
+
                     i++;
                 }
             }

@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -77,7 +80,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     LinearLayout linearLayoutNew = new LinearLayout(personalMenu);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(20, 20, 20, 20);
+                    layoutParams.setMargins(20, 0, 20, 20);
 
                     String thisDescription = postSnapshot.child("description").getValue().toString();
                     String thisTitle = postSnapshot.child("title").getValue().toString();
@@ -91,13 +94,14 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     // Food Title Text
                     generatedText = new TextView(personalMenu);
                     RelativeLayout relativeLayoutForText = new RelativeLayout(personalMenu);
-                    params = new RelativeLayout.LayoutParams(300, 200); //Width just has to be bigger than screen width size
-                    params.topMargin = 25;
+                    params = new RelativeLayout.LayoutParams(450, 120); //Width just has to be bigger than screen width size
                     params.leftMargin = 30;
-                    params.bottomMargin = 25;
 
-                    generatedText.setTextSize(20);
+                    generatedText.setTextSize(18);
+                    generatedText.setGravity(Gravity.CENTER_VERTICAL);
                     generatedText.setText(title.get(i));
+                    generatedText.setVerticalScrollBarEnabled(true);
+                    generatedText.setMovementMethod(new ScrollingMovementMethod());
                     //generatedText.setText("Title: " + title.get(i) +'\n'+"Description: " + description.get(i) +'\n'+"Ingredients: " + ingredients.get(i) +'\n');
 
                     relativeLayoutForText.addView(generatedText, params);
@@ -120,11 +124,11 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     }
 
                     RelativeLayout relativeLayout = new RelativeLayout(personalMenu);
-                    params = new RelativeLayout.LayoutParams(250, 200);
-                    params.leftMargin = 100;
-                    params.rightMargin = 75;
-                    params.topMargin = 75;
-                    params.bottomMargin = 50;
+                    params = new RelativeLayout.LayoutParams(250, 150);
+                    params.leftMargin = 50;
+                    params.rightMargin = 25;
+                    params.topMargin = 25;
+                    params.bottomMargin = 25;
                     relativeLayout.addView(setOffered, params);
 
                     deleteMeal = new Button(personalMenu);
@@ -132,9 +136,10 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     deleteMeal.setText("DELETE");
                     deleteMeal.setBackgroundResource(R.drawable.red_rounded_button_20dp);
                     RelativeLayout relativeLayoutNew = new RelativeLayout(personalMenu);
-                    params = new RelativeLayout.LayoutParams(250, 200);
-                    params.rightMargin = 100;
-                    params.topMargin = 75;
+                    params = new RelativeLayout.LayoutParams(250, 150);
+                    params.rightMargin = 25;
+                    params.topMargin = 25;
+                    params.bottomMargin = 25;
                     relativeLayoutNew.addView(deleteMeal, params);
 
                     linearLayoutNew.addView(relativeLayout);
@@ -142,6 +147,14 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     linearLayoutNew.setBackgroundResource(R.drawable.grey_rounded_backround_20dp);
 
                     String currentTitle = title.get(i);
+
+                    // listener for selecting a meal
+                    generatedText.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            linearLayoutNew.setBackgroundResource(R.drawable.light_green_rounded_background);
+                        }
+                    });
 
                     // listener for deleting meal
                     deleteMeal.setOnClickListener(new View.OnClickListener() {

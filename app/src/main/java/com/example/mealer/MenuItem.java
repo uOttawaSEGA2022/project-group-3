@@ -7,17 +7,18 @@ public class MenuItem {
     private String mealType;
     private String cuisineType;
     private String allergens;
-    private float price;
+    private String price;
     private String cookID;
     private boolean isOffered;
 
-    public MenuItem(String t, String d, String i,String c, String m, String cu, float p, boolean b) {
+    public MenuItem(String t, String d, String i, String m, String cu, String a, String p, String c, boolean b) {
         this.title=t;
         this.description=d;
         this.ingredients=i;
         this.cookID=c;
         this.mealType = m;
         this.cuisineType = cu;
+        this.allergens = a;
         this.price = p;
         this.isOffered=b;
     }
@@ -42,7 +43,7 @@ public class MenuItem {
 
     public void setAllergens(String allergens) { this.allergens = allergens; }
 
-    public void setPrice(float price) { this.price = price; }
+    public void setPrice(String price) { this.price = price; }
 
     public void setCookID(String c){ this.cookID=c; }
 
@@ -62,7 +63,7 @@ public class MenuItem {
 
     public String getAllergens() { return allergens; }
 
-    public float getPrice() { return price; }
+    public String getPrice() { return price; }
 
     public boolean getIsOffered(){ return isOffered; }
 

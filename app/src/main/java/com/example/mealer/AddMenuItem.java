@@ -18,7 +18,10 @@ public class AddMenuItem extends AppCompatActivity {
     TextView title;
     TextView description;
     TextView ingredients;
-
+    TextView mealType;
+    TextView cuisineType;
+    TextView price;
+    TextView allergens;
 
     private MenuItem thisItem;
     DatabaseReference masterMenu;
@@ -30,9 +33,15 @@ public class AddMenuItem extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_menu_item);
+
         title=findViewById(R.id.titleField);
         description=findViewById(R.id.descriptionField);
         ingredients=findViewById(R.id.ingredientsField);
+        mealType=findViewById(R.id.mealTypeField);
+        cuisineType=findViewById(R.id.cuisineTypeField);
+        allergens=findViewById(R.id.allergensField);
+        price=findViewById(R.id.priceField);
+
         masterMenu = FirebaseDatabase.getInstance().getReference("master-menu");
         thisCook = FirebaseAuth.getInstance().getCurrentUser();
         cookID = thisCook.getUid();
@@ -62,16 +71,30 @@ public class AddMenuItem extends AppCompatActivity {
         boolean titleEmpty = title.getText().toString().isEmpty();
         boolean descriptionEmpty = description.getText().toString().isEmpty();
         boolean ingredientsEmpty = ingredients.getText().toString().isEmpty();
+        boolean mealTypeEmpty = mealType.getText().toString().isEmpty();
+        boolean cuisineTypeEmpty = cuisineType.getText().toString().isEmpty();
+        boolean allergensEmpty = allergens.getText().toString().isEmpty();
+        boolean priceEmpty = price.getText().toString().isEmpty();
 
-        return titleEmpty || descriptionEmpty || ingredientsEmpty;
+        return titleEmpty || descriptionEmpty || ingredientsEmpty ||
+                mealTypeEmpty || cuisineTypeEmpty || priceEmpty || allergensEmpty;
 
     }
 
     private void submitMenuItemToDatabase(){
-        thisItem = new MenuItem(title.getText().toString(),description.getText().toString(),ingredients.getText().toString(),cookID,false);
-        masterMenu.child(title.getText().toString()).setValue(thisItem);
-        thisItem = new MenuItem(title.getText().toString(),description.getText().toString(),ingredients.getText().toString(),cookID,false);
-        thisCooksMenus.child(title.getText().toString()).setValue(thisItem);
+        String title = this.title.getText().toString();
+        String desc = description.getText().toString();
+        String ingred = ingredients.getText().toString();
+        String mType = mealType.getText().toString();
+        String cType = cuisineType.getText().toString();
+        String al = allergens.getText().toString();
+        String price = this.price.getText().toString();
+
+
+
+        thisItem = new MenuItem(title,desc,ingred,mType,cType,al,price,cookID,false);
+        masterMenu.child(this.title.getText().toString()).setValue(thisItem);
+        thisCooksMenus.child(this.title.getText().toString()).setValue(thisItem);
 
     }
 

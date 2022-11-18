@@ -14,9 +14,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 public class AddMenuItem extends AppCompatActivity {
+
     TextView title;
     TextView description;
     TextView ingredients;
+
+
     private MenuItem thisItem;
     DatabaseReference masterMenu;
     DatabaseReference thisCooksMenus;
@@ -67,7 +70,7 @@ public class AddMenuItem extends AppCompatActivity {
     private void submitMenuItemToDatabase(){
         thisItem = new MenuItem(title.getText().toString(),description.getText().toString(),ingredients.getText().toString(),cookID,false);
         masterMenu.child(title.getText().toString()).setValue(thisItem);
-        thisItem = new MenuItem(title.getText().toString(),description.getText().toString(),ingredients.getText().toString(),false);
+        thisItem = new MenuItem(title.getText().toString(),description.getText().toString(),ingredients.getText().toString(),cookID,false);
         thisCooksMenus.child(title.getText().toString()).setValue(thisItem);
 
     }

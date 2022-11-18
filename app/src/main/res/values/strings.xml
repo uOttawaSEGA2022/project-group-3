@@ -16,6 +16,6 @@
     <string name="welcome_cook_default">Welcome Cook!</string>
     <string name="welcome_client_default">Welcome Client!</string>
 
-    <string name="temp_ban_message">YOU ARE TEMPORARILY BANNED! \n\nYOU WILL BE UNBANNED ON (Y-M-D): %1$s</string>
+    <string name="temp_ban_message">You Are Temporarily Banned! \n\nYou Will Be Unbanned On (Y-M-D): %1$s</string>
     <string name="log_out">Log Out</string>
 </resources>

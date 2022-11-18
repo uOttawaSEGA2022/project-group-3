@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -80,16 +81,25 @@ public class WelcomeCookPage extends AppCompatActivity {
                                 setContentView(R.layout.activity_temporary_ban);
                                 TextView textView = findViewById(R.id.temporaryBanMessage);
                                 textView.setText(getString(R.string.temp_ban_message, tempBan));
+                                //textView.setBackgroundColor(Color.parseColor("#8ED429"));
+                                textView.setBackgroundResource(R.drawable.banshape);
+                                textView.setTextColor(Color.BLACK);
                             }
                         } else {
                             setContentView(R.layout.activity_temporary_ban);
                             TextView textView = findViewById(R.id.temporaryBanMessage);
                             textView.setText(getString(R.string.temp_ban_message, tempBan));
+                            //textView.setBackgroundColor(Color.parseColor("#8ED429"));
+                            textView.setBackgroundResource(R.drawable.banshape);
+                            textView.setTextColor(Color.BLACK);
                         }
                     } else {
                         setContentView(R.layout.activity_temporary_ban);
                         TextView textView = findViewById(R.id.temporaryBanMessage);
                         textView.setText(getString(R.string.temp_ban_message, tempBan));
+                        //textView.setBackgroundColor(Color.parseColor("#8ED429"));
+                        textView.setBackgroundResource(R.drawable.banshape);
+                        textView.setTextColor(Color.BLACK);
                     }
                 }
             }

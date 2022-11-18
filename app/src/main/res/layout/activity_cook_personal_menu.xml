@@ -46,9 +46,10 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="725dp"
+        android:layout_marginTop="0dp"
         android:layout_marginRight="100dp"
         android:layout_marginBottom="25dp"
         android:backgroundTint="#467305"

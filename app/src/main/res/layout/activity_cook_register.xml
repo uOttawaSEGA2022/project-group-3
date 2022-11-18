@@ -21,7 +21,7 @@
             android:id="@+id/firstNameField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
             android:ems="10"
             android:hint="First Name"
             android:inputType="textPersonName"
@@ -31,38 +31,41 @@
             android:id="@+id/lastNameField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
             android:ems="10"
             android:hint="Last Name"
             android:inputType="textPersonName"
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
-            android:id="@+id/descriptionField"
+            android:id="@+id/addressField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
+            android:ems="10"
+            android:hint="Address"
+            android:inputType="textPostalAddress"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <EditText
+            android:id="@+id/descriptionField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:height="120dp"
+            android:background="@drawable/grey_rounded_backround_20dp"
             android:ems="10"
             android:gravity="start|top"
             android:hint="Description"
             android:inputType="textMultiLine"
-            tools:ignore="TouchTargetSizeCheck" />
-
-        <EditText
-            android:id="@+id/addressField"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="40dp"
-            android:ems="10"
-            android:hint="Address"
-            android:inputType="textPostalAddress"
+            android:padding="10dp"
             tools:ignore="TouchTargetSizeCheck" />
 
         <Button
             android:id="@+id/voidChequeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
             android:backgroundTint="#8ED429"
             android:onClick="uploadChequeImage"
             android:text="Upload Image of Void Cheque"

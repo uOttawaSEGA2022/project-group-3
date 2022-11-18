@@ -7,18 +7,23 @@
     tools:context=".PermanentBanActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/permBanMessage"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/banshape"
+        android:textColor="@color/black"
+        app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.223"
-        android:text="YOU ARE PERMANENTLY BANNED! \n\nYOU CAN NO LONGER USE THIS APPLICATION"
-        android:textSize="45dp"
+        android:text="You Are Permanently Banned! \n\nYou Can No Longer Use This Application"
+        android:textSize="32dp"
         android:gravity="center"
-        android:paddingVertical="200dp"
+        android:paddingVertical="40dp"
+        android:layout_margin="20dp"
         >
     </TextView>
 

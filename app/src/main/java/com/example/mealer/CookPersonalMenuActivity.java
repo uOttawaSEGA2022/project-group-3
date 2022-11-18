@@ -173,7 +173,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                         public void onClick(View view) {
 
                             // create popup
-                            showMealPopup(view);
+                            showMealPopup(view, thisTitle, thisDescription, thisIngredients);
                         }
                     });
 
@@ -222,12 +222,20 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
 
     }
 
-    public void showMealPopup(View view) {
+    public void showMealPopup(View view, String name, String desc, String ingredients) {
 
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_cook_meal_info, null);
+
+        TextView mealTitle = popupView.findViewById(R.id.mealTitlePlaceholder);
+        TextView mealDescription = popupView.findViewById(R.id.mealDescriptionPlaceholder);
+        TextView mealIngredients = popupView.findViewById(R.id.mealIngredientsPlaceholder);
+
+        mealTitle.setText(name);
+        mealDescription.setText(desc);
+        mealIngredients.setText(ingredients);
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;

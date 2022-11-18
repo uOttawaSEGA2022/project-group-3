@@ -9,10 +9,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +37,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
     DatabaseReference specificMeals;
     private static Context personalMenu;
     private String cookID;
-    TextView generatedText;
+    TextView mealTitle;
     RelativeLayout.LayoutParams params;
     Button deleteMeal;
     Button setOffered;
@@ -61,6 +63,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
 
         super.onStart();
 
+        // get reference to layout
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
 
         // get values from firebase
@@ -77,11 +80,15 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                 // create a food item for each snapshot in db reference
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
-                    LinearLayout linearLayoutNew = new LinearLayout(personalMenu);
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(20, 0, 20, 20);
+                    /* Set up */
 
+                    // create layout for each meal
+                    LinearLayout mealLayout = new LinearLayout(personalMenu);
+                    LinearLayout.LayoutParams mealLayoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    mealLayoutParams.setMargins(20, 0, 20, 20);
+
+                    // create strings and add them to lists
                     String thisDescription = postSnapshot.child("description").getValue().toString();
                     String thisTitle = postSnapshot.child("title").getValue().toString();
                     String thisIngredients = postSnapshot.child("ingredients").getValue().toString();
@@ -91,23 +98,31 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     ingredients.add(thisIngredients);
                     areOffered.add(postSnapshot.child("isOffered").getValue().toString());
 
-                    // Food Title Text
-                    generatedText = new TextView(personalMenu);
-                    RelativeLayout relativeLayoutForText = new RelativeLayout(personalMenu);
+                    /* Food Title Text */
+
+                    mealTitle = new TextView(personalMenu);
+                    RelativeLayout relativeLayoutForFoodTitle = new RelativeLayout(personalMenu);
+
+                    // set layout params
                     params = new RelativeLayout.LayoutParams(450, 120); //Width just has to be bigger than screen width size
                     params.leftMargin = 30;
 
-                    generatedText.setTextSize(18);
-                    generatedText.setGravity(Gravity.CENTER_VERTICAL);
-                    generatedText.setText(title.get(i));
-                    generatedText.setVerticalScrollBarEnabled(true);
-                    generatedText.setMovementMethod(new ScrollingMovementMethod());
-                    //generatedText.setText("Title: " + title.get(i) +'\n'+"Description: " + description.get(i) +'\n'+"Ingredients: " + ingredients.get(i) +'\n');
+                    // set custom settings
+                    mealTitle.setTextSize(18);
+                    mealTitle.setGravity(Gravity.CENTER_VERTICAL);
+                    mealTitle.setText(title.get(i));
+                    mealTitle.setVerticalScrollBarEnabled(true);
+                    mealTitle.setMovementMethod(new ScrollingMovementMethod());
 
-                    relativeLayoutForText.addView(generatedText, params);
-                    linearLayoutNew.addView(relativeLayoutForText);
+                    // add meal to layout, add layout to main layout
+                    relativeLayoutForFoodTitle.addView(mealTitle, params);
+                    mealLayout.addView(relativeLayoutForFoodTitle);
+
+                    /* Offer/Un-offer button */
 
                     setOffered = new Button(personalMenu);
+
+                    // set text colour & background
                     setOffered.setTextColor(Color.parseColor("#ffffff"));
                     setOffered.setBackgroundResource(R.drawable.green_rounded_button_20dp);
 
@@ -131,6 +146,8 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     params.bottomMargin = 25;
                     relativeLayout.addView(setOffered, params);
 
+                    /* Delete button */
+
                     deleteMeal = new Button(personalMenu);
                     deleteMeal.setTextColor(Color.parseColor("#ffffff"));
                     deleteMeal.setText("DELETE");
@@ -142,17 +159,21 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     params.bottomMargin = 25;
                     relativeLayoutNew.addView(deleteMeal, params);
 
-                    linearLayoutNew.addView(relativeLayout);
-                    linearLayoutNew.addView(relativeLayoutNew);
-                    linearLayoutNew.setBackgroundResource(R.drawable.grey_rounded_backround_20dp);
+                    mealLayout.addView(relativeLayout);
+                    mealLayout.addView(relativeLayoutNew);
+                    mealLayout.setBackgroundResource(R.drawable.grey_rounded_backround_20dp);
 
                     String currentTitle = title.get(i);
 
+                    /* Listeners */
+
                     // listener for selecting a meal
-                    generatedText.setOnClickListener(new View.OnClickListener() {
+                    mealTitle.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            linearLayoutNew.setBackgroundResource(R.drawable.light_green_rounded_background);
+
+                            // create popup
+                            showMealPopup(view);
                         }
                     });
 
@@ -187,7 +208,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                         }
                     });
 
-                    linearLayout.addView(linearLayoutNew, layoutParams);
+                    linearLayout.addView(mealLayout, mealLayoutParams);
 
                     i++;
                 }
@@ -199,6 +220,41 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void showMealPopup(View view) {
+
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_cook_meal_info, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+    }
+
+    public void highlightMeal(LinearLayout mealLayout) {
+        mealLayout.setBackgroundResource(R.drawable.light_green_rounded_background);
+    }
+
+    public void unHighlightMeal(LinearLayout mealLayout) {
+        mealLayout.setBackgroundResource(R.drawable.grey_rounded_backround_20dp);
     }
 
     // display toast

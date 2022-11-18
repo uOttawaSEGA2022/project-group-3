@@ -90,17 +90,17 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                     // NOTE: == instead of .equals() due to HashMap casting exception
 
                     if (postSnapshot.getValue(Account.class).getRole() == "Cook") {
-                        Cook account = (Cook) postSnapshot.getValue();
+                        Cook account = postSnapshot.getValue(Cook.class);
 
                         //adding account to the list
                         accountList.add(account);
                     } else if (postSnapshot.getValue(Account.class).getRole() == "Client") {
-                        Client account = (Client) postSnapshot.getValue();
+                        Client account = postSnapshot.getValue(Client.class);
 
                         //adding account to the list
                         accountList.add(account);
                     } else if (postSnapshot.getValue(Account.class).getRole() == "Admin") {
-                        Admin account = (Admin) postSnapshot.getValue();
+                        Admin account = postSnapshot.getValue(Admin.class);
 
                         //adding account to the list
                         accountList.add(account);

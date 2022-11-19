@@ -14,10 +14,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -102,32 +98,44 @@ public class ExampleUnitTest {
 
     @Test
     public void MakingItemInCookMenuWorks() {
-        String title, description, ingredients;
+        String title, description, ingredients, allergens, mealType, cuisineType, price;
         boolean isOffered;
 
         //Set values as you'd like the new menu to have
         title = "Mushroom Mint";
+        mealType = "Snack";
+        cuisineType = "Italian I guess?";
         description = "A snack popularized by Mario from the Mushroom Kingdom.";
         ingredients = "Mushroom power-ups probably. No Toads though...";
+        allergens = "Mushrooms (duh)";
+        price = "5.00";
         isOffered = false;
 
         //Creates new cook menu item
-        MenuItem menu = new MenuItem(title, description, ingredients, isOffered);
+        MenuItem menu = new MenuItem(title,description,ingredients,mealType,cuisineType,allergens,price,"PLW5uihXclbof9DAL6ERhKcVhVv2",isOffered);
 
         assertEquals(title, menu.getTitle());
         assertEquals(description, menu.getDescription());
         assertEquals(ingredients, menu.getIngredients());
         assertEquals(isOffered, menu.getIsOffered());
+        assertEquals(mealType, menu.getMealType());
+        assertEquals(cuisineType, menu.getCuisineType());
+        assertEquals(price, menu.getPrice());
+        assertEquals(allergens, menu.getAllergens());
     }
 
     @Test
     public void mealsAreAssignedToSpecificCooksIsTrue() {
         //Using cook | username: jester@gmail.com | password: jUnit123 | for jUnit testing
-        String title, description, ingredients, realCook, fakeCook;
+        String title, description, ingredients, allergens, mealType, cuisineType, price, realCook, fakeCook;
         boolean isOffered;
 
         //Set values as you'd like the new menu to have
         title = "Do Rego's Pizzeria";
+        mealType = "Gourmet";
+        cuisineType = "Italian";
+        price = "100.00";
+        allergens = "Nothing at all....";
         description = "Noah Do Rego's pizza freshly made using a wooden oven.";
         ingredients = "It's all good, trust.";
         isOffered = false;
@@ -135,7 +143,7 @@ public class ExampleUnitTest {
         fakeCook = "banMan@gmail.com";
 
         //Creates new cook menu item
-        MenuItem menu = new MenuItem(title, description, ingredients, realCook, isOffered);
+        MenuItem menu = new MenuItem(title, description, ingredients, mealType, cuisineType, allergens, price, realCook, isOffered);
 
         assertEquals(realCook, menu.getCookID());
         assertNotEquals(fakeCook, menu.getCookID());
@@ -144,7 +152,7 @@ public class ExampleUnitTest {
 
     @Test
     public void menuItemSettersWorkAsIntended() {
-        String title, description, ingredients;
+        String title, description, ingredients, allergens, mealType, cuisineType, price;
         String newTitle, newDescription, newIngredients;
         boolean isOffered;
 
@@ -152,6 +160,10 @@ public class ExampleUnitTest {
         title = "Subway Special";
         description = "It's not even bad. Trust me please!";
         ingredients = "Tuna & Barbeque Sauce";
+        allergens = "fish";
+        mealType = "Seafood? idk man";
+        cuisineType = "what do i even say";
+        price = "16.00";
         isOffered = false;
         newTitle = "Food Fernandez!";
         newDescription = "Not as good as before";
@@ -159,7 +171,7 @@ public class ExampleUnitTest {
 
 
         //Creates new cook menu item
-        MenuItem menu = new MenuItem(title, description, ingredients, isOffered);
+        MenuItem menu = new MenuItem(title, description, ingredients, mealType, cuisineType, allergens, price, "PLW5uihXclbof9DAL6ERhKcVhVv2", isOffered);
 
         //Set new data for menu params
         menu.setTitle(newTitle);
@@ -176,18 +188,21 @@ public class ExampleUnitTest {
 
     @Test
     public void cookCanToggleIfMenuItemIsOfferedOrNot() {
-        String title, description, ingredients;
-        String newTitle, newDescription, newIngredients;
+        String title, description, ingredients, allergens, mealType, cuisineType, price;
         boolean isOffered;
 
         //Set values as you'd like the new menu to have
         title = "Scarlet & Violet";
         description = "Pokemon woo!";
         ingredients = "This is not food. Don't ask why it's on my menu.";
+        mealType = "not edible";
+        cuisineType = "still not edible";
+        allergens = "none?";
+        price = "0.00";
         isOffered = true;
 
         //Creates new cook menu item
-        MenuItem menu = new MenuItem(title, description, ingredients, isOffered);
+        MenuItem menu = new MenuItem(title, description, ingredients, mealType, cuisineType, allergens, price, "PLW5uihXclbof9DAL6ERhKcVhVv2",isOffered);
 
         assertEquals(isOffered, menu.getIsOffered());
 

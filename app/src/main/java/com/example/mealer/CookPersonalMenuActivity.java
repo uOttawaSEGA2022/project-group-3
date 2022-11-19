@@ -92,6 +92,10 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                     String thisDescription = postSnapshot.child("description").getValue().toString();
                     String thisTitle = postSnapshot.child("title").getValue().toString();
                     String thisIngredients = postSnapshot.child("ingredients").getValue().toString();
+                    String thisAllergens = postSnapshot.child("allergens").getValue().toString();
+                    String thisMealType = postSnapshot.child("mealType").getValue().toString();
+                    String thisCuisineType = postSnapshot.child("cuisineType").getValue().toString();
+                    String thisPrice = postSnapshot.child("price").getValue().toString();
 
                     description.add(thisDescription);
                     title.add(thisTitle);
@@ -173,7 +177,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                         public void onClick(View view) {
 
                             // create popup
-                            showMealPopup(view, thisTitle, thisDescription, thisIngredients);
+                            showMealPopup(view, thisTitle, thisDescription, thisIngredients, thisAllergens, thisMealType, thisCuisineType, thisPrice);
                         }
                     });
 
@@ -201,7 +205,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                                 offered = false;
                             }
                             specificMeals.child(currentTitle).setValue(new MenuItem(thisTitle,thisDescription,thisIngredients,cookID,offered));
-                            thisCooksMenus.child(postSnapshot.child("title").getValue().toString()).setValue(new MenuItem(thisTitle,thisDescription,thisIngredients,offered));
+                            thisCooksMenus.child(postSnapshot.child("title").getValue().toString()).setValue(new MenuItem(thisTitle,thisDescription,thisIngredients,thisCook.getUid(),offered));
                             Intent intent = getIntent();
                             finish();
                             startActivity(intent);
@@ -222,7 +226,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
 
     }
 
-    public void showMealPopup(View view, String name, String desc, String ingredients) {
+    public void showMealPopup(View view, String name, String desc, String ingredients, String allergensVal, String mealTypeVal, String cuisineTypeVal, String priceVal) {
 
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
@@ -232,10 +236,19 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
         TextView mealTitle = popupView.findViewById(R.id.mealTitlePlaceholder);
         TextView mealDescription = popupView.findViewById(R.id.mealDescriptionPlaceholder);
         TextView mealIngredients = popupView.findViewById(R.id.mealIngredientsPlaceholder);
+        TextView mealType = popupView.findViewById(R.id.mealTypePlaceholder);
+        TextView cuisineType = popupView.findViewById(R.id.cuisineTypePlaceholder);
+        TextView mealAllergens = popupView.findViewById(R.id.mealAllergensPlaceholder);
+        TextView mealPrice = popupView.findViewById(R.id.mealPricePlaceholder);
 
         mealTitle.setText(name);
+        mealType.setText(mealTypeVal);
+        cuisineType.setText(cuisineTypeVal);
         mealDescription.setText(desc);
         mealIngredients.setText(ingredients);
+        mealAllergens.setText(allergensVal);
+        mealPrice.setText(priceVal);
+
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;

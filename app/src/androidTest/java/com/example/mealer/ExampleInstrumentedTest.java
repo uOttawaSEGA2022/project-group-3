@@ -35,13 +35,17 @@ public class ExampleInstrumentedTest {
     //@RunWith(MockitoJUnitRunner.class)
     public void AddingItemToCookMenuInDatabaseWorks() {
         //Using cook | username: jester@gmail.com | password: jUnit123 | for jUnit testing
-        String title, description, ingredients;
+        String title, description, ingredients, allergens, mealType, cuisineType, price;
         boolean isOffered;
 
         //Set values as you'd like the new menu to have
         title = "Mushroom Mint";
+        mealType = "Snack";
+        cuisineType = "Italian I guess?";
         description = "A snack popularized by Mario from the Mushroom Kingdom.";
         ingredients = "Mushroom power-ups probably. No Toads though...";
+        allergens = "Mushrooms (duh)";
+        price = "5.00";
         isOffered = false;
 
         //Creates new cook menu item
@@ -49,7 +53,7 @@ public class ExampleInstrumentedTest {
         //FirebaseDatabase mockedFirebaseDatabase = Mockito.mock(FirebaseDatabase.class);
 
         DatabaseReference cook = FirebaseDatabase.getInstance().getReference("accounts").child("PLW5uihXclbof9DAL6ERhKcVhVv2");
-        cook.child("Cook Menu").setValue(new MenuItem(title,description,ingredients,isOffered));
+        cook.child("Cook Menu").setValue(new MenuItem(title,description,ingredients,mealType,cuisineType,allergens,price,"PLW5uihXclbof9DAL6ERhKcVhVv2",isOffered));
 
         cook.child("Cook Menu").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -75,6 +75,18 @@ public class WelcomeClientPage extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+    public void submitComplaint(View view){
+        sendIntentToComplain();
+    }
+
+    // send user to login
+    private void sendIntentToComplain(){
+        Intent intent = new Intent(getApplicationContext(), ClientSubmitComplaint.class);
+        startActivityForResult(intent, 0);
+    }
+
+
+
     // method for displaying toast
     public void displayToast(String message){
         Toast.makeText(WelcomeClientPage.this, message, Toast.LENGTH_SHORT).show();

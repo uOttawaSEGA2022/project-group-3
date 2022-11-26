@@ -90,8 +90,6 @@ public class AddMenuItem extends AppCompatActivity {
         String al = allergens.getText().toString();
         String price = this.price.getText().toString();
 
-
-
         thisItem = new MenuItem(title,desc,ingred,mType,cType,al,price,cookID,false);
         masterMenu.child(this.title.getText().toString()).setValue(thisItem);
         thisCooksMenus.child(this.title.getText().toString()).setValue(thisItem);

@@ -85,6 +85,11 @@ public class WelcomeClientPage extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+    public void sendToMenu(View view){
+        Intent intent = new Intent(getApplicationContext(), MasterMenu.class);
+        startActivityForResult(intent, 0);
+    }
+
 
 
     // method for displaying toast

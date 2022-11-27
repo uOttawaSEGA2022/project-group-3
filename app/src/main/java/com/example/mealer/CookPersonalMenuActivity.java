@@ -204,8 +204,8 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
                             }else{
                                 offered = false;
                             }
-                            specificMeals.child(currentTitle).setValue(new MenuItem(thisTitle,thisDescription,thisIngredients,cookID,offered));
-                            thisCooksMenus.child(postSnapshot.child("title").getValue().toString()).setValue(new MenuItem(thisTitle,thisDescription,thisIngredients,thisCook.getUid(),offered));
+                            specificMeals.child(currentTitle).setValue(new MenuItem(thisTitle,thisDescription,thisIngredients,thisMealType,thisCuisineType,thisAllergens,thisPrice,thisCook.getUid(),offered));
+                            thisCooksMenus.child(postSnapshot.child("title").getValue().toString()).setValue(new MenuItem(thisTitle,thisDescription,thisIngredients,thisMealType,thisCuisineType,thisAllergens,thisPrice,thisCook.getUid(),offered));
                             Intent intent = getIntent();
                             finish();
                             startActivity(intent);

@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,8 +26,10 @@ public class MasterMenu extends AppCompatActivity {
     DatabaseReference masterMenu, allTheCooks;
     TextView textView;
     private static Context menu;
-    LinearLayout innerLayout, buttonLayout, mainLayout;
+    LinearLayout innerLayout, mainLayout;
+    Button purchaseButton;
     ArrayList<String> title, price, mealType, ingredients, description, cuisineType, cookID, allergens;
+    String cookFirstName, cookLastName;
 
 
 
@@ -65,7 +70,10 @@ public class MasterMenu extends AppCompatActivity {
                         cuisineType.add(postSnapshot.child("cuisineType").getValue().toString());
                         cookID.add(postSnapshot.child("cookID").getValue().toString());
                         allergens.add(postSnapshot.child("allergens").getValue().toString());
+
+
                     }
+
 
 
 
@@ -75,7 +83,49 @@ public class MasterMenu extends AppCompatActivity {
 
                 for (int i = 0; i < title.size(); i++){
 
+                   allTheCooks.child(cookID.get(i)).addValueEventListener(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(@NonNull DataSnapshot snapshot) {
+                           if (snapshot.exists()){
+                               cookFirstName = snapshot.child("firstName").getValue().toString();
+                               cookLastName = snapshot.child("lastName").getValue().toString();
+                           }else{
+                               Log.d("COOKERROR", "Cook does not exist");
+                           }
+
+                       }
+
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError error) {
+
+                       }
+                   });
+
+
                     innerLayout = new LinearLayout(menu);
+
+                    textView = new TextView(menu);
+
+                    textView.setText("Title: "+title.get(i)+'\n'+"Description: "+description.get(i)+'\n'+"Cook Name: "+cookFirstName+" "+cookLastName+'\n'+"Price: "+price.get(i)+'\n'+"Meal Type: "+mealType.get(i)+'\n'+"Ingredients: "+ingredients.get(i)+'\n'+"Cuisine Type: "+cuisineType.get(i)+'\n'+"Allergens: "+allergens.get(i));
+
+                    innerLayout.addView(textView);
+
+                    purchaseButton = new Button(menu);
+
+                    purchaseButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //DO STUFF HERE FOR WHEN THE BUTTON IS CLICKED
+                        }
+                    });
+
+                    innerLayout.addView(purchaseButton);
+
+                    mainLayout.addView(innerLayout);
+
+
+
+
 
 
 
@@ -94,4 +144,6 @@ public class MasterMenu extends AppCompatActivity {
 
 
     }
+
+
 }

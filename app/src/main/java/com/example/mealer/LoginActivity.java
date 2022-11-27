@@ -228,7 +228,6 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                     database.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Log.d("TAG", snapshot.child("clients").child(userID).toString());
                             if (typeOfLogin.equals("Client")){
                                 if (snapshot.child("clients").child(userID).hasChildren()){
                                     sendIntentToMain(typeOfLogin);

@@ -52,6 +52,15 @@ public class MasterMenu extends AppCompatActivity {
 
         super.onStart();
 
+        title = new ArrayList<>();
+        description = new ArrayList<>();
+        price = new ArrayList<>();
+        mealType = new ArrayList<>();
+        ingredients = new ArrayList<>();
+        cuisineType = new ArrayList<>();
+        cookID = new ArrayList<>();
+        allergens = new ArrayList<>();
+
         mainLayout = findViewById(R.id.masterMenu);
 
         masterMenu.addValueEventListener(new ValueEventListener() {
@@ -110,7 +119,7 @@ public class MasterMenu extends AppCompatActivity {
 
                     innerLayout.addView(textView);
 
-                    purchaseButton = new Button(menu);
+                    purchaseButton = new Button(menu); //button not aligned or styled
 
                     purchaseButton.setOnClickListener(new View.OnClickListener() {
                         @Override

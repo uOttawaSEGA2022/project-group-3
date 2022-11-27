@@ -53,7 +53,7 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
         // setting variables
         thisCook = FirebaseAuth.getInstance().getCurrentUser();
         cookID = thisCook.getUid();
-        thisCooksMenus = FirebaseDatabase.getInstance().getReference("accounts").child(cookID).child("Cook Menu");
+        thisCooksMenus = FirebaseDatabase.getInstance().getReference("accounts").child("cooks").child(cookID).child("Cook Menu");
         specificMeals = FirebaseDatabase.getInstance().getReference("master-menu");
         personalMenu = this;
     }

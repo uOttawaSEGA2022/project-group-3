@@ -42,14 +42,14 @@ public class ClientSubmitComplaint extends AppCompatActivity {
         thisUser = FirebaseAuth.getInstance().getCurrentUser();
         userID = thisUser.getUid();
 
-        accountDatabase.addValueEventListener(new ValueEventListener() {
+        accountDatabase.child("cooks").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    if ((postSnapshot.child("role").getValue().toString()).equals("Cook")) {
+
                         usernames.add(postSnapshot.child("username").getValue().toString());
                         cookIDs.add(postSnapshot.child("id").getValue().toString());
-                    }
+
                 }
             }
 

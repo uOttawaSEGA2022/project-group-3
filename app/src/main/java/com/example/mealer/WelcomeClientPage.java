@@ -35,7 +35,7 @@ public class WelcomeClientPage extends AppCompatActivity {
 
         // variables for storing firebase info
         user = FirebaseAuth.getInstance().getCurrentUser();
-        database = FirebaseDatabase.getInstance().getReference("accounts");
+        database = FirebaseDatabase.getInstance().getReference("accounts").child("clients");
         userID = user.getUid();
 
         // get welcome text view

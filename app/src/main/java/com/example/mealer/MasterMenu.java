@@ -43,10 +43,11 @@ public class MasterMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master_menu);
 
-
+        //init database references and instance variables
         masterMenu = FirebaseDatabase.getInstance().getReference("master-menu");
         allTheCooks = FirebaseDatabase.getInstance().getReference("accounts").child("cooks");
         menu=this;
+        mainLayout = findViewById(R.id.masterMenu);
 
     }
 
@@ -54,7 +55,7 @@ public class MasterMenu extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
-
+        //init arraylists that will store the string values
         title = new ArrayList<>();
         description = new ArrayList<>();
         price = new ArrayList<>();
@@ -74,6 +75,7 @@ public class MasterMenu extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot: snapshot.getChildren()){
+                    //checks only the meals which are offered
                     isOffered = postSnapshot.child("isOffered").getValue().toString();
                     if (isOffered.equals("true")){
                         title.add(postSnapshot.child("title").getValue().toString());
@@ -99,39 +101,9 @@ public class MasterMenu extends AppCompatActivity {
                 }
 
                 for (int i = 0; i < title.size(); i++){
-
-
-
-
-
-                    innerLayout = new LinearLayout(menu);
-
-                    textView = new TextView(menu);
-
-                    textView.setText("Title: "+title.get(i)+'\n'+"Description: "+description.get(i)+'\n'+"Price: "+price.get(i)+'\n'+"Meal Type: "+mealType.get(i)+'\n'+"Ingredients: "+ingredients.get(i)+'\n'+"Cuisine Type: "+cuisineType.get(i)+'\n'+"Allergens: "+allergens.get(i));
-
-                    innerLayout.addView(textView);
-
-                    purchaseButton = new Button(menu); //button not aligned or styled
-
-                    purchaseButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //DO STUFF HERE FOR WHEN THE BUTTON IS CLICKED
-                        }
-                    });
-
-                    innerLayout.addView(purchaseButton);
-
+                    //makes preliminary menu
+                    innerLayout = makeMenu(i);
                     mainLayout.addView(innerLayout);
-
-
-
-
-
-
-
-
 
                 }
 
@@ -148,41 +120,69 @@ public class MasterMenu extends AppCompatActivity {
     }
 
     public void searchForMeal (View view){
+        //have not searched yet
+        boolean hasSearched = false;
+
         searchField = findViewById(R.id.searchField);
+
         searchLayout = new LinearLayout(menu);
-        String searchVals = searchField.getText().toString();
+        //gets rid of whitespace
+        String searchVals = searchField.getText().toString().replaceAll("\\s","");
+        //holds already searched values, so if two criteria (ex. meal type and meal name) are the same, it will only show that one result
+        ArrayList<String> alreadySearchedVals = new ArrayList<>();
+        //checks for comma which seperates criteria
         if (searchVals.contains(",")){
+
            String [] theSearchVals = searchVals.split(",");
+
            textView = new TextView(menu);
+
            for (int i = 0; i<theSearchVals.length;i++){
                int finalI = i;
                masterMenu.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot postSnapshot: snapshot.getChildren()){
-                            if (postSnapshot.child("title").getValue().toString().equals(theSearchVals[finalI])||postSnapshot.child("mealType").getValue().toString().equals(theSearchVals[finalI])||postSnapshot.child("cuisineType").getValue().toString().equals(theSearchVals[finalI])){
-                                int whereItIs;
-                                try{
-                                    whereItIs = title.indexOf(postSnapshot.child("title").getValue().toString());
-                                }catch (Exception e){
+
+                            String titleVal = postSnapshot.child("title").getValue().toString();
+
+                            String mealTypeVal = postSnapshot.child("mealType").getValue().toString();
+
+                            String cuisineTypeVal = postSnapshot.child("cuisineType").getValue().toString();
+                            //checks and searches database
+                            if (titleVal.equals(theSearchVals[finalI])||mealTypeVal.equals(theSearchVals[finalI])||cuisineTypeVal.equals(theSearchVals[finalI])){
+                                if (!alreadySearchedVals.contains(titleVal)&&!alreadySearchedVals.contains(mealTypeVal)&&!alreadySearchedVals.contains(cuisineTypeVal)){
+                                    int whereItIs;
                                     try{
-                                        whereItIs = mealType.indexOf(postSnapshot.child("mealType").getValue().toString());
-                                    }catch (Exception u){
+                                        whereItIs = title.indexOf(titleVal); //finds where this meal is in the instance arraylists
+                                        alreadySearchedVals.add(titleVal); //stores it here in case a duplicate criteria is called
+                                    }catch (Exception e){
                                         try{
-                                            whereItIs = cuisineType.indexOf(postSnapshot.child("cuisineType").getValue().toString());
-                                        }catch(Exception a){
-                                            displayToast("No such item found");
-                                            continue;
+                                            whereItIs = mealType.indexOf(mealTypeVal);
+                                            alreadySearchedVals.add(mealTypeVal);
+                                        }catch (Exception u){
+                                            try{
+                                                whereItIs = cuisineType.indexOf(cuisineTypeVal);
+                                                alreadySearchedVals.add(cuisineTypeVal);
+                                            }catch(Exception a){
+                                                displayToast("No such item found");
+                                                continue;
+                                            }
+
                                         }
 
                                     }
+                                    //makes the layout for that meal
+                                    searchLayout.addView(makeMenu(whereItIs));
 
                                 }
-                                textView = new TextView(menu);
-                                textView.setText("Title: "+title.get(whereItIs)+'\n'+"Description: "+description.get(whereItIs)+'\n'+"Price: "+price.get(whereItIs)+'\n'+"Meal Type: "+mealType.get(whereItIs)+'\n'+"Ingredients: "+ingredients.get(whereItIs)+'\n'+"Cuisine Type: "+cuisineType.get(whereItIs)+'\n'+"Allergens: "+allergens.get(whereItIs));
+
+
                             }
-                            searchLayout.addView(textView);
+
+
                         }
+
 
                     }
 
@@ -192,25 +192,36 @@ public class MasterMenu extends AppCompatActivity {
                     }
                 });
 
+
            }
 
-
+        hasSearched=true; //you have searched, so it is set to true
+        alreadySearchedVals.clear(); //clears the arraylist after searching
 
         }else if (!searchVals.isEmpty()){
+
             masterMenu.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot postSnapshot: snapshot.getChildren()){
-                        if (postSnapshot.child("title").getValue().toString().equals(searchVals)||postSnapshot.child("mealType").getValue().toString().equals(searchVals)||postSnapshot.child("cuisineType").getValue().toString().equals(searchVals)){
+
+                        String titleVal = postSnapshot.child("title").getValue().toString();
+
+                        String mealTypeVal = postSnapshot.child("mealType").getValue().toString();
+
+                        String cuisineTypeVal = postSnapshot.child("cuisineType").getValue().toString();
+
+                        //same idea except we don't check for duplicate values since there is only one criteria to check
+                        if (titleVal.equals(searchVals)||mealTypeVal.equals(searchVals)||cuisineTypeVal.equals(searchVals)){
                             int whereItIs;
                             try{
-                                whereItIs = title.indexOf(postSnapshot.child("title").getValue().toString());
+                                whereItIs = title.indexOf(titleVal);
                             }catch (Exception e){
                                 try{
-                                    whereItIs = mealType.indexOf(postSnapshot.child("mealType").getValue().toString());
+                                    whereItIs = mealType.indexOf(mealTypeVal);
                                 }catch (Exception u){
                                     try{
-                                        whereItIs = cuisineType.indexOf(postSnapshot.child("cuisineType").getValue().toString());
+                                        whereItIs = cuisineType.indexOf(cuisineTypeVal);
                                     }catch (Exception a){
                                         displayToast("No such item found");
                                         continue;
@@ -219,10 +230,9 @@ public class MasterMenu extends AppCompatActivity {
                                 }
 
                             }
-                            textView = new TextView(menu);
-                            textView.setText("Title: "+title.get(whereItIs)+'\n'+"Description: "+description.get(whereItIs)+'\n'+"Price: "+price.get(whereItIs)+'\n'+"Meal Type: "+mealType.get(whereItIs)+'\n'+"Ingredients: "+ingredients.get(whereItIs)+'\n'+"Cuisine Type: "+cuisineType.get(whereItIs)+'\n'+"Allergens: "+allergens.get(whereItIs));
+                            searchLayout.addView(makeMenu(whereItIs));
                         }
-                        searchLayout.addView(textView);
+
                     }
 
                 }
@@ -233,12 +243,62 @@ public class MasterMenu extends AppCompatActivity {
                 }
             });
 
+            hasSearched = true;
+
+        }else{
+            //handles blank search bar edittext field, clears layout and shows all available meals
+            mainLayout.removeAllViewsInLayout();
+            mainLayout.invalidate();
+            for (int i = 0; i < title.size(); i++){
+
+                innerLayout = makeMenu(i);
+                mainLayout.addView(innerLayout);
+
+            }
+
         }
+
+        if (hasSearched){
+            //if you have searched, clear the menu and only show the searched meals
+            mainLayout.removeAllViewsInLayout();
+            mainLayout.invalidate();
+            mainLayout.addView(searchLayout);
+
+
+        }
+
+
 
     }
 
     public void displayToast(String message){
         Toast.makeText(MasterMenu.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private LinearLayout makeMenu(int index){
+
+        //makes a menu item and returns its linearlayout
+        innerLayout = new LinearLayout(menu);
+
+        textView = new TextView(menu);
+
+        textView.setText("Title: "+title.get(index)+'\n'+"Description: "+description.get(index)+'\n'+"Price: "+price.get(index)+'\n'+"Meal Type: "+mealType.get(index)+'\n'+"Ingredients: "+ingredients.get(index)+'\n'+"Cuisine Type: "+cuisineType.get(index)+'\n'+"Allergens: "+allergens.get(index));
+
+        innerLayout.addView(textView);
+
+        purchaseButton = new Button(menu); //button not aligned or styled
+
+        purchaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //DO STUFF HERE FOR WHEN THE BUTTON IS CLICKED
+            }
+        });
+
+        innerLayout.addView(purchaseButton);
+
+        return innerLayout;
+
     }
 
 

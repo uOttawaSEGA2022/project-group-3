@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -224,16 +225,34 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                     user = FirebaseAuth.getInstance().getCurrentUser();
                     userID = user.getUid();
 
-                    database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    database.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            // get UID account from db and check its role (FINISH IMPLEMENTATION)
-                            if (snapshot.child("role").getValue(String.class).equals(typeOfLogin)) {
-                                sendIntentToMain(typeOfLogin);
-                            } else {
-                                displayToast("No " + typeOfLogin +" account exists for " + username);
-                                return;
+                            if (typeOfLogin.equals("Client")){
+                                if (snapshot.child("clients").child(userID).hasChildren()){
+                                    sendIntentToMain(typeOfLogin);
+                                }else{
+                                    displayToast("No "+typeOfLogin+" under that username");
+                                }
+
+                            }else if (typeOfLogin.equals("Cook")){
+                                if (snapshot.child("cooks").child(userID).hasChildren()){
+                                    sendIntentToMain(typeOfLogin);
+                                }else{
+                                    displayToast("No "+typeOfLogin+" under that username");
+                                }
+
+                            }else{
+                                displayToast("Incorrect login");
                             }
+
+
+
+
+
+
+
+
                         }
 
                         @Override

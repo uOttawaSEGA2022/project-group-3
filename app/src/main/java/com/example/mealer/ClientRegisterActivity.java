@@ -34,7 +34,7 @@ public class ClientRegisterActivity extends AppCompatActivity {
         currentAccount = (Client) getIntent().getSerializableExtra("clientObj");
 
         //Initialize db with accounts section
-        database = FirebaseDatabase.getInstance().getReference("accounts");
+        database = FirebaseDatabase.getInstance().getReference("accounts").child("clients");
 
         // Initialize Firebase Authentication
         mAuth = FirebaseAuth.getInstance();

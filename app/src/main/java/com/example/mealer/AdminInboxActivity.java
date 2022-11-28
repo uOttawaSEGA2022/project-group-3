@@ -42,7 +42,7 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_admin_inbox);
 
         complaintDatabase = FirebaseDatabase.getInstance().getReference("complaints");
-        accountDatabase = FirebaseDatabase.getInstance().getReference("accounts");
+        accountDatabase = FirebaseDatabase.getInstance().getReference("accounts").child("cooks");
 
         inbox = this;
 

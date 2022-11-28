@@ -253,16 +253,6 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
 
 
-//                            Log.d("bruh",snapshot.toString());
-//                            Client thisClient = snapshot.getValue(Client.class);
-//                            Log.d("TAG",thisClient.getRole());
-//                            // get UID account from db and check its role (FINISH IMPLEMENTATION)
-//                            if (snapshot.child("role").getValue(String.class).equals(typeOfLogin)) {
-//                                sendIntentToMain(typeOfLogin);
-//                            } else {
-//                                displayToast("No " + typeOfLogin +" account exists for " + username);
-//                                return;
-//                            }
                         }
 
                         @Override

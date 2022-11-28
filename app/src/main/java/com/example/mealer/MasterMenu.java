@@ -85,6 +85,10 @@ public class MasterMenu extends AppCompatActivity {
                         allergens.add(postSnapshot.child("allergens").getValue().toString());
 
 
+
+
+
+
                     }
 
 
@@ -96,23 +100,7 @@ public class MasterMenu extends AppCompatActivity {
 
                 for (int i = 0; i < title.size(); i++){
 
-                   allTheCooks.child(cookID.get(i)).addValueEventListener(new ValueEventListener() {
-                       @Override
-                       public void onDataChange(@NonNull DataSnapshot snapshot) {
-                           if (snapshot.exists()){
-                               cookFirstName.add(snapshot.child("firstName").getValue().toString());
-                               cookLastName.add(snapshot.child("lastName").getValue().toString());
-                           }else{
-                               Log.d("COOKERROR", "Cook does not exist");
-                           }
 
-                       }
-
-                       @Override
-                       public void onCancelled(@NonNull DatabaseError error) {
-
-                       }
-                   });
 
 
                     innerLayout = new LinearLayout(menu);

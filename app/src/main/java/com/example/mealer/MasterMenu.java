@@ -32,7 +32,7 @@ public class MasterMenu extends AppCompatActivity {
     private static Context menu;
     LinearLayout innerLayout, mainLayout,searchLayout;
     Button purchaseButton;
-    ArrayList<String> title, price, mealType, ingredients, description, cuisineType, cookID, allergens,cookFirstName, cookLastName;
+    ArrayList<String> title, price, mealType, ingredients, description, cuisineType, cookID, allergens;
 
 
 
@@ -41,12 +41,16 @@ public class MasterMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_master_menu);
 
         //init database references and instance variables
         masterMenu = FirebaseDatabase.getInstance().getReference("master-menu");
+
         allTheCooks = FirebaseDatabase.getInstance().getReference("accounts").child("cooks");
+
         menu=this;
+
         mainLayout = findViewById(R.id.masterMenu);
 
     }
@@ -57,19 +61,25 @@ public class MasterMenu extends AppCompatActivity {
         super.onStart();
         //init arraylists that will store the string values
         title = new ArrayList<>();
+
         description = new ArrayList<>();
+
         price = new ArrayList<>();
+
         mealType = new ArrayList<>();
+
         ingredients = new ArrayList<>();
+
         cuisineType = new ArrayList<>();
+
         cookID = new ArrayList<>();
+
         allergens = new ArrayList<>();
-        cookFirstName = new ArrayList<>();
-        cookLastName = new ArrayList<>();
 
         mainLayout = findViewById(R.id.masterMenu);
 
         masterMenu.addValueEventListener(new ValueEventListener() {
+
             String isOffered;
 
             @Override
@@ -77,14 +87,23 @@ public class MasterMenu extends AppCompatActivity {
                 for (DataSnapshot postSnapshot: snapshot.getChildren()){
                     //checks only the meals which are offered
                     isOffered = postSnapshot.child("isOffered").getValue().toString();
+
                     if (isOffered.equals("true")){
+
                         title.add(postSnapshot.child("title").getValue().toString());
+
                         description.add(postSnapshot.child("description").getValue().toString());
+
                         price.add(postSnapshot.child("price").getValue().toString());
+
                         mealType.add(postSnapshot.child("mealType").getValue().toString());
+
                         ingredients.add(postSnapshot.child("ingredients").getValue().toString());
+
                         cuisineType.add(postSnapshot.child("cuisineType").getValue().toString());
+
                         cookID.add(postSnapshot.child("cookID").getValue().toString());
+
                         allergens.add(postSnapshot.child("allergens").getValue().toString());
 
 
@@ -151,22 +170,36 @@ public class MasterMenu extends AppCompatActivity {
                             String cuisineTypeVal = postSnapshot.child("cuisineType").getValue().toString();
                             //checks and searches database
                             if (titleVal.equals(theSearchVals[finalI])||mealTypeVal.equals(theSearchVals[finalI])||cuisineTypeVal.equals(theSearchVals[finalI])){
+
                                 if (!alreadySearchedVals.contains(titleVal)&&!alreadySearchedVals.contains(mealTypeVal)&&!alreadySearchedVals.contains(cuisineTypeVal)){
+
                                     int whereItIs;
+
                                     try{
+
                                         whereItIs = title.indexOf(titleVal); //finds where this meal is in the instance arraylists
+
                                         alreadySearchedVals.add(titleVal); //stores it here in case a duplicate criteria is called
                                     }catch (Exception e){
+
                                         try{
                                             whereItIs = mealType.indexOf(mealTypeVal);
+
                                             alreadySearchedVals.add(mealTypeVal);
                                         }catch (Exception u){
+
                                             try{
+
                                                 whereItIs = cuisineType.indexOf(cuisineTypeVal);
+
                                                 alreadySearchedVals.add(cuisineTypeVal);
+
                                             }catch(Exception a){
+
                                                 displayToast("No such item found");
+
                                                 continue;
+
                                             }
 
                                         }
@@ -213,24 +246,39 @@ public class MasterMenu extends AppCompatActivity {
 
                         //same idea except we don't check for duplicate values since there is only one criteria to check
                         if (titleVal.equals(searchVals)||mealTypeVal.equals(searchVals)||cuisineTypeVal.equals(searchVals)){
+
                             int whereItIs;
+
                             try{
+
                                 whereItIs = title.indexOf(titleVal);
+
                             }catch (Exception e){
+
                                 try{
+
                                     whereItIs = mealType.indexOf(mealTypeVal);
+
                                 }catch (Exception u){
+
                                     try{
+
                                         whereItIs = cuisineType.indexOf(cuisineTypeVal);
+
                                     }catch (Exception a){
+
                                         displayToast("No such item found");
+
                                         continue;
+
                                     }
 
                                 }
 
                             }
+
                             searchLayout.addView(makeMenu(whereItIs));
+
                         }
 
                     }
@@ -248,10 +296,13 @@ public class MasterMenu extends AppCompatActivity {
         }else{
             //handles blank search bar edittext field, clears layout and shows all available meals
             mainLayout.removeAllViewsInLayout();
+
             mainLayout.invalidate();
+
             for (int i = 0; i < title.size(); i++){
 
                 innerLayout = makeMenu(i);
+
                 mainLayout.addView(innerLayout);
 
             }
@@ -261,7 +312,9 @@ public class MasterMenu extends AppCompatActivity {
         if (hasSearched){
             //if you have searched, clear the menu and only show the searched meals
             mainLayout.removeAllViewsInLayout();
+
             mainLayout.invalidate();
+
             mainLayout.addView(searchLayout);
 
 

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -88,7 +89,6 @@ public class MasterMenu extends AppCompatActivity {
 
 
 
-
                     }
 
 
@@ -103,11 +103,12 @@ public class MasterMenu extends AppCompatActivity {
 
 
 
+
                     innerLayout = new LinearLayout(menu);
 
                     textView = new TextView(menu);
 
-                    textView.setText("Title: "+title.get(i)+'\n'+"Description: "+description.get(i)+'\n'+"Cook Name: "+cookFirstName.get(i)+" "+cookLastName.get(i)+'\n'+"Price: "+price.get(i)+'\n'+"Meal Type: "+mealType.get(i)+'\n'+"Ingredients: "+ingredients.get(i)+'\n'+"Cuisine Type: "+cuisineType.get(i)+'\n'+"Allergens: "+allergens.get(i));
+                    textView.setText("Title: "+title.get(i)+'\n'+"Description: "+description.get(i)+'\n'+"Price: "+price.get(i)+'\n'+"Meal Type: "+mealType.get(i)+'\n'+"Ingredients: "+ingredients.get(i)+'\n'+"Cuisine Type: "+cuisineType.get(i)+'\n'+"Allergens: "+allergens.get(i));
 
                     innerLayout.addView(textView);
 
@@ -146,12 +147,12 @@ public class MasterMenu extends AppCompatActivity {
 
     }
 
-    public void searchForMeal (){
+    public void searchForMeal (View view){
         searchField = findViewById(R.id.searchField);
+        searchLayout = new LinearLayout(menu);
         String searchVals = searchField.getText().toString();
         if (searchVals.contains(",")){
            String [] theSearchVals = searchVals.split(",");
-           searchLayout = new LinearLayout(menu);
            textView = new TextView(menu);
            for (int i = 0; i<theSearchVals.length;i++){
                int finalI = i;
@@ -178,7 +179,7 @@ public class MasterMenu extends AppCompatActivity {
 
                                 }
                                 textView = new TextView(menu);
-                                textView.setText("Title: "+title.get(whereItIs)+'\n'+"Description: "+description.get(whereItIs)+'\n'+"Cook Name: "+cookFirstName.get(whereItIs)+" "+cookLastName.get(whereItIs)+'\n'+"Price: "+price.get(whereItIs)+'\n'+"Meal Type: "+mealType.get(whereItIs)+'\n'+"Ingredients: "+ingredients.get(whereItIs)+'\n'+"Cuisine Type: "+cuisineType.get(whereItIs)+'\n'+"Allergens: "+allergens.get(whereItIs));
+                                textView.setText("Title: "+title.get(whereItIs)+'\n'+"Description: "+description.get(whereItIs)+'\n'+"Price: "+price.get(whereItIs)+'\n'+"Meal Type: "+mealType.get(whereItIs)+'\n'+"Ingredients: "+ingredients.get(whereItIs)+'\n'+"Cuisine Type: "+cuisineType.get(whereItIs)+'\n'+"Allergens: "+allergens.get(whereItIs));
                             }
                             searchLayout.addView(textView);
                         }
@@ -193,8 +194,7 @@ public class MasterMenu extends AppCompatActivity {
 
            }
 
-            mainLayout.removeView(innerLayout);
-            mainLayout.addView(searchLayout);
+
 
         }else if (!searchVals.isEmpty()){
             masterMenu.addValueEventListener(new ValueEventListener() {
@@ -220,7 +220,7 @@ public class MasterMenu extends AppCompatActivity {
 
                             }
                             textView = new TextView(menu);
-                            textView.setText("Title: "+title.get(whereItIs)+'\n'+"Description: "+description.get(whereItIs)+'\n'+"Cook Name: "+cookFirstName.get(whereItIs)+" "+cookLastName.get(whereItIs)+'\n'+"Price: "+price.get(whereItIs)+'\n'+"Meal Type: "+mealType.get(whereItIs)+'\n'+"Ingredients: "+ingredients.get(whereItIs)+'\n'+"Cuisine Type: "+cuisineType.get(whereItIs)+'\n'+"Allergens: "+allergens.get(whereItIs));
+                            textView.setText("Title: "+title.get(whereItIs)+'\n'+"Description: "+description.get(whereItIs)+'\n'+"Price: "+price.get(whereItIs)+'\n'+"Meal Type: "+mealType.get(whereItIs)+'\n'+"Ingredients: "+ingredients.get(whereItIs)+'\n'+"Cuisine Type: "+cuisineType.get(whereItIs)+'\n'+"Allergens: "+allergens.get(whereItIs));
                         }
                         searchLayout.addView(textView);
                     }
@@ -232,8 +232,7 @@ public class MasterMenu extends AppCompatActivity {
 
                 }
             });
-            mainLayout.removeView(innerLayout);
-            mainLayout.addView(searchLayout);
+
         }
 
     }

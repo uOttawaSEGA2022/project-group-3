@@ -33,6 +33,7 @@ public class MasterMenu extends AppCompatActivity {
     LinearLayout innerLayout, mainLayout,searchLayout;
     Button purchaseButton;
     ArrayList<String> title, price, mealType, ingredients, description, cuisineType, cookID, allergens;
+    private boolean thisCookBanned;
 
 
 
@@ -90,21 +91,29 @@ public class MasterMenu extends AppCompatActivity {
 
                     if (isOffered.equals("true")){
 
-                        title.add(postSnapshot.child("title").getValue().toString());
+                        isCookSuspended(postSnapshot.child("cookID").getValue().toString());
 
-                        description.add(postSnapshot.child("description").getValue().toString());
+                        if (!thisCookBanned){
 
-                        price.add(postSnapshot.child("price").getValue().toString());
+                            cookID.add(postSnapshot.child("cookID").getValue().toString());
 
-                        mealType.add(postSnapshot.child("mealType").getValue().toString());
+                            title.add(postSnapshot.child("title").getValue().toString());
 
-                        ingredients.add(postSnapshot.child("ingredients").getValue().toString());
+                            description.add(postSnapshot.child("description").getValue().toString());
 
-                        cuisineType.add(postSnapshot.child("cuisineType").getValue().toString());
+                            price.add(postSnapshot.child("price").getValue().toString());
 
-                        cookID.add(postSnapshot.child("cookID").getValue().toString());
+                            mealType.add(postSnapshot.child("mealType").getValue().toString());
 
-                        allergens.add(postSnapshot.child("allergens").getValue().toString());
+                            ingredients.add(postSnapshot.child("ingredients").getValue().toString());
+
+                            cuisineType.add(postSnapshot.child("cuisineType").getValue().toString());
+
+                            allergens.add(postSnapshot.child("allergens").getValue().toString());
+
+                        }
+
+
 
 
 
@@ -352,6 +361,38 @@ public class MasterMenu extends AppCompatActivity {
 
         return innerLayout;
 
+    }
+
+    private void isCookSuspended (String id){
+
+        setThisCookBanned(false);
+
+        allTheCooks.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String tempBan = snapshot.child(id).child("temporaryBan").getValue().toString();
+
+                String permBan = snapshot.child(id).child("permanentBan").getValue().toString();
+
+                if (tempBan.equals("true")||permBan.equals("true")){
+
+                    setThisCookBanned(true);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void setThisCookBanned(boolean b){
+        thisCookBanned = b;
     }
 
 

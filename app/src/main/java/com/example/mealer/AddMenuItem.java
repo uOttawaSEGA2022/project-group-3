@@ -45,7 +45,7 @@ public class AddMenuItem extends AppCompatActivity {
         masterMenu = FirebaseDatabase.getInstance().getReference("master-menu");
         thisCook = FirebaseAuth.getInstance().getCurrentUser();
         cookID = thisCook.getUid();
-        thisCooksMenus = FirebaseDatabase.getInstance().getReference("accounts").child(cookID).child("Cook Menu");
+        thisCooksMenus = FirebaseDatabase.getInstance().getReference("accounts").child("cooks").child(cookID).child("Cook Menu");
 
     }
 
@@ -89,8 +89,6 @@ public class AddMenuItem extends AppCompatActivity {
         String cType = cuisineType.getText().toString();
         String al = allergens.getText().toString();
         String price = this.price.getText().toString();
-
-
 
         thisItem = new MenuItem(title,desc,ingred,mType,cType,al,price,cookID,false);
         masterMenu.child(this.title.getText().toString()).setValue(thisItem);

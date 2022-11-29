@@ -8,6 +8,47 @@ can sell meals to clients from their home. The application supports three types 
     and pick it up from the Cook’s home.
     • Administrator: a user that receives complaints about a Cook from a Client and may
     suspend the Cook if necessary
+    
+# Deliverable 3 Work
+
+**UML Diagram**
+
+![deliverable3_uml](https://user-images.githubusercontent.com/90425027/202833319-ef7a5819-18a7-4489-bdb9-36bb231e8501.png)
+
+**Administrator Credentials**
+
+*Username: admin*
+
+*Password: admin123*
+
+**Deliverable 3 Log:**
+
+    Noah:
+    - UML Class Diagram
+    - Meal + Menu UI
+    - Meal Pop-up functionality
+    - Adding fields to meals
+    - Cleaned + tested code
+    
+    Samuel:
+    - Functionality for Deletion + Offering in Menu
+    - Menu Layout
+    - Cleaned + tested code
+    
+    Maria:
+    - Fix complaint inbox UI
+    - Field validation
+    
+    Pradyu:
+    - Setting up menu UI for cook
+    - Functionality for adding food item to menu + offered menu
+    - Indicate if food is offered or not
+    
+    Vivethen:
+    - Add log off button for banned cooks
+    - Fix banned cook UI
+    - 4 Test Cases
+    
 
 # Deliverable 2 Work
 

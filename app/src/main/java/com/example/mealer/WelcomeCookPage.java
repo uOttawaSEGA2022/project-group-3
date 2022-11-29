@@ -45,11 +45,11 @@ public class WelcomeCookPage extends AppCompatActivity {
         userID = user.getUid();
 
         // adding a listener to the database object with current user id to get values
-        database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // check if cook is permanently banned
-                String permBan = snapshot.child("permanentBan").getValue().toString();
+                String permBan = snapshot.child("cooks").child(userID).child("permanentBan").getValue().toString();
                 if (permBan.equals("true")){
                     setContentView(R.layout.activity_permanent_ban);
                 }
@@ -61,11 +61,11 @@ public class WelcomeCookPage extends AppCompatActivity {
             }
         });
 
-        database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // check for temporary ban
-                String tempBan = snapshot.child("temporaryBan").getValue().toString();
+                String tempBan = snapshot.child("cooks").child(userID).child("temporaryBan").getValue().toString();
 
                 if (!tempBan.equals("null")){
 

@@ -35,7 +35,7 @@ public class WelcomeClientPage extends AppCompatActivity {
 
         // variables for storing firebase info
         user = FirebaseAuth.getInstance().getCurrentUser();
-        database = FirebaseDatabase.getInstance().getReference("accounts");
+        database = FirebaseDatabase.getInstance().getReference("accounts").child("clients");
         userID = user.getUid();
 
         // get welcome text view
@@ -74,6 +74,23 @@ public class WelcomeClientPage extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivityForResult(intent, 0);
     }
+
+    public void submitComplaint(View view){
+        sendIntentToComplain();
+    }
+
+    // send user to login
+    private void sendIntentToComplain(){
+        Intent intent = new Intent(getApplicationContext(), ClientSubmitComplaint.class);
+        startActivityForResult(intent, 0);
+    }
+
+    public void sendToMenu(View view){
+        Intent intent = new Intent(getApplicationContext(), MasterMenu.class);
+        startActivityForResult(intent, 0);
+    }
+
+
 
     // method for displaying toast
     public void displayToast(String message){

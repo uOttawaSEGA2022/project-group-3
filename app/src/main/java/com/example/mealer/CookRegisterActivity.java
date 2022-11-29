@@ -42,7 +42,7 @@ public class CookRegisterActivity extends AppCompatActivity {
         currentAccount = (Cook) getIntent().getSerializableExtra("cookObj");
 
         //Initialize db with accounts section
-        database = FirebaseDatabase.getInstance().getReference("accounts");
+        database = FirebaseDatabase.getInstance().getReference("accounts").child("cooks");
 
         // Initialize Firebase Authentication
         mAuth = FirebaseAuth.getInstance();

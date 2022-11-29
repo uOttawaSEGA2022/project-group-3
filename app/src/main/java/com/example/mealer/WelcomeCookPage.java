@@ -158,4 +158,10 @@ public class WelcomeCookPage extends AppCompatActivity {
         startActivityForResult(intent,0);
     }
 
+    // method for sending to current cook's profile
+    public void sendToProfile(View view){
+        Intent intent = new Intent(getApplicationContext(), CookProfileActivity.class);
+        startActivityForResult(intent,0);
+    }
+
 }

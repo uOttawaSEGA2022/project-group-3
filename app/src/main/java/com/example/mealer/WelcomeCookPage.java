@@ -75,7 +75,7 @@ public class WelcomeCookPage extends AppCompatActivity {
                     if (Integer.parseInt(unbanDate[0]) <= Calendar.getInstance().get(Calendar.YEAR)){
                         if (Integer.parseInt(unbanDate[1]) <= Calendar.getInstance().get(Calendar.MONTH)+1){
                             if (Integer.parseInt(unbanDate[2]) <= Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
-                                database.child(userID).child("temporaryBan").setValue("null");
+                                database.child("cooks").child(userID).child("temporaryBan").setValue("null");
                                 setContentView(R.layout.activity_welcome_cook);
                             } else{
                                 setContentView(R.layout.activity_temporary_ban);
@@ -114,7 +114,7 @@ public class WelcomeCookPage extends AppCompatActivity {
 
         TextView welcomeTextView = (TextView) findViewById(R.id.welcomeMessage);
 
-        database.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child("cooks").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Client userProfile = snapshot.getValue(Client.class);
@@ -155,6 +155,12 @@ public class WelcomeCookPage extends AppCompatActivity {
     // method for sending to current cook's personal menu
     public void sendToPersonalMenu(View view){
         Intent intent = new Intent(getApplicationContext(), CookPersonalMenuActivity.class);
+        startActivityForResult(intent,0);
+    }
+
+    // method for sending to current cook's profile
+    public void sendToProfile(View view){
+        Intent intent = new Intent(getApplicationContext(), CookProfileActivity.class);
         startActivityForResult(intent,0);
     }
 

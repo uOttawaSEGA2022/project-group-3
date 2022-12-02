@@ -40,24 +40,23 @@
         <LinearLayout
             android:id="@+id/cookSelectRow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="270dp"
             android:layout_margin="20dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/cookTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:text="Cook:"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
+            <ScrollView
+                android:id="@+id/cooksScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <Spinner
-                android:id="@+id/cookSelect"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp" />
+                <LinearLayout
+                    android:id="@+id/cooksLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
         </LinearLayout>
 
         <LinearLayout

@@ -10,22 +10,21 @@
         android:id="@+id/permBanMessage"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:background="@drawable/banshape"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:paddingVertical="40dp"
+        android:text="You Are Permanently Banned! \n\nYou Can No Longer Use This Application"
         android:textColor="@color/black"
+        android:textSize="32dp"
         app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.223"
-        android:text="You Are Permanently Banned! \n\nYou Can No Longer Use This Application"
-        android:textSize="32dp"
-        android:gravity="center"
-        android:paddingVertical="40dp"
-        android:layout_margin="20dp"
-        >
-    </TextView>
+        app:layout_constraintVertical_bias="0.223"></TextView>
 
     <Button
         android:id="@+id/logOutButton"

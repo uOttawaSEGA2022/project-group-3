@@ -5,11 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +31,8 @@ public class ClientRatingActivity extends AppCompatActivity implements AdapterVi
 
     FirebaseUser thisClient;
     DatabaseReference cooks;
+    Boolean isSelected;
+    TextView cookName;
     Spinner ratingSpinner;
     String rating;
 
@@ -49,12 +58,80 @@ public class ClientRatingActivity extends AppCompatActivity implements AdapterVi
     @Override
     protected void onStart() {
         super.onStart();
+
+        LinearLayout linearLayout = findViewById(R.id.cooksLayout);
+
         cooks.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 // create a food item for each snapshot in db reference
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
+                    // create layout for each meal
+                    LinearLayout cooksLayout = new LinearLayout(ratingsPage);
+                    LinearLayout.LayoutParams cooksLayoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    cooksLayoutParams.setMargins(0, 20, 0, 0);
+
+                    String thisFirstName = postSnapshot.child("firstName").getValue().toString();
+                    String thisLastName = postSnapshot.child("lastName").getValue().toString();
+
+                    cookName = new TextView(ratingsPage);
+                    RelativeLayout relativeLayoutForCookTitle = new RelativeLayout(ratingsPage);
+                    // set layout params
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(450, 120); //Width just has to be bigger than screen width size
+                    params.leftMargin = 30;
+                    params.topMargin = 20;
+                    params.bottomMargin = 20;
+
+                    // add meal to layout, add layout to main layout
+                    relativeLayoutForCookTitle.addView(cookName, params);
+                    cooksLayout.addView(relativeLayoutForCookTitle);
+
+                    // set custom settings
+                    cookName.setTextSize(18);
+                    cookName.setGravity(Gravity.CENTER_VERTICAL);
+                    cookName.setText(thisFirstName + " " + thisLastName);
+
+                    Button selectButton = new Button(ratingsPage);
+
+                    // set text colour & background
+                    selectButton.setTextColor(Color.parseColor("#ffffff"));
+                    selectButton.setBackgroundResource(R.drawable.green_rounded_button_20dp);
+
+                    isSelected = false;
+                    selectButton.setBackgroundResource(R.drawable.green_rounded_button_20dp);
+                    selectButton.setText("Select");
+
+                    RelativeLayout buttonRelativeLayout = new RelativeLayout(ratingsPage);
+
+                    params = new RelativeLayout.LayoutParams(250, 150);
+                    params.topMargin = 25;
+                    params.bottomMargin = 25;
+                    params.leftMargin = 100;
+                    buttonRelativeLayout.addView(selectButton, params);
+
+                    cooksLayout.addView(buttonRelativeLayout);
+
+                    cooksLayout.setBackgroundResource(R.drawable.grey_rounded_backround_20dp);
+
+                    // listener for setting offered/unoffering
+                    selectButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (isSelected == false){
+                                selectButton.setBackgroundResource(R.drawable.light_green_rounded_background);
+                                selectButton.setText("Selected");
+                                isSelected = true;
+                            }else{
+                                selectButton.setBackgroundResource(R.drawable.green_rounded_button_20dp);
+                                selectButton.setText("Select");
+                                isSelected = false;
+                            }
+                        }
+                    });
+
+                    linearLayout.addView(cooksLayout, cooksLayoutParams);
                 }
             }
 

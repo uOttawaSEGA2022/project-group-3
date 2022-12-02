@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/light_green"
-        android:onClick="submitComplaint"
+        android:onClick="sendToRatings"
         android:text="Rate a Cook"
         app:cornerRadius="25dp"
         app:layout_constraintBottom_toTopOf="@+id/logOutButton"

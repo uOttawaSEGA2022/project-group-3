@@ -91,7 +91,7 @@ public class WelcomeClientPage extends AppCompatActivity {
     }
 
     public void sendToRatings(View view){
-        Intent intent = new Intent(getApplicationContext(), MasterMenu.class);
+        Intent intent = new Intent(getApplicationContext(), ClientRatingActivity.class);
         startActivityForResult(intent, 0);
     }
 

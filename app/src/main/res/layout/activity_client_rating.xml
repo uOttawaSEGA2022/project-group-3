@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-thin"
-        android:text="Rate A Cook"
+        android:text="Rate a Cook"
         android:textColor="@color/black"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,33 +38,18 @@
         app:layout_constraintTop_toBottomOf="parent">
 
         <LinearLayout
-            android:id="@+id/cookSelectRow"
+            android:id="@+id/cooksLayout"
             android:layout_width="match_parent"
             android:layout_height="270dp"
             android:layout_margin="20dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <ScrollView
-                android:id="@+id/cooksScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/cooksLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-            </ScrollView>
-
-        </LinearLayout>
+            android:orientation="vertical" />
 
         <LinearLayout
             android:id="@+id/cookRatingRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:gravity="center_horizontal"
+            android:gravity="left"
             android:orientation="horizontal">
 
             <TextView

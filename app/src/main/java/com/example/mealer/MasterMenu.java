@@ -19,21 +19,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MasterMenu extends AppCompatActivity {
 
-    DatabaseReference masterMenu, allTheCooks;
+    DatabaseReference masterMenu, allTheCooks, specificCookPurchaseRequests;
     TextView textView;
-    EditText searchField;
+    EditText searchField, clientUsername;
     private static Context menu;
     LinearLayout innerLayout, mainLayout,searchLayout;
     Button purchaseButton;
     ArrayList<String> title, price, mealType, ingredients, description, cuisineType, cookID, allergens;
+    ArrayList<ArrayList<String>> purchaseRequests = new ArrayList<>();
     private boolean thisCookBanned;
+    boolean alreadyRequested;
 
 
 
@@ -321,12 +325,8 @@ public class MasterMenu extends AppCompatActivity {
         if (hasSearched){
             //if you have searched, clear the menu and only show the searched meals
             mainLayout.removeAllViewsInLayout();
-
             mainLayout.invalidate();
-
             mainLayout.addView(searchLayout);
-
-
         }
 
 
@@ -349,11 +349,65 @@ public class MasterMenu extends AppCompatActivity {
         innerLayout.addView(textView);
 
         purchaseButton = new Button(menu); //button not aligned or styled
+        purchaseButton.setText("Request Purchase");
+
+        specificCookPurchaseRequests = allTheCooks.child(cookID.get(index)).child("Purchase Requests");
 
         purchaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //DO STUFF HERE FOR WHEN THE BUTTON IS CLICKED
+
+                //NOT WORKING FOR SOMEDUMB IDIOTIC STUPID FREAKING REASON PRADON MY FRENCH
+//                specificCookPurchaseRequests.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot snapshot) {
+//                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+//                            ArrayList<String> thisPurchaseRequest = new ArrayList<String>();
+//                            thisPurchaseRequest.add(postSnapshot.child("Allergens").getValue().toString());
+//                            thisPurchaseRequest.add(postSnapshot.child("ClientID").getValue().toString());
+//                            thisPurchaseRequest.add(postSnapshot.child("Cuisine Type").getValue().toString());
+//                            thisPurchaseRequest.add(postSnapshot.child("Description").getValue().toString());
+//                            thisPurchaseRequest.add(postSnapshot.child("Ingredients").getValue().toString());
+//                            thisPurchaseRequest.add(postSnapshot.child("Meal Type").getValue().toString());
+//                            thisPurchaseRequest.add(postSnapshot.child("Price").getValue().toString());
+//                            thisPurchaseRequest.add(postSnapshot.child("Title").getValue().toString());
+//                            purchaseRequests.add(thisPurchaseRequest);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//
+//                ArrayList<String> purchaseRequestClientIsTryingToRequest = new ArrayList<String>();
+//                purchaseRequestClientIsTryingToRequest.add(allergens.get(index));
+//                purchaseRequestClientIsTryingToRequest.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                purchaseRequestClientIsTryingToRequest.add(cuisineType.get(index));
+//                purchaseRequestClientIsTryingToRequest.add(description.get(index));
+//                purchaseRequestClientIsTryingToRequest.add(ingredients.get(index));
+//                purchaseRequestClientIsTryingToRequest.add(mealType.get(index));
+//                purchaseRequestClientIsTryingToRequest.add(price.get(index));
+//                purchaseRequestClientIsTryingToRequest.add(title.get(index));
+//
+//                for (int counter = 0; counter < purchaseRequests.size(); counter++){
+//                    if ((purchaseRequests.get(counter)).equals(purchaseRequestClientIsTryingToRequest)) {
+//                        displayToast("Meal already requested!");
+//                        return;
+//                    }
+//                }
+//
+//                String key1 = specificCookPurchaseRequests.push().getKey();
+//                specificCookPurchaseRequests.child(key1).child("ClientID").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                specificCookPurchaseRequests.child(key1).child("Title").setValue(title.get(index));
+//                specificCookPurchaseRequests.child(key1).child("Description").setValue(description.get(index));
+//                specificCookPurchaseRequests.child(key1).child("Price").setValue(price.get(index));
+//                specificCookPurchaseRequests.child(key1).child("Meal Type").setValue(mealType.get(index));
+//                specificCookPurchaseRequests.child(key1).child("Ingredients").setValue(ingredients.get(index));
+//                specificCookPurchaseRequests.child(key1).child("Cuisine Type").setValue(cuisineType.get(index));
+//                specificCookPurchaseRequests.child(key1).child("Allergens").setValue(allergens.get(index));
+
             }
         });
 

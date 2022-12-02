@@ -164,4 +164,9 @@ public class WelcomeCookPage extends AppCompatActivity {
         startActivityForResult(intent,0);
     }
 
+    public void sendToPurchaseRequests(View view){
+        Intent intent = new Intent(getApplicationContext(), CookPurchaseRequests.class);
+        startActivityForResult(intent,0);
+    }
+
 }

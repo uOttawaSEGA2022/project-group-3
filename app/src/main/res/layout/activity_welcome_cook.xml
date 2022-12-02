@@ -71,17 +71,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="2dp"
         android:backgroundTint="#8ED429"
         android:onClick="sendToPurchaseRequests"
         android:text="Purchase Requests"
         app:cornerRadius="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/logOutButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintTop_toBottomOf="@+id/profileButton"
+        app:layout_constraintVertical_bias="0.16000003" />
 
     <Button
         android:id="@+id/profileButton"
@@ -97,7 +97,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeMessage"
-        app:layout_constraintVertical_bias="0.70" />
+        app:layout_constraintVertical_bias="0.45" />
 
     <Button
         android:id="@+id/logOutButton"

@@ -398,15 +398,17 @@ public class MasterMenu extends AppCompatActivity {
 //                    }
 //                }
 //
-//                String key1 = specificCookPurchaseRequests.push().getKey();
-//                specificCookPurchaseRequests.child(key1).child("ClientID").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                specificCookPurchaseRequests.child(key1).child("Title").setValue(title.get(index));
-//                specificCookPurchaseRequests.child(key1).child("Description").setValue(description.get(index));
-//                specificCookPurchaseRequests.child(key1).child("Price").setValue(price.get(index));
-//                specificCookPurchaseRequests.child(key1).child("Meal Type").setValue(mealType.get(index));
-//                specificCookPurchaseRequests.child(key1).child("Ingredients").setValue(ingredients.get(index));
-//                specificCookPurchaseRequests.child(key1).child("Cuisine Type").setValue(cuisineType.get(index));
-//                specificCookPurchaseRequests.child(key1).child("Allergens").setValue(allergens.get(index));
+                String key1 = specificCookPurchaseRequests.push().getKey();
+                specificCookPurchaseRequests.child(key1).child("ClientID").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                specificCookPurchaseRequests.child(key1).child("Title").setValue(title.get(index));
+                specificCookPurchaseRequests.child(key1).child("Description").setValue(description.get(index));
+                specificCookPurchaseRequests.child(key1).child("Price").setValue(price.get(index));
+                specificCookPurchaseRequests.child(key1).child("Meal Type").setValue(mealType.get(index));
+                specificCookPurchaseRequests.child(key1).child("Ingredients").setValue(ingredients.get(index));
+                specificCookPurchaseRequests.child(key1).child("Cuisine Type").setValue(cuisineType.get(index));
+                specificCookPurchaseRequests.child(key1).child("Allergens").setValue(allergens.get(index));
+
+                displayToast("Meal requested!");
 
             }
         });

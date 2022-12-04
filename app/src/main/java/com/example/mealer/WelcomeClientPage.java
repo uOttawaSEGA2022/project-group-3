@@ -95,6 +95,11 @@ public class WelcomeClientPage extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+    public void sendToPurchaseStatus(View view) {
+        Intent intent = new Intent(getApplicationContext(), ClientPurchaseStatusActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
     // method for displaying toast
     public void displayToast(String message){
         Toast.makeText(WelcomeClientPage.this, message, Toast.LENGTH_SHORT).show();

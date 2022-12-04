@@ -101,27 +101,28 @@
         app:layout_constraintTop_toBottomOf="@+id/cookProfileDescriptionField"
         app:layout_constraintVertical_bias="0.07999998" />
 
-    <Button
-        android:id="@+id/ratingsButton"
+    <TextView
+        android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:backgroundTint="#8ED429"
-        android:onClick="sendToRatings"
-        android:text="View Ratings"
-        app:cornerRadius="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="Rating: N/A"
+        android:textColor="@color/black"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/address"
-        app:layout_constraintVertical_bias="0.37" />
+        app:layout_constraintVertical_bias="0.06999999" />
 
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
         android:backgroundTint="#467305"
         android:onClick="sendToWelcome"
         android:text="Back"
@@ -129,7 +130,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingsButton"
-        app:layout_constraintVertical_bias="0.44" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

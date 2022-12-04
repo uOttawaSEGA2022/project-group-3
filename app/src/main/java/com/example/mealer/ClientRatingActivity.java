@@ -14,8 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.Scroller;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,16 +26,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Formatter;
+
 public class ClientRatingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     FirebaseUser thisClient;
     DatabaseReference cooks;
-    DatabaseReference ratingsDB;
+    DatabaseReference ratingDB;
     Boolean isSelected;
     String selectedCookID;
     TextView cookName;
     Spinner ratingSpinner;
-    String rating;
+    String newRating;
+    double currentRating;
+    boolean submitted;
 
     private static Context ratingsPage;
 
@@ -51,6 +53,7 @@ public class ClientRatingActivity extends AppCompatActivity implements AdapterVi
         cooks = FirebaseDatabase.getInstance().getReference("accounts").child("cooks");
         ratingsPage = this;
         ratingSpinner = findViewById(R.id.ratingSelect);
+        submitted = false;
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cookRatings, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -149,7 +152,7 @@ public class ClientRatingActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        rating = adapterView.getItemAtPosition(i).toString();
+        newRating = adapterView.getItemAtPosition(i).toString();
     }
 
     @Override
@@ -158,20 +161,64 @@ public class ClientRatingActivity extends AppCompatActivity implements AdapterVi
     }
 
     public void submitRating(View view) {
-        if (rating == null) {
+        if (newRating == null) {
             displayToast("No rating provided");
             return;
         } else if (selectedCookID == null) {
             displayToast("No Cook Selected");
         } else {
-            ratingsDB = FirebaseDatabase.getInstance().getReference("accounts").child("cooks").child(selectedCookID).child("ratings");
-            ratingsDB.child(thisClient.getUid()).setValue(rating.split(" ")[0]);
-        }
+            ratingDB = FirebaseDatabase.getInstance().getReference("accounts").child("cooks").child(selectedCookID).child("rating");
 
+            ratingDB.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.getValue() == null && !submitted) {
+                        ratingDB.setValue(Float.parseFloat(newRating.split(" ")[0]));
+                        displayToast("Rating submitted!");
+                        exitPage();
+                    } else if (!submitted) {
+                        currentRating = snapshot.getValue(Float.class);
+                        submitted = true;
+                        sendRatingToDBAndExit();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
     }
 
     // method for sending to current cook's profile
     public void sendToWelcome(View view){
+        Intent intent = new Intent(getApplicationContext(), WelcomeClientPage.class);
+        startActivityForResult(intent,0);
+    }
+
+    // method for reloading activity
+    public void sendRatingToDBAndExit(){
+        double tmp = currentRating;
+        tmp += Float.parseFloat(newRating.split(" ")[0]);
+        tmp = tmp/2;
+
+        if (tmp % 1 == 0) {
+            tmp = tmp/1;
+        }
+
+        currentRating = tmp;
+        currentRating = Math.floor(currentRating * 100) / 100;
+
+        ratingDB.setValue(currentRating);
+
+        displayToast("Rating submitted!");
+
+        Intent intent = new Intent(getApplicationContext(), WelcomeClientPage.class);
+        startActivityForResult(intent,0);
+    }
+
+    public void exitPage() {
         Intent intent = new Intent(getApplicationContext(), WelcomeClientPage.class);
         startActivityForResult(intent,0);
     }

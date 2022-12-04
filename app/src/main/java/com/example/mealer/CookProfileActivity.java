@@ -23,10 +23,12 @@ public class CookProfileActivity extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference accountsDatabase;
     String userID;
+    float ratingAverage;
 
     TextView nameText;
     TextView descriptionText;
     TextView addressText;
+    TextView ratingText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,17 @@ public class CookProfileActivity extends AppCompatActivity {
         nameText = findViewById(R.id.name);
         descriptionText = findViewById(R.id.cookProfileDescriptionField);
         addressText = findViewById(R.id.address);
+        ratingText = findViewById(R.id.rating);
 
         // variables for storing firebase info
         user = FirebaseAuth.getInstance().getCurrentUser();
         accountsDatabase = FirebaseDatabase.getInstance().getReference("accounts").getRef();
         userID = user.getUid();
 
+        // init rating average;
+        ratingAverage = 0;
+
+        // Setting general information for cook
         accountsDatabase.child("cooks").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -66,17 +73,28 @@ public class CookProfileActivity extends AppCompatActivity {
                 displayToast("Could not get user data.");
             }
         });
+
+        // Checking ratings information
+        accountsDatabase.child("cooks").child(userID).child("rating").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Float cooksRating = snapshot.getValue(Float.class);
+                if (cooksRating > 0) {
+                    String ratingString = "Rating: " + cooksRating + " stars";
+                    ratingText.setText(ratingString);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     // method for displaying toast
     public void displayToast(String message){
         Toast.makeText(CookProfileActivity.this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    // method for sending to current cook's ratings page
-    public void sendToRatings(View view){
-        Intent intent = new Intent(getApplicationContext(), WelcomeCookPage.class);
-        startActivityForResult(intent,0);
     }
 
     // method for sending to current cook's welcome page

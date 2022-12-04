@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,9 @@ public class ClientRatingActivity extends AppCompatActivity implements AdapterVi
 
     FirebaseUser thisClient;
     DatabaseReference cooks;
+    DatabaseReference ratingsDB;
     Boolean isSelected;
+    String selectedCookID;
     TextView cookName;
     Spinner ratingSpinner;
     String rating;
@@ -122,10 +125,12 @@ public class ClientRatingActivity extends AppCompatActivity implements AdapterVi
                             if (isSelected == false){
                                 selectButton.setBackgroundResource(R.drawable.light_green_rounded_background);
                                 selectButton.setText("Selected");
+                                selectedCookID = postSnapshot.child("id").getValue().toString();
                                 isSelected = true;
                             }else{
                                 selectButton.setBackgroundResource(R.drawable.green_rounded_button_20dp);
                                 selectButton.setText("Select");
+                                selectedCookID = null;
                                 isSelected = false;
                             }
                         }
@@ -150,6 +155,19 @@ public class ClientRatingActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         // do nothing
+    }
+
+    public void submitRating(View view) {
+        if (rating == null) {
+            displayToast("No rating provided");
+            return;
+        } else if (selectedCookID == null) {
+            displayToast("No Cook Selected");
+        } else {
+            ratingsDB = FirebaseDatabase.getInstance().getReference("accounts").child("cooks").child(selectedCookID).child("ratings");
+            ratingsDB.child(thisClient.getUid()).setValue(rating.split(" ")[0]);
+        }
+
     }
 
     // method for sending to current cook's profile

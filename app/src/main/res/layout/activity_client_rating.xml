@@ -37,12 +37,17 @@
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="parent">
 
-        <LinearLayout
-            android:id="@+id/cooksLayout"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:layout_margin="20dp"
-            android:orientation="vertical" />
+            android:layout_height="300dp">
+
+            <LinearLayout
+                android:id="@+id/cooksLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="vertical" />
+        </ScrollView>
 
         <LinearLayout
             android:id="@+id/cookRatingRow"
@@ -76,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:backgroundTint="#8ED429"
-        android:onClick="addMenuItem"
+        android:onClick="submitRating"
         android:text="Submit Rating"
         app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"

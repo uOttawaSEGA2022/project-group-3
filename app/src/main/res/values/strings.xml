@@ -12,6 +12,14 @@
         <item>@string/admin</item>
     </string-array>
 
+    <string-array name="cookRatings">
+        <item>5 Stars</item>
+        <item>4 Stars</item>
+        <item>3 Stars</item>
+        <item>2 Stars</item>
+        <item>1 Star</item>
+    </string-array>
+
     <string name="welcome_username">Welcome %1$s!</string>
     <string name="welcome_cook_default">Welcome Cook!</string>
     <string name="welcome_client_default">Welcome Client!</string>

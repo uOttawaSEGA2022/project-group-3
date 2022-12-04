@@ -54,7 +54,7 @@
         android:id="@+id/goToMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#467305"
+        android:backgroundTint="@color/light_green"
         android:onClick="sendToMenu"
         android:text="Go to menu"
         app:cornerRadius="25dp"
@@ -63,14 +63,46 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeMessage"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintVertical_bias="0.04000002" />
+
+    <Button
+        android:id="@+id/submitComplaintButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/light_green"
+        android:onClick="submitComplaint"
+        android:text="Submit Complaint"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/logOutButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goToMenu"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/ratingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/light_green"
+        android:onClick="sendToRatings"
+        android:text="Rate a Cook"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/logOutButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitComplaintButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/logOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="550dp"
-        android:backgroundTint="#467305"
+        android:backgroundTint="@color/green"
         android:onClick="logOutOfApp"
         android:text="@string/log_out"
         app:cornerRadius="25dp"
@@ -80,19 +112,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.8" />
-
-    <Button
-        android:id="@+id/submitComplaintButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#467305"
-        android:onClick="submitComplaint"
-        android:text="Submit Complaint"
-        app:cornerRadius="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/goToMenu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

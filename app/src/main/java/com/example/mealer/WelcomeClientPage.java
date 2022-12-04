@@ -90,7 +90,10 @@ public class WelcomeClientPage extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
-
+    public void sendToRatings(View view){
+        Intent intent = new Intent(getApplicationContext(), ClientRatingActivity.class);
+        startActivityForResult(intent, 0);
+    }
 
     // method for displaying toast
     public void displayToast(String message){

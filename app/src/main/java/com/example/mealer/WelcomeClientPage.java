@@ -96,7 +96,7 @@ public class WelcomeClientPage extends AppCompatActivity {
     }
 
     public void sendToPurchaseStatus(View view) {
-        Intent intent = new Intent(getApplicationContext(), ClientRatingActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ClientPurchaseStatusActivity.class);
         startActivityForResult(intent, 0);
     }
 

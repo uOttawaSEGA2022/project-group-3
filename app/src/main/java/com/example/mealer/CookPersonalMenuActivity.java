@@ -288,4 +288,9 @@ public class CookPersonalMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), AddMenuItem.class);
         startActivityForResult(intent, 0);
     }
+
+    public void sendToHome(View view) {
+        Intent intent = new Intent(getApplicationContext(), WelcomeCookPage.class);
+        startActivityForResult(intent, 0);
+    }
 }

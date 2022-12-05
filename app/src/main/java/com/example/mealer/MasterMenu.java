@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -22,21 +20,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MasterMenu extends AppCompatActivity {
 
     DatabaseReference masterMenu, allTheCooks, specificCookPurchaseRequests;
-    TextView textView;
+    TextView mealInfoTextView;
     EditText searchField, clientUsername;
     private static Context menu;
     LinearLayout innerLayout, mainLayout,searchLayout;
     Button purchaseButton;
     ArrayList<String> title, price, mealType, ingredients, description, cuisineType, cookID, allergens;
     ArrayList<ArrayList<String>> purchaseRequests = new ArrayList<>();
+    ArrayList<Integer> searchedMeals;
     private boolean thisCookBanned;
     boolean alreadyRequested;
 
@@ -63,20 +59,15 @@ public class MasterMenu extends AppCompatActivity {
         super.onStart();
         //init arraylists that will store the string values
         title = new ArrayList<>();
-
         description = new ArrayList<>();
-
         price = new ArrayList<>();
-
         mealType = new ArrayList<>();
-
         ingredients = new ArrayList<>();
-
         cuisineType = new ArrayList<>();
-
         cookID = new ArrayList<>();
-
         allergens = new ArrayList<>();
+
+        searchedMeals = new ArrayList<>();
 
         mainLayout = findViewById(R.id.masterMenu);
 
@@ -89,53 +80,26 @@ public class MasterMenu extends AppCompatActivity {
                 for (DataSnapshot postSnapshot: snapshot.getChildren()){
                     //checks only the meals which are offered
                     isOffered = postSnapshot.child("isOffered").getValue().toString();
-
                     if (isOffered.equals("true")){
-
                         isCookSuspended(postSnapshot.child("cookID").getValue().toString());
-
                         if (!thisCookBanned){
-
                             cookID.add(postSnapshot.child("cookID").getValue().toString());
-
                             title.add(postSnapshot.child("title").getValue().toString());
-
                             description.add(postSnapshot.child("description").getValue().toString());
-
                             price.add(postSnapshot.child("price").getValue().toString());
-
                             mealType.add(postSnapshot.child("mealType").getValue().toString());
-
                             ingredients.add(postSnapshot.child("ingredients").getValue().toString());
-
                             cuisineType.add(postSnapshot.child("cuisineType").getValue().toString());
-
                             allergens.add(postSnapshot.child("allergens").getValue().toString());
-
                         }
-
-
-
-
-
-
-
                     }
-
-
-
-
-
-
                 }
 
                 for (int i = 0; i < title.size(); i++){
                     //makes preliminary menu
                     innerLayout = makeMenu(i);
                     mainLayout.addView(innerLayout);
-
                 }
-
             }
 
             @Override
@@ -143,14 +107,14 @@ public class MasterMenu extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     public void searchForMeal (View view){
         //have not searched yet
         boolean hasSearched = false;
+
+        // reset searched meals
+        searchedMeals = new ArrayList<>();
 
         searchField = findViewById(R.id.searchField);
 
@@ -163,8 +127,7 @@ public class MasterMenu extends AppCompatActivity {
         if (searchVals.contains(",")){
 
            String [] theSearchVals = searchVals.split(",");
-
-           textView = new TextView(menu);
+           mealInfoTextView = new TextView(menu);
 
            for (int i = 0; i<theSearchVals.length;i++){
                int finalI = i;
@@ -172,14 +135,12 @@ public class MasterMenu extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot postSnapshot: snapshot.getChildren()){
-
                             String titleVal = postSnapshot.child("title").getValue().toString();
-
                             String mealTypeVal = postSnapshot.child("mealType").getValue().toString();
-
                             String cuisineTypeVal = postSnapshot.child("cuisineType").getValue().toString();
+
                             //checks and searches database
-                            if (titleVal.equals(theSearchVals[finalI])||mealTypeVal.equals(theSearchVals[finalI])||cuisineTypeVal.equals(theSearchVals[finalI])){
+                            if (titleVal.contains(theSearchVals[finalI])||mealTypeVal.contains(theSearchVals[finalI])||cuisineTypeVal.contains(theSearchVals[finalI])){
 
                                 if (!alreadySearchedVals.contains(titleVal)&&!alreadySearchedVals.contains(mealTypeVal)&&!alreadySearchedVals.contains(cuisineTypeVal)){
 
@@ -188,45 +149,35 @@ public class MasterMenu extends AppCompatActivity {
                                     try{
 
                                         whereItIs = title.indexOf(titleVal); //finds where this meal is in the instance arraylists
-
                                         alreadySearchedVals.add(titleVal); //stores it here in case a duplicate criteria is called
                                     }catch (Exception e){
 
                                         try{
                                             whereItIs = mealType.indexOf(mealTypeVal);
-
                                             alreadySearchedVals.add(mealTypeVal);
                                         }catch (Exception u){
 
                                             try{
 
                                                 whereItIs = cuisineType.indexOf(cuisineTypeVal);
-
                                                 alreadySearchedVals.add(cuisineTypeVal);
 
                                             }catch(Exception a){
 
                                                 displayToast("No such item found");
-
                                                 continue;
 
                                             }
-
                                         }
-
                                     }
-                                    //makes the layout for that meal
-                                    searchLayout.addView(makeMenu(whereItIs));
-
+                                    if (whereItIs >= 0) {
+                                        // add whereIsIs to arraylist of searched meals
+                                        searchedMeals.add(whereItIs);
+                                    }
                                 }
-
-
                             }
-
-
                         }
-
-
+                        getResults();
                     }
 
                     @Override
@@ -234,11 +185,8 @@ public class MasterMenu extends AppCompatActivity {
 
                     }
                 });
-
-
            }
 
-        hasSearched=true; //you have searched, so it is set to true
         alreadySearchedVals.clear(); //clears the arraylist after searching
 
         }else if (!searchVals.isEmpty()){
@@ -247,15 +195,12 @@ public class MasterMenu extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot postSnapshot: snapshot.getChildren()){
-
                         String titleVal = postSnapshot.child("title").getValue().toString();
-
                         String mealTypeVal = postSnapshot.child("mealType").getValue().toString();
-
                         String cuisineTypeVal = postSnapshot.child("cuisineType").getValue().toString();
 
                         //same idea except we don't check for duplicate values since there is only one criteria to check
-                        if (titleVal.equals(searchVals)||mealTypeVal.equals(searchVals)||cuisineTypeVal.equals(searchVals)){
+                        if (titleVal.contains(searchVals)||mealTypeVal.contains(searchVals)||cuisineTypeVal.contains(searchVals)){
 
                             int whereItIs;
 
@@ -270,7 +215,6 @@ public class MasterMenu extends AppCompatActivity {
                                     whereItIs = mealType.indexOf(mealTypeVal);
 
                                 }catch (Exception u){
-
                                     try{
 
                                         whereItIs = cuisineType.indexOf(cuisineTypeVal);
@@ -278,21 +222,18 @@ public class MasterMenu extends AppCompatActivity {
                                     }catch (Exception a){
 
                                         displayToast("No such item found");
-
                                         continue;
 
                                     }
-
                                 }
-
                             }
-
-                            searchLayout.addView(makeMenu(whereItIs));
-
+                            if (whereItIs >= 0) {
+                                // add whereIsIs to arraylist of searched meals
+                                searchedMeals.add(whereItIs);
+                            }
                         }
-
                     }
-
+                    getResults();
                 }
 
                 @Override
@@ -301,33 +242,26 @@ public class MasterMenu extends AppCompatActivity {
                 }
             });
 
-            hasSearched = true;
-
         }else{
             //handles blank search bar edittext field, clears layout and shows all available meals
             mainLayout.removeAllViewsInLayout();
-
             mainLayout.invalidate();
-
             for (int i = 0; i < title.size(); i++){
-
                 innerLayout = makeMenu(i);
-
                 mainLayout.addView(innerLayout);
-
             }
 
         }
 
-        if (hasSearched){
-            //if you have searched, clear the menu and only show the searched meals
-            mainLayout.removeAllViewsInLayout();
-            mainLayout.invalidate();
+    }
+
+    private void getResults() {
+        mainLayout.removeAllViewsInLayout();
+        mainLayout.invalidate();
+        for (int i = 0; i < searchedMeals.size(); i++){
+            searchLayout = makeMenu(searchedMeals.get(i));
             mainLayout.addView(searchLayout);
         }
-
-
-
     }
 
     public void displayToast(String message){
@@ -339,11 +273,11 @@ public class MasterMenu extends AppCompatActivity {
         //makes a menu item and returns its linearlayout
         innerLayout = new LinearLayout(menu);
 
-        textView = new TextView(menu);
+        mealInfoTextView = new TextView(menu);
 
-        textView.setText("Title: "+title.get(index)+'\n'+"Description: "+description.get(index)+'\n'+"Price: "+price.get(index)+'\n'+"Meal Type: "+mealType.get(index)+'\n'+"Ingredients: "+ingredients.get(index)+'\n'+"Cuisine Type: "+cuisineType.get(index)+'\n'+"Allergens: "+allergens.get(index));
+        mealInfoTextView.setText("Title: "+title.get(index)+'\n'+"Description: "+description.get(index)+'\n'+"Price: "+price.get(index)+'\n'+"Meal Type: "+mealType.get(index)+'\n'+"Ingredients: "+ingredients.get(index)+'\n'+"Cuisine Type: "+cuisineType.get(index)+'\n'+"Allergens: "+allergens.get(index));
 
-        innerLayout.addView(textView);
+        innerLayout.addView(mealInfoTextView);
 
         purchaseButton = new Button(menu); //button not aligned or styled
         purchaseButton.setText("Request Purchase");
@@ -353,30 +287,6 @@ public class MasterMenu extends AppCompatActivity {
         purchaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //NOT WORKING FOR SOMEDUMB IDIOTIC STUPID FREAKING REASON PRADON MY FRENCH
-//                specificCookPurchaseRequests.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot snapshot) {
-//                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-//                            ArrayList<String> thisPurchaseRequest = new ArrayList<String>();
-//                            thisPurchaseRequest.add(postSnapshot.child("Allergens").getValue().toString());
-//                            thisPurchaseRequest.add(postSnapshot.child("ClientID").getValue().toString());
-//                            thisPurchaseRequest.add(postSnapshot.child("Cuisine Type").getValue().toString());
-//                            thisPurchaseRequest.add(postSnapshot.child("Description").getValue().toString());
-//                            thisPurchaseRequest.add(postSnapshot.child("Ingredients").getValue().toString());
-//                            thisPurchaseRequest.add(postSnapshot.child("Meal Type").getValue().toString());
-//                            thisPurchaseRequest.add(postSnapshot.child("Price").getValue().toString());
-//                            thisPurchaseRequest.add(postSnapshot.child("Title").getValue().toString());
-//                            purchaseRequests.add(thisPurchaseRequest);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
 
                 ArrayList<String> purchaseRequestClientIsTryingToRequest = new ArrayList<String>();
                 purchaseRequestClientIsTryingToRequest.add(allergens.get(index));
@@ -425,9 +335,7 @@ public class MasterMenu extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 String tempBan = snapshot.child(id).child("temporaryBan").getValue().toString();
-
                 String permBan = snapshot.child(id).child("permanentBan").getValue().toString();
-
                 if (tempBan.equals("true")||permBan.equals("true")){
 
                     setThisCookBanned(true);

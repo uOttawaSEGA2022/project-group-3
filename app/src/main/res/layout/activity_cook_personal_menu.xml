@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="25dp"
-                android:fontFamily="sans-serif-thin"
+                android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:text="Your Menu"
                 android:textColor="@color/black"
@@ -41,6 +41,20 @@
                 android:gravity="center"
                 android:text="Click a meal's name for more info"
                 android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/backButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="#467305"
+                android:onClick="sendToHome"
+                android:text="Home"
+                app:cornerRadius="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </LinearLayout>

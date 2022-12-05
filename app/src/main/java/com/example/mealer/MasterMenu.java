@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,10 +39,6 @@ public class MasterMenu extends AppCompatActivity {
     ArrayList<ArrayList<String>> purchaseRequests = new ArrayList<>();
     private boolean thisCookBanned;
     boolean alreadyRequested;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -380,24 +377,24 @@ public class MasterMenu extends AppCompatActivity {
 //
 //                    }
 //                });
-//
-//                ArrayList<String> purchaseRequestClientIsTryingToRequest = new ArrayList<String>();
-//                purchaseRequestClientIsTryingToRequest.add(allergens.get(index));
-//                purchaseRequestClientIsTryingToRequest.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                purchaseRequestClientIsTryingToRequest.add(cuisineType.get(index));
-//                purchaseRequestClientIsTryingToRequest.add(description.get(index));
-//                purchaseRequestClientIsTryingToRequest.add(ingredients.get(index));
-//                purchaseRequestClientIsTryingToRequest.add(mealType.get(index));
-//                purchaseRequestClientIsTryingToRequest.add(price.get(index));
-//                purchaseRequestClientIsTryingToRequest.add(title.get(index));
-//
-//                for (int counter = 0; counter < purchaseRequests.size(); counter++){
-//                    if ((purchaseRequests.get(counter)).equals(purchaseRequestClientIsTryingToRequest)) {
-//                        displayToast("Meal already requested!");
-//                        return;
-//                    }
-//                }
-//
+
+                ArrayList<String> purchaseRequestClientIsTryingToRequest = new ArrayList<String>();
+                purchaseRequestClientIsTryingToRequest.add(allergens.get(index));
+                purchaseRequestClientIsTryingToRequest.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                purchaseRequestClientIsTryingToRequest.add(cuisineType.get(index));
+                purchaseRequestClientIsTryingToRequest.add(description.get(index));
+                purchaseRequestClientIsTryingToRequest.add(ingredients.get(index));
+                purchaseRequestClientIsTryingToRequest.add(mealType.get(index));
+                purchaseRequestClientIsTryingToRequest.add(price.get(index));
+                purchaseRequestClientIsTryingToRequest.add(title.get(index));
+
+                for (int counter = 0; counter < purchaseRequests.size(); counter++){
+                    if ((purchaseRequests.get(counter)).equals(purchaseRequestClientIsTryingToRequest)) {
+                        displayToast("Meal already requested!");
+                        return;
+                    }
+                }
+
                 String key1 = specificCookPurchaseRequests.push().getKey();
                 specificCookPurchaseRequests.child(key1).child("ClientID").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 specificCookPurchaseRequests.child(key1).child("Title").setValue(title.get(index));
@@ -449,6 +446,11 @@ public class MasterMenu extends AppCompatActivity {
 
     private void setThisCookBanned(boolean b){
         thisCookBanned = b;
+    }
+
+    public void sendToHome(View view) {
+        Intent intent = new Intent(getApplicationContext(), WelcomeClientPage.class);
+        startActivityForResult(intent, 0);
     }
 
 

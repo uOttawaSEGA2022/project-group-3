@@ -22,7 +22,7 @@
             android:id="@+id/masterMenuTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
+            android:fontFamily="sans-serif-light"
             android:text="Menu"
             android:textColor="@color/black"
             android:textSize="28sp"
@@ -40,12 +40,35 @@
             android:id="@+id/searchField"
             ></EditText>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Search"
-            android:onClick="searchForMeal"
-            ></Button>
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="searchForMeal"
+                android:text="Search"
+                app:backgroundTint="@color/light_green"
+                app:cornerRadius="25dp"></Button>
+
+            <Button
+                android:id="@+id/backButton5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#467305"
+                android:onClick="sendToHome"
+                android:text="Home"
+                app:cornerRadius="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

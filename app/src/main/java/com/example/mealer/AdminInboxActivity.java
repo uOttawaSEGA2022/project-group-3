@@ -1,6 +1,7 @@
 package com.example.mealer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -208,10 +209,13 @@ public class AdminInboxActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    public void sendToHome(View view) {
+        Intent intent = new Intent(getApplicationContext(), WelcomeAdminPage.class);
+        startActivityForResult(intent, 0);
+    }
+
     public void displayToast(String message){
         Toast.makeText(AdminInboxActivity.this, message, Toast.LENGTH_SHORT).show();
     }
-
-
 
 }

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="-400dp"
-        android:fontFamily="sans-serif-thin"
+        android:fontFamily="sans-serif-light"
         android:text="Submit a complaint"
         android:textColor="@color/black"
         android:textSize="25dp"
@@ -62,30 +62,31 @@
     </EditText>
 
     <Button
+        android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
-        android:id="@+id/submitButton"
+        app:backgroundTint="@color/light_green"
+        app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="-700dp"
-        >
-    </Button>
+        app:layout_constraintVertical_bias="0.97"></Button>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="goHome"
+        android:text="Home"
+        app:backgroundTint="@color/green"
+        app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Home"
-        android:layout_marginBottom="-700dp"
-        android:layout_marginRight="200dp"
-        android:onClick="goHome"
-        >
+        app:layout_constraintVertical_bias="0.97">
 
     </Button>
 

@@ -32,6 +32,27 @@
                 android:textSize="28sp"
                 android:typeface="normal" />
 
+            <TextView
+                android:id="@+id/dismissHint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="Click Approved/Rejected to dismiss a purchase"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/backButton7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="#467305"
+                android:onClick="sendToWelcome"
+                android:text="Back"
+                app:cornerRadius="25dp" />
+
         </LinearLayout>
 
     </ScrollView>

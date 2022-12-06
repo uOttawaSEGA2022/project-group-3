@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -128,6 +129,7 @@ public class ClientPurchaseStatusActivity extends AppCompatActivity {
                         public void onClick(View view) {
                             if (thisStatus.equals("Approved") || thisStatus.equals("Rejected")) {
                                 postSnapshot.getRef().removeValue();
+                                displayToast("Dismissed Purchase");
                                 Intent intent = new Intent(getApplicationContext(), ClientPurchaseStatusActivity.class);
                                 startActivityForResult(intent, 0);
                             }
@@ -156,5 +158,9 @@ public class ClientPurchaseStatusActivity extends AppCompatActivity {
     public void sendToWelcome(View view) {
         Intent intent = new Intent(getApplicationContext(), WelcomeClientPage.class);
         startActivityForResult(intent, 0);
+    }
+
+    public void displayToast(String message){
+        Toast.makeText(ClientPurchaseStatusActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }

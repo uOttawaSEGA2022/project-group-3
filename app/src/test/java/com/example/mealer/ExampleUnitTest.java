@@ -215,4 +215,88 @@ public class ExampleUnitTest {
 
         assertNotEquals(isOffered, menu.getIsOffered());
     }
+
+    @Test
+    public void canCreateComplaintWithoutUsingCookUsernameIsTrue() {
+        String title = "Kool";
+        String description = "It's way too spicy!!!";
+        String actualName = "Uncle";
+        Cook Viv_Uncle = new Cook(actualName, "Spicy");
+
+        //create a complaint for our fake cook without the username
+        Complaints issue = new Complaints (title, description, Viv_Uncle);
+
+        //try getting cook username despite never putting in into the complaint
+        String sameName = issue.getCookUsername();
+
+        assertEquals(null, sameName);
+        assertNotEquals(actualName, sameName);
+    }
+
+    @Test
+    public void cookComplaintInfoIsRetrievable() {
+        String title = "Shwarma";
+        String description = "I've had way to many of these...";
+        String actualName = "MealLover001";
+        Cook guy = new Cook(actualName, "Bored");
+
+        //create a complaint for our fake cook
+        Complaints issue = new Complaints (title, description, guy);
+
+        //confirming getters work for different parameters of a cook complaint
+        assertEquals(title, issue.getComplaintTitle());
+        assertEquals(description, issue.getComplaintDescription());
+        assertEquals(guy, issue.getAssociatedWithComplaint());
+    }
+
+    @Test
+    public void cookCanHaveMultipleComplaintsWhichAreNotTheSame() {
+        String title1 = "Burgor";
+        String description1 = "I'd rather have a sandwich man";
+        String actualName1 = "BurgerMan86";
+        String title2 = "Wrap";
+        String description2 = "It's kinda moldy";
+        String actualName2 = "SinisterSlug62";
+        String username2 = "SuperSnail26";
+        String cookID2 = "xIH67djo4DShfi";
+
+        Cook guy = new Cook(actualName1, "Snooze");
+
+        //create 2 complaints for our fake cook differently
+        Complaints issue1 = new Complaints (title1, description1, guy);
+        Complaints issue2 = new Complaints (title2, description2, username2, cookID2);
+
+        Complaints testIssue = issue1; //should not be the same as issue 2
+
+        //confirming getters work for different parameters of a cook complaint
+        assertEquals(testIssue, issue1);
+        assertNotEquals(testIssue, issue2);
+    }
+
+    @Test
+    public void canChangeAnAlreadyExistingComplaintIsTrue() {
+        String title = "Christams Casaroll";
+        String description = "This is the final test...";
+        String actualName = "Bobby Wasabi";
+        Cook guy = new Cook(actualName, "ixOxi");
+
+        //new data for the complaint
+        String ntitle = "Valentine Veggies";
+        String ndescription = "Uhh... it's not Valentines yet...";
+        String nactualName = "Paul Brawl";
+        //
+
+        //create a complaint for our fake cook
+        Complaints issue = new Complaints (title, description, guy);
+
+        //changing the title and description of the complaint
+        issue.setComplaintTitle(ntitle);
+        issue.setComplaintDescription(ndescription);
+        //Choosing not to change the name
+
+        //confirming that the setters changed the variable values
+        assertEquals(ntitle, issue.getComplaintTitle());
+        assertEquals(ndescription, issue.getComplaintDescription());
+        assertNotEquals(nactualName, issue.getCookUsername()); //never changed username
+    }
 }

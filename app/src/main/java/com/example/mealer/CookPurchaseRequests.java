@@ -2,24 +2,17 @@ package com.example.mealer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import android.os.Bundle;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
+
+import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,16 +27,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-
 public class CookPurchaseRequests extends AppCompatActivity {
 
     // Instance variables
     FirebaseUser thisCook;
-    DatabaseReference thisCooksPurchaseRequests;
-    DatabaseReference specificMeals;
-    private static Context personalMenu;
+    DatabaseReference thisCooksPurchaseRequests, specificMeals, clientDB;
+    private static Context cookReqs;
     private String cookID;
     TextView mealTitle;
     RelativeLayout.LayoutParams params;
@@ -59,7 +48,8 @@ public class CookPurchaseRequests extends AppCompatActivity {
         thisCook = FirebaseAuth.getInstance().getCurrentUser();
         cookID = thisCook.getUid();
         thisCooksPurchaseRequests = FirebaseDatabase.getInstance().getReference("accounts").child("cooks").child(cookID).child("Purchase Requests");
-        personalMenu = this;
+        clientDB = FirebaseDatabase.getInstance().getReference("accounts").child("clients");
+        cookReqs = this;
     }
 
     @Override
@@ -82,8 +72,10 @@ public class CookPurchaseRequests extends AppCompatActivity {
                 // create a food item for each snapshot in db reference
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
+                    String purchaseID = postSnapshot.getKey();
+
                     // create layout for each meal
-                    LinearLayout requestLayout = new LinearLayout(personalMenu);
+                    LinearLayout requestLayout = new LinearLayout(cookReqs);
                     LinearLayout.LayoutParams mealLayoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     mealLayoutParams.setMargins(20, 0, 20, 20);
@@ -94,32 +86,106 @@ public class CookPurchaseRequests extends AppCompatActivity {
                     title.add(thisTitle);
                     clientID.add(thisClientID);
 
-                    mealTitle = new TextView(personalMenu);
-                    RelativeLayout relativeLayoutForFoodTitle = new RelativeLayout(personalMenu);
+                    mealTitle = new TextView(cookReqs);
+                    RelativeLayout relativeLayoutForPurchase = new RelativeLayout(cookReqs);
 
                     // set layout params
-                    params = new RelativeLayout.LayoutParams(1250, 225); //Width just has to be bigger than screen width size
+                    params = new RelativeLayout.LayoutParams(1250, 125); //Width just has to be bigger than screen width size
                     params.leftMargin = 30;
 
                     // set custom settings
                     mealTitle.setTextSize(16);
                     mealTitle.setGravity(Gravity.CENTER_VERTICAL);
-                    mealTitle.setText("Title: "+ title.get(i) + " \nClientID: " + clientID.get(i));
-//                    mealTitle.setVerticalScrollBarEnabled(true);
-//                    mealTitle.setMovementMethod(new ScrollingMovementMethod());
+                    mealTitle.setText("Order: " + title.get(i) + "\nClient: " + clientID.get(i));
+                    relativeLayoutForPurchase.addView(mealTitle, params);
 
-                    // add meal to layout, add layout to main layout
-                    relativeLayoutForFoodTitle.addView(mealTitle, params);
-                    requestLayout.addView(relativeLayoutForFoodTitle);
-//
-//                    RelativeLayout relativeLayout = new RelativeLayout(personalMenu);
-//                    params = new RelativeLayout.LayoutParams(250, 150);
-//                    params.leftMargin = 50;
-//                    params.rightMargin = 25;
-//                    params.topMargin = 25;
-//                    params.bottomMargin = 25;
-//                    relativeLayout.addView(setOffered, params);
 
+                    Button approveButton = new Button(cookReqs);
+
+                    // set text colour & background
+                    approveButton.setTextColor(Color.parseColor("#ffffff"));
+                    approveButton.setBackgroundResource(R.drawable.green_rounded_button_20dp);
+                    approveButton.setText("Approve");
+
+                    params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 125); //Width just has to be bigger than screen width size
+                    params.leftMargin = 20;
+                    params.topMargin = 155;
+                    params.bottomMargin = 20;
+
+                    // listener for approving
+                    approveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // approve on client side
+                            clientDB.child(thisClientID).child("Purchase Requests").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot postSnapshot1 : snapshot.getChildren()) {
+                                        if (postSnapshot1.getKey().equals(purchaseID)) {
+                                            clientDB.child(thisClientID).child("Purchase Requests").child(purchaseID).child("Status").setValue("Approved");
+                                            displayToast("Approved Purchase");
+                                            postSnapshot.getRef().removeValue();
+                                            Intent intent = new Intent(getApplicationContext(), CookPurchaseRequests.class);
+                                            startActivityForResult(intent, 0);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+
+                        }
+                    });
+
+                    relativeLayoutForPurchase.addView(approveButton, params);
+
+                    Button rejectButton = new Button(cookReqs);
+
+                    // set text colour & background
+                    rejectButton.setTextColor(Color.parseColor("#ffffff"));
+                    rejectButton.setBackgroundResource(R.drawable.red_rounded_button_20dp);
+                    rejectButton.setText("Reject");
+
+                    params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 125); //Width just has to be bigger than screen width size
+                    params.leftMargin = 750;
+                    params.topMargin = 155;
+                    params.bottomMargin = 20;
+
+                    // listener for rejecting
+                    rejectButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // reject on client side
+                            clientDB.child(thisClientID).child("Purchase Requests").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot postSnapshot2 : snapshot.getChildren()) {
+                                        if (postSnapshot2.getKey().equals(purchaseID)) {
+                                            clientDB.child(thisClientID).child("Purchase Requests").child(purchaseID).child("Status").setValue("Rejected");
+                                            displayToast("Rejected Purchase");
+                                            postSnapshot.getRef().removeValue();
+                                            Intent intent = new Intent(getApplicationContext(), CookPurchaseRequests.class);
+                                            startActivityForResult(intent, 0);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    });
+
+                    relativeLayoutForPurchase.addView(rejectButton, params);
+
+                    requestLayout.addView(relativeLayoutForPurchase);
+                    requestLayout.setBackgroundResource(R.drawable.grey_rounded_backround_20dp);
                     linearLayout.addView(requestLayout, mealLayoutParams);
 
                     i++;
@@ -132,6 +198,15 @@ public class CookPurchaseRequests extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void displayToast(String message){
+        Toast.makeText(CookPurchaseRequests.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void sendToWelcome(View view) {
+        Intent intent = new Intent(getApplicationContext(), WelcomeCookPage.class);
+        startActivityForResult(intent, 0);
     }
 
 }

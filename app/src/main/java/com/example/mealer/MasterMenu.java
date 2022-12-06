@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class MasterMenu extends AppCompatActivity {
 
-    DatabaseReference masterMenu, allTheCooks, specificCookPurchaseRequests;
+    DatabaseReference masterMenu, allTheCooks, specificCookPurchaseRequests, clientPurchaseRequests;
     TextView mealInfoTextView;
     EditText searchField, clientUsername;
     private static Context menu;
@@ -46,6 +46,8 @@ public class MasterMenu extends AppCompatActivity {
         masterMenu = FirebaseDatabase.getInstance().getReference("master-menu");
 
         allTheCooks = FirebaseDatabase.getInstance().getReference("accounts").child("cooks");
+
+        clientPurchaseRequests = FirebaseDatabase.getInstance().getReference("accounts").child("clients").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Purchase Requests");
 
         menu=this;
 
@@ -288,34 +290,8 @@ public class MasterMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                ArrayList<String> purchaseRequestClientIsTryingToRequest = new ArrayList<String>();
-                purchaseRequestClientIsTryingToRequest.add(allergens.get(index));
-                purchaseRequestClientIsTryingToRequest.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                purchaseRequestClientIsTryingToRequest.add(cuisineType.get(index));
-                purchaseRequestClientIsTryingToRequest.add(description.get(index));
-                purchaseRequestClientIsTryingToRequest.add(ingredients.get(index));
-                purchaseRequestClientIsTryingToRequest.add(mealType.get(index));
-                purchaseRequestClientIsTryingToRequest.add(price.get(index));
-                purchaseRequestClientIsTryingToRequest.add(title.get(index));
+                requestMeal(index);
 
-                for (int counter = 0; counter < purchaseRequests.size(); counter++){
-                    if ((purchaseRequests.get(counter)).equals(purchaseRequestClientIsTryingToRequest)) {
-                        displayToast("Meal already requested!");
-                        return;
-                    }
-                }
-
-                String key1 = specificCookPurchaseRequests.push().getKey();
-                specificCookPurchaseRequests.child(key1).child("ClientID").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                specificCookPurchaseRequests.child(key1).child("Title").setValue(title.get(index));
-                specificCookPurchaseRequests.child(key1).child("Description").setValue(description.get(index));
-                specificCookPurchaseRequests.child(key1).child("Price").setValue(price.get(index));
-                specificCookPurchaseRequests.child(key1).child("Meal Type").setValue(mealType.get(index));
-                specificCookPurchaseRequests.child(key1).child("Ingredients").setValue(ingredients.get(index));
-                specificCookPurchaseRequests.child(key1).child("Cuisine Type").setValue(cuisineType.get(index));
-                specificCookPurchaseRequests.child(key1).child("Allergens").setValue(allergens.get(index));
-
-                displayToast("Meal requested!");
 
             }
         });
@@ -324,6 +300,51 @@ public class MasterMenu extends AppCompatActivity {
 
         return innerLayout;
 
+    }
+
+    private void requestMeal(int index) {
+        ArrayList<String> purchaseRequestClientIsTryingToRequest = new ArrayList<String>();
+        purchaseRequestClientIsTryingToRequest.add(allergens.get(index));
+        purchaseRequestClientIsTryingToRequest.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        purchaseRequestClientIsTryingToRequest.add(cuisineType.get(index));
+        purchaseRequestClientIsTryingToRequest.add(description.get(index));
+        purchaseRequestClientIsTryingToRequest.add(ingredients.get(index));
+        purchaseRequestClientIsTryingToRequest.add(mealType.get(index));
+        purchaseRequestClientIsTryingToRequest.add(price.get(index));
+        purchaseRequestClientIsTryingToRequest.add(title.get(index));
+
+        for (int counter = 0; counter < purchaseRequests.size(); counter++){
+            if ((purchaseRequests.get(counter)).equals(purchaseRequestClientIsTryingToRequest)) {
+                displayToast("Meal already requested!");
+                return;
+            }
+        }
+
+        // add purchase request to cook side
+        String key1 = specificCookPurchaseRequests.push().getKey();
+        specificCookPurchaseRequests.child(key1).child("ClientID").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        specificCookPurchaseRequests.child(key1).child("Title").setValue(title.get(index));
+        specificCookPurchaseRequests.child(key1).child("Description").setValue(description.get(index));
+        specificCookPurchaseRequests.child(key1).child("Price").setValue(price.get(index));
+        specificCookPurchaseRequests.child(key1).child("Meal Type").setValue(mealType.get(index));
+        specificCookPurchaseRequests.child(key1).child("Ingredients").setValue(ingredients.get(index));
+        specificCookPurchaseRequests.child(key1).child("Cuisine Type").setValue(cuisineType.get(index));
+        specificCookPurchaseRequests.child(key1).child("Allergens").setValue(allergens.get(index));
+        specificCookPurchaseRequests.child(key1).child("Status").setValue("Pending");
+
+        // add purchase request to client's side
+        String key2 = clientPurchaseRequests.push().getKey();
+        clientPurchaseRequests.child(key2).child("CookID").setValue(cookID.get(index));
+        clientPurchaseRequests.child(key2).child("Title").setValue(title.get(index));
+        clientPurchaseRequests.child(key2).child("Description").setValue(description.get(index));
+        clientPurchaseRequests.child(key2).child("Price").setValue(price.get(index));
+        clientPurchaseRequests.child(key2).child("Meal Type").setValue(mealType.get(index));
+        clientPurchaseRequests.child(key2).child("Ingredients").setValue(ingredients.get(index));
+        clientPurchaseRequests.child(key2).child("Cuisine Type").setValue(cuisineType.get(index));
+        clientPurchaseRequests.child(key2).child("Allergens").setValue(allergens.get(index));
+        clientPurchaseRequests.child(key2).child("Status").setValue("Pending");
+
+        displayToast("Meal requested!");
     }
 
     private void isCookSuspended (String id){

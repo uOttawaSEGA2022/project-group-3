@@ -76,7 +76,10 @@ public class ClientSubmitComplaint extends AppCompatActivity {
 
                 if (indexOfUsernameAndCookID == -1) {
                     displayToast("That cook does not exist!");
-                } else {
+                }else if(complaintDescription.length() > 200){
+                    displayToast("Complaint must be less than 200 characters");
+                }
+                else {
 
                     complaintCookID = cookIDs.get(indexOfUsernameAndCookID);
 

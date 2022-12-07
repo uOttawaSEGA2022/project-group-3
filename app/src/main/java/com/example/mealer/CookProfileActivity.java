@@ -79,8 +79,11 @@ public class CookProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Float cooksRating = snapshot.getValue(Float.class);
-                if (cooksRating > 0) {
+                if (cooksRating != null && cooksRating > 0) {
                     String ratingString = "Rating: " + cooksRating + " stars";
+                    ratingText.setText(ratingString);
+                } else {
+                    String ratingString = "Rating: N/A";
                     ratingText.setText(ratingString);
                 }
             }

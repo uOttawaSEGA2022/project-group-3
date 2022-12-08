@@ -9,6 +9,46 @@ can sell meals to clients from their home. The application supports three types 
     • Administrator: a user that receives complaints about a Cook from a Client and may
     suspend the Cook if necessary
     
+# Deliverable 4 Work
+
+**Final UML Diagram (Without Activities)**
+
+![deliverable4 uml](https://user-images.githubusercontent.com/90425027/206345215-3d121879-e24f-49ee-89ac-0e86947a3150.png)
+
+**Administrator Credentials**
+
+*Username: admin*
+
+*Password: admin123*
+
+**Deliverable 4 Log:**
+
+    Noah:
+    - UML Class Diagram 
+    - The Client can rate the Cook from which they have purchased a meal 
+    - Cook can view their profile and rating(s) 
+    - Refactor UI to use constraints (support different devices) 
+    - The Client can view the status of their purchase (pending, approved, or rejected) 
+    - The Cook can view and approve/reject purchase requests received from Clients. 
+    
+    Pradyu:
+    - Client search meal 
+    - Client can search results (not from suspended cooks)  
+    - Client can view meal information 
+    
+    Samuel:
+    - The Cook can receive the purchase request submitted by the Client 
+    - The Client can submit a complaint about a Cook to the Administrator 
+    - Client can submit purchase request 
+    
+    Maria:
+    - Final Report (putting together all contributions, lessons learned) 
+    - User validation for complaints page 
+    
+    Vivethen:
+    - JUnit Test cases 
+
+    
 # Deliverable 3 Work
 
 **UML Diagram**
